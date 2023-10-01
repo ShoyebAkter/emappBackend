@@ -1,0 +1,1180 @@
+{
+    "customer": [
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a68"
+            },
+            "username": "fmiller",
+            "name": "Elizabeth Ray",
+            "address": "9286 Bethany Glens\nVasqueztown, CO 22939",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "226117231"
+                }
+            },
+            "email": "arroyocolton@gmail.com",
+            "active": true,
+            "accounts": [
+                {
+                    "$numberInt": "371138"
+                },
+                {
+                    "$numberInt": "324287"
+                },
+                {
+                    "$numberInt": "276528"
+                },
+                {
+                    "$numberInt": "332179"
+                },
+                {
+                    "$numberInt": "422649"
+                },
+                {
+                    "$numberInt": "387979"
+                }
+            ],
+            "tier_and_details": {
+                "0df078f33aa74a2e9696e0520c1a828a": {
+                    "tier": "Bronze",
+                    "id": "0df078f33aa74a2e9696e0520c1a828a",
+                    "active": true,
+                    "benefits": [
+                        "sports tickets"
+                    ]
+                },
+                "699456451cc24f028d2aa99d7534c219": {
+                    "tier": "Bronze",
+                    "benefits": [
+                        "24 hour dedicated line",
+                        "concierge services"
+                    ],
+                    "active": true,
+                    "id": "699456451cc24f028d2aa99d7534c219"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a6c"
+            },
+            "username": "charleshudson",
+            "name": "Brad Cardenas",
+            "address": "2765 Powers Meadow\nHeatherfurt, CT 53165",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "231803855"
+                }
+            },
+            "email": "dustin37@yahoo.com",
+            "accounts": [
+                {
+                    "$numberInt": "721914"
+                },
+                {
+                    "$numberInt": "817222"
+                },
+                {
+                    "$numberInt": "973067"
+                },
+                {
+                    "$numberInt": "260799"
+                },
+                {
+                    "$numberInt": "87389"
+                }
+            ],
+            "tier_and_details": {}
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a6d"
+            },
+            "username": "gregoryharrison",
+            "name": "Natalie Ford",
+            "address": "17677 Mark Crest\nWalterberg, IA 39017",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "842634867"
+                }
+            },
+            "email": "amyholland@yahoo.com",
+            "accounts": [
+                {
+                    "$numberInt": "904260"
+                },
+                {
+                    "$numberInt": "565468"
+                }
+            ],
+            "tier_and_details": {
+                "69f8b6a3c39c42edb540499ee2651b75": {
+                    "tier": "Bronze",
+                    "benefits": [
+                        "dedicated account representative",
+                        "airline lounge access"
+                    ],
+                    "active": true,
+                    "id": "69f8b6a3c39c42edb540499ee2651b75"
+                },
+                "c85df12c2e394afb82725b16e1cc6789": {
+                    "tier": "Bronze",
+                    "benefits": [
+                        "airline lounge access"
+                    ],
+                    "active": true,
+                    "id": "c85df12c2e394afb82725b16e1cc6789"
+                },
+                "07d516cfd7fc4ec6acf175bb78cb98a2": {
+                    "tier": "Gold",
+                    "benefits": [
+                        "dedicated account representative"
+                    ],
+                    "active": true,
+                    "id": "07d516cfd7fc4ec6acf175bb78cb98a2"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a6e"
+            },
+            "username": "hmyers",
+            "name": "Dana Clarke",
+            "address": "50047 Smith Point Suite 162\nWilkinsstad, PA 04106",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "16752040"
+                }
+            },
+            "email": "vcarter@hotmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "627629"
+                },
+                {
+                    "$numberInt": "55958"
+                },
+                {
+                    "$numberInt": "771641"
+                }
+            ],
+            "tier_and_details": {
+                "4c207e65857742f89d8155139b24c0f0": {
+                    "tier": "Silver",
+                    "benefits": [
+                        "car rental insurance",
+                        "travel insurance"
+                    ],
+                    "active": true,
+                    "id": "4c207e65857742f89d8155139b24c0f0"
+                },
+                "c04ee1d7093449148a3cc3bbca398529": {
+                    "tier": "Platinum",
+                    "benefits": [
+                        "24 hour dedicated line",
+                        "dedicated account representative"
+                    ],
+                    "active": true,
+                    "id": "c04ee1d7093449148a3cc3bbca398529"
+                },
+                "1e64a51089c54d08911baf77be6b3713": {
+                    "tier": "Gold",
+                    "benefits": [
+                        "concert tickets",
+                        "dedicated account representative"
+                    ],
+                    "active": true,
+                    "id": "1e64a51089c54d08911baf77be6b3713"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a72"
+            },
+            "username": "wesley20",
+            "name": "James Sanchez",
+            "address": "8681 Karen Roads Apt. 096\nLowehaven, IA 19798",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "95789846"
+                }
+            },
+            "email": "josephmacias@hotmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "987709"
+                }
+            ],
+            "tier_and_details": {}
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a74"
+            },
+            "username": "patricia44",
+            "name": "Dr. Angela Brown",
+            "address": "2129 Joel Rapids\nLisahaven, NE 08609",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "235600552"
+                }
+            },
+            "email": "michaelespinoza@gmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "571880"
+                }
+            ],
+            "tier_and_details": {}
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a75"
+            },
+            "username": "nelsonmaria",
+            "name": "John Vega",
+            "address": "86636 Maria Viaduct\nKennethhaven, SD 21876",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "432962538"
+                }
+            },
+            "email": "ryanpena@yahoo.com",
+            "accounts": [
+                {
+                    "$numberInt": "88112"
+                },
+                {
+                    "$numberInt": "567199"
+                },
+                {
+                    "$numberInt": "436071"
+                },
+                {
+                    "$numberInt": "226641"
+                }
+            ],
+            "tier_and_details": {}
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a76"
+            },
+            "username": "portermichael",
+            "name": "Lauren Clark",
+            "address": "1579 Young Trail\nJessechester, OH 88328",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "341598359"
+                }
+            },
+            "email": "briannafrost@yahoo.com",
+            "accounts": [
+                {
+                    "$numberInt": "883283"
+                },
+                {
+                    "$numberInt": "980867"
+                },
+                {
+                    "$numberInt": "164836"
+                },
+                {
+                    "$numberInt": "200611"
+                },
+                {
+                    "$numberInt": "528224"
+                },
+                {
+                    "$numberInt": "931483"
+                }
+            ],
+            "tier_and_details": {
+                "b0d8ebd346824edc890898b0b2ad6e2d": {
+                    "tier": "Silver",
+                    "benefits": [
+                        "concert tickets",
+                        "sports tickets"
+                    ],
+                    "active": true,
+                    "id": "b0d8ebd346824edc890898b0b2ad6e2d"
+                },
+                "7c20a340b924446fa00663f0a0c0c9f7": {
+                    "tier": "Silver",
+                    "benefits": [
+                        "24 hour dedicated line",
+                        "airline lounge access"
+                    ],
+                    "active": true,
+                    "id": "7c20a340b924446fa00663f0a0c0c9f7"
+                },
+                "f4ccc57442504cddbc5002e720e4a2e5": {
+                    "tier": "Platinum",
+                    "benefits": [
+                        "shopping discounts",
+                        "dedicated account representative"
+                    ],
+                    "active": true,
+                    "id": "f4ccc57442504cddbc5002e720e4a2e5"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a7b"
+            },
+            "username": "millerrenee",
+            "name": "Joshua Parker",
+            "address": "932 Jeremy Springs Suite 144\nJohnmouth, NM 02561",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "363566100"
+                }
+            },
+            "email": "nicoleanderson@hotmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "700880"
+                },
+                {
+                    "$numberInt": "376846"
+                },
+                {
+                    "$numberInt": "271554"
+                }
+            ],
+            "tier_and_details": {}
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a7a"
+            },
+            "username": "eric10",
+            "name": "Robert Burns",
+            "address": "86176 Katherine Common\nWebbhaven, WA 51980",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "648222432"
+                }
+            },
+            "email": "barbaraduncan@gmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "205563"
+                },
+                {
+                    "$numberInt": "616602"
+                },
+                {
+                    "$numberInt": "387877"
+                },
+                {
+                    "$numberInt": "460069"
+                },
+                {
+                    "$numberInt": "442724"
+                }
+            ],
+            "tier_and_details": {
+                "59ee9884093f41cc94b4b59e81655bf4": {
+                    "tier": "Platinum",
+                    "benefits": [
+                        "sports tickets"
+                    ],
+                    "active": true,
+                    "id": "59ee9884093f41cc94b4b59e81655bf4"
+                },
+                "9c2b892696094a588d2da74a76f2dc63": {
+                    "tier": "Gold",
+                    "benefits": [
+                        "car rental insurance"
+                    ],
+                    "active": true,
+                    "id": "9c2b892696094a588d2da74a76f2dc63"
+                },
+                "f818540428174b89bc7060618facc97d": {
+                    "tier": "Platinum",
+                    "benefits": [
+                        "24 hour dedicated line"
+                    ],
+                    "active": true,
+                    "id": "f818540428174b89bc7060618facc97d"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a90"
+            },
+            "username": "nicholassmith",
+            "name": "Amy Lawrence",
+            "address": "76259 Smith Common\nMadisonland, IN 48787",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "613818785"
+                }
+            },
+            "email": "christophercastro@hotmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "640540"
+                },
+                {
+                    "$numberInt": "303463"
+                },
+                {
+                    "$numberInt": "981415"
+                },
+                {
+                    "$numberInt": "633630"
+                }
+            ],
+            "tier_and_details": {
+                "ceef1c11d473477e8aa9879a468b4108": {
+                    "tier": "Platinum",
+                    "benefits": [
+                        "airline lounge access"
+                    ],
+                    "active": true,
+                    "id": "ceef1c11d473477e8aa9879a468b4108"
+                },
+                "f6c0be1f3e1a4b88b0596c74dc3b7ce0": {
+                    "tier": "Gold",
+                    "benefits": [
+                        "financial planning assistance"
+                    ],
+                    "active": true,
+                    "id": "f6c0be1f3e1a4b88b0596c74dc3b7ce0"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a91"
+            },
+            "username": "weberdominic",
+            "name": "James Moore",
+            "address": "483 Vasquez Canyon Suite 422\nNathanside, NY 76487",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "775952004"
+                }
+            },
+            "email": "brittney17@gmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "667074"
+                },
+                {
+                    "$numberInt": "902818"
+                },
+                {
+                    "$numberInt": "966629"
+                }
+            ],
+            "tier_and_details": {}
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a92"
+            },
+            "username": "williammurphy",
+            "name": "John Wright",
+            "address": "1437 Ashley Track\nEast Jesus, SC 14320",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "340049200"
+                }
+            },
+            "email": "blackwayne@hotmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "344523"
+                }
+            ],
+            "tier_and_details": {
+                "ff074044a60c40e7845f3682800d4475": {
+                    "tier": "Silver",
+                    "benefits": [
+                        "airline lounge access",
+                        "shopping discounts"
+                    ],
+                    "active": true,
+                    "id": "ff074044a60c40e7845f3682800d4475"
+                },
+                "9dce685653fc451ab69082ec77c8d1ab": {
+                    "tier": "Gold",
+                    "benefits": [
+                        "travel insurance"
+                    ],
+                    "active": true,
+                    "id": "9dce685653fc451ab69082ec77c8d1ab"
+                },
+                "ea3055576ad346aeabd2bc89a0068619": {
+                    "tier": "Gold",
+                    "benefits": [
+                        "sports tickets"
+                    ],
+                    "active": true,
+                    "id": "ea3055576ad346aeabd2bc89a0068619"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a93"
+            },
+            "username": "glennkimberly",
+            "name": "Jose Villarreal",
+            "address": "72722 Rogers Underpass Suite 927\nBrownport, WI 28123",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "303811265"
+                }
+            },
+            "email": "jonesgregory@hotmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "899684"
+                },
+                {
+                    "$numberInt": "619693"
+                }
+            ],
+            "tier_and_details": {
+                "6e3ff5a1c5a94758b86326284412ba67": {
+                    "tier": "Silver",
+                    "benefits": [
+                        "car rental insurance"
+                    ],
+                    "active": true,
+                    "id": "6e3ff5a1c5a94758b86326284412ba67"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a94"
+            },
+            "username": "uwong",
+            "name": "Nathaniel Simpson",
+            "address": "783 Schwartz Harbor Suite 268\nColemanton, SC 57748",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "767272317"
+                }
+            },
+            "email": "davidhooper@yahoo.com",
+            "accounts": [
+                {
+                    "$numberInt": "523507"
+                }
+            ],
+            "tier_and_details": {
+                "6bbea401cbf74a15b261f8ebe974d306": {
+                    "tier": "Silver",
+                    "benefits": [
+                        "airline lounge access",
+                        "24 hour dedicated line"
+                    ],
+                    "active": true,
+                    "id": "6bbea401cbf74a15b261f8ebe974d306"
+                },
+                "c34d8af6153e498a9456e29a3dc03c80": {
+                    "tier": "Silver",
+                    "benefits": [
+                        "financial planning assistance"
+                    ],
+                    "active": true,
+                    "id": "c34d8af6153e498a9456e29a3dc03c80"
+                },
+                "ce8f6966890e4753b76cd656069f3d0a": {
+                    "tier": "Platinum",
+                    "benefits": [
+                        "car rental insurance"
+                    ],
+                    "active": true,
+                    "id": "ce8f6966890e4753b76cd656069f3d0a"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a95"
+            },
+            "username": "abrown",
+            "name": "Ray Jenkins",
+            "address": "USNS Thomas\nFPO AA 22336",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "132245243"
+                }
+            },
+            "email": "nicolehicks@gmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "146756"
+                },
+                {
+                    "$numberInt": "120270"
+                }
+            ],
+            "tier_and_details": {}
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a96"
+            },
+            "username": "laurapatterson",
+            "name": "Ms. Kristen Williams MD",
+            "address": "76047 Stevens View Suite 495\nToddside, NM 83256",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "524160897"
+                }
+            },
+            "email": "stephenwarner@hotmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "964509"
+                },
+                {
+                    "$numberInt": "323481"
+                }
+            ],
+            "tier_and_details": {
+                "c0d598cb4d854ed397ee4e95c096cbdb": {
+                    "tier": "Gold",
+                    "benefits": [
+                        "concierge services"
+                    ],
+                    "active": true,
+                    "id": "c0d598cb4d854ed397ee4e95c096cbdb"
+                },
+                "0db0e5c9a332493ea75f70d028ed36e8": {
+                    "tier": "Gold",
+                    "benefits": [
+                        "car rental insurance",
+                        "sports tickets"
+                    ],
+                    "active": true,
+                    "id": "0db0e5c9a332493ea75f70d028ed36e8"
+                },
+                "d56b3c80058c4281b155ab0a4b8376ad": {
+                    "tier": "Platinum",
+                    "benefits": [
+                        "airline lounge access"
+                    ],
+                    "active": true,
+                    "id": "d56b3c80058c4281b155ab0a4b8376ad"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a97"
+            },
+            "username": "robertbradshaw",
+            "name": "Stephen Flores",
+            "address": "5147 Lewis Orchard Suite 538\nNicholasfurt, DE 55195",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "529075674"
+                }
+            },
+            "email": "philiphenderson@hotmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "894704"
+                }
+            ],
+            "tier_and_details": {
+                "84901ffda1894098b82206783163ad56": {
+                    "tier": "Platinum",
+                    "benefits": [
+                        "24 hour dedicated line"
+                    ],
+                    "active": true,
+                    "id": "84901ffda1894098b82206783163ad56"
+                },
+                "5904cb3441ab4d26ac13059b8326f063": {
+                    "tier": "Bronze",
+                    "benefits": [
+                        "24 hour dedicated line",
+                        "travel insurance"
+                    ],
+                    "active": true,
+                    "id": "5904cb3441ab4d26ac13059b8326f063"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a98"
+            },
+            "username": "luke58",
+            "name": "Natasha Conrad",
+            "address": "1924 Joseph Spring Apt. 218\nLake Williamchester, IA 88223",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "465676558"
+                }
+            },
+            "email": "jamesfloyd@hotmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "185394"
+                }
+            ],
+            "tier_and_details": {}
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a99"
+            },
+            "username": "leonardbryan",
+            "name": "Melanie Hernandez",
+            "address": "6380 Paul Valleys\nVaughnmouth, MT 03247",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "490727341"
+                }
+            },
+            "email": "nicoleeaton@gmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "884748"
+                },
+                {
+                    "$numberInt": "577112"
+                }
+            ],
+            "tier_and_details": {}
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a9a"
+            },
+            "username": "mirandachad",
+            "name": "Kristine Vazquez",
+            "address": "984 Jessica Lights\nStephaniefort, WA 99857",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "140922573"
+                }
+            },
+            "email": "tgriffith@gmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "304730"
+                }
+            ],
+            "tier_and_details": {
+                "142ac5781d314f659023117057488a6c": {
+                    "tier": "Silver",
+                    "benefits": [
+                        "dedicated account representative"
+                    ],
+                    "active": true,
+                    "id": "142ac5781d314f659023117057488a6c"
+                },
+                "e58e4ac9e1734d6f9014c6eb88027dae": {
+                    "tier": "Silver",
+                    "benefits": [
+                        "travel insurance",
+                        "shopping discounts"
+                    ],
+                    "active": true,
+                    "id": "e58e4ac9e1734d6f9014c6eb88027dae"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a9b"
+            },
+            "username": "awilliams",
+            "name": "Linda Lee",
+            "address": "018 David Extension\nLeblancchester, TX 96335",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "668171886"
+                }
+            },
+            "email": "morrisondavid@gmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "273420"
+                }
+            ],
+            "tier_and_details": {
+                "856ec252f2154e22b8044386ee5bd9ab": {
+                    "tier": "Silver",
+                    "benefits": [
+                        "airline lounge access",
+                        "shopping discounts"
+                    ],
+                    "active": true,
+                    "id": "856ec252f2154e22b8044386ee5bd9ab"
+                },
+                "d21bda0e766545418e069ef09ef48b8d": {
+                    "tier": "Platinum",
+                    "benefits": [
+                        "car rental insurance",
+                        "travel insurance"
+                    ],
+                    "active": true,
+                    "id": "d21bda0e766545418e069ef09ef48b8d"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a9c"
+            },
+            "username": "tracyedwards",
+            "name": "Sandra Anderson",
+            "address": "166 Andrew Loaf Apt. 652\nStuartstad, LA 95646",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "499109218"
+                }
+            },
+            "email": "amy21@gmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "350181"
+                },
+                {
+                    "$numberInt": "623060"
+                },
+                {
+                    "$numberInt": "988949"
+                }
+            ],
+            "tier_and_details": {}
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a9d"
+            },
+            "username": "petergilbert",
+            "name": "Angela Campbell",
+            "address": "4068 Espinoza Mills\nWest Jessica, WV 60790",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "692820196"
+                }
+            },
+            "email": "jocelyn67@yahoo.com",
+            "accounts": [
+                {
+                    "$numberInt": "260499"
+                },
+                {
+                    "$numberInt": "946116"
+                },
+                {
+                    "$numberInt": "588389"
+                },
+                {
+                    "$numberInt": "293111"
+                },
+                {
+                    "$numberInt": "126444"
+                },
+                {
+                    "$numberInt": "678107"
+                }
+            ],
+            "tier_and_details": {
+                "1768a44b906c4303b765ea38b1b4bbb2": {
+                    "tier": "Platinum",
+                    "benefits": [
+                        "concierge services",
+                        "travel insurance"
+                    ],
+                    "active": true,
+                    "id": "1768a44b906c4303b765ea38b1b4bbb2"
+                },
+                "1f6047657041457d9a77a3a3cce687ff": {
+                    "tier": "Gold",
+                    "benefits": [
+                        "car rental insurance",
+                        "concert tickets"
+                    ],
+                    "active": true,
+                    "id": "1f6047657041457d9a77a3a3cce687ff"
+                },
+                "3e05a76a2fc24390b1fb34b0148433f9": {
+                    "tier": "Gold",
+                    "benefits": [
+                        "concierge services"
+                    ],
+                    "active": true,
+                    "id": "3e05a76a2fc24390b1fb34b0148433f9"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a9e"
+            },
+            "username": "lisanavarro",
+            "name": "Wendy Woods",
+            "address": "7788 Megan Motorway Suite 038\nDonovanstad, IA 22054",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "658106184"
+                }
+            },
+            "email": "clarkleah@gmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "870466"
+                }
+            ],
+            "tier_and_details": {
+                "9239d9520c4641d2b4ea66333b9c54b4": {
+                    "tier": "Gold",
+                    "benefits": [
+                        "concierge services"
+                    ],
+                    "active": true,
+                    "id": "9239d9520c4641d2b4ea66333b9c54b4"
+                },
+                "f07f745fd4864b57897182a34303c302": {
+                    "tier": "Silver",
+                    "benefits": [
+                        "dedicated account representative",
+                        "financial planning assistance"
+                    ],
+                    "active": true,
+                    "id": "f07f745fd4864b57897182a34303c302"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162a9f"
+            },
+            "username": "james33",
+            "name": "Michael Reynolds",
+            "address": "191 Gary Spurs\nSouth Janice, TN 65714",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "394361891"
+                }
+            },
+            "email": "caitlin24@gmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "152748"
+                },
+                {
+                    "$numberInt": "466107"
+                },
+                {
+                    "$numberInt": "692278"
+                },
+                {
+                    "$numberInt": "329562"
+                },
+                {
+                    "$numberInt": "56045"
+                },
+                {
+                    "$numberInt": "921272"
+                }
+            ],
+            "tier_and_details": {
+                "be5d36d828d946c3994654c4773ee29b": {
+                    "tier": "Bronze",
+                    "benefits": [
+                        "airline lounge access",
+                        "travel insurance"
+                    ],
+                    "active": true,
+                    "id": "be5d36d828d946c3994654c4773ee29b"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162aa0"
+            },
+            "username": "mirandajones",
+            "name": "Wanda Rodgers",
+            "address": "USCGC Myers\nFPO AP 96490",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "620301383"
+                }
+            },
+            "email": "rward@yahoo.com",
+            "accounts": [
+                {
+                    "$numberInt": "769503"
+                },
+                {
+                    "$numberInt": "516700"
+                }
+            ],
+            "tier_and_details": {
+                "77b5c19b1cfa4aee8a7f2cc00bd2fe62": {
+                    "tier": "Bronze",
+                    "benefits": [
+                        "24 hour dedicated line"
+                    ],
+                    "active": true,
+                    "id": "77b5c19b1cfa4aee8a7f2cc00bd2fe62"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162aa1"
+            },
+            "username": "leekara",
+            "name": "Lorraine Mullen",
+            "address": "936 Jennifer Pike\nPort Brianna, MI 27938",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "699173613"
+                }
+            },
+            "email": "davisholly@hotmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "977982"
+                },
+                {
+                    "$numberInt": "572981"
+                },
+                {
+                    "$numberInt": "917549"
+                },
+                {
+                    "$numberInt": "713620"
+                },
+                {
+                    "$numberInt": "353465"
+                },
+                {
+                    "$numberInt": "469980"
+                }
+            ],
+            "tier_and_details": {
+                "361f3f6e50fc416eaad9043e3ede9962": {
+                    "tier": "Silver",
+                    "benefits": [
+                        "shopping discounts"
+                    ],
+                    "active": true,
+                    "id": "361f3f6e50fc416eaad9043e3ede9962"
+                },
+                "87767b70cdff4555993e7f53d4659428": {
+                    "tier": "Bronze",
+                    "benefits": [
+                        "24 hour dedicated line",
+                        "sports tickets"
+                    ],
+                    "active": true,
+                    "id": "87767b70cdff4555993e7f53d4659428"
+                },
+                "6c01dd2fd24949888adb525652891068": {
+                    "tier": "Gold",
+                    "benefits": [
+                        "financial planning assistance",
+                        "car rental insurance"
+                    ],
+                    "active": true,
+                    "id": "6c01dd2fd24949888adb525652891068"
+                }
+            }
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162aa2"
+            },
+            "username": "jenniferstephens",
+            "name": "Maria Alexander",
+            "address": "USNS Jefferson\nFPO AA 96361",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "808138005"
+                }
+            },
+            "email": "atkinsontodd@hotmail.com",
+            "accounts": [
+                {
+                    "$numberInt": "261248"
+                },
+                {
+                    "$numberInt": "598525"
+                },
+                {
+                    "$numberInt": "333315"
+                },
+                {
+                    "$numberInt": "278497"
+                }
+            ],
+            "tier_and_details": {}
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162aa3"
+            },
+            "username": "fgibson",
+            "name": "Andrea Mcmillan",
+            "address": "666 Jones Forks Apt. 578\nWest Ashley, WA 61045",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "123126321"
+                }
+            },
+            "email": "andrewlowe@yahoo.com",
+            "accounts": [
+                {
+                    "$numberInt": "588722"
+                },
+                {
+                    "$numberInt": "171900"
+                },
+                {
+                    "$numberInt": "775273"
+                },
+                {
+                    "$numberInt": "212024"
+                }
+            ],
+            "tier_and_details": {}
+        },
+        {
+            "_id": {
+                "$oid": "5ca4bbcea2dd94ee58162aa4"
+            },
+            "username": "jmitchell",
+            "name": "Whitney Johnson",
+            "address": "Unit 0717 Box 4633\nDPO AA 83674",
+            "birthdate": {
+                "$date": {
+                    "$numberLong": "170742566"
+                }
+            },
+            "email": "kinglaura@yahoo.com",
+            "accounts": [
+                {
+                    "$numberInt": "720842"
+                },
+                {
+                    "$numberInt": "394725"
+                }
+            ],
+            "tier_and_details": {}
+        }
+    ]
+}

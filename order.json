@@ -1,0 +1,210 @@
+{
+    "orders": [
+        {
+            "order_id": "1001",
+            "customer_name": "John Doe",
+            "order_date": "2023-09-20",
+            "items": [
+                {
+                    "product_id": "A101",
+                    "product_name": "Product A",
+                    "quantity": 3,
+                    "unit_price": 10.99
+                },
+                {
+                    "product_id": "B202",
+                    "product_name": "Product B",
+                    "quantity": 2,
+                    "unit_price": 8.99
+                }
+            ],
+            "total_price": "57.95",
+            "shipping_address": {
+                "street": "123 Main Street",
+                "city": "Cityville",
+                "state": "CA",
+                "postal_code": "12345"
+            }
+        },
+        {
+            "order_id": "1002",
+            "customer_name": "Jane Smith",
+            "order_date": "2022-09-21",
+            "items": [
+                {
+                    "product_id": "C303",
+                    "product_name": "Product C",
+                    "quantity": 5,
+                    "unit_price": 12.99
+                }
+            ],
+            "total_price": "64.95",
+            "shipping_address": {
+                "street": "456 Elm Street",
+                "city": "Townsville",
+                "state": "NY",
+                "postal_code": "67890"
+            }
+        },
+        {
+            "order_id": "1003",
+            "customer_name": "Bob Johnson",
+            "order_date": "2021-09-22",
+            "items": [
+                {
+                    "product_id": "A101",
+                    "product_name": "Product A",
+                    "quantity": 2,
+                    "unit_price": 10.99
+                }
+            ],
+            "total_price": "21.98",
+            "shipping_address": {
+                "street": "789 Oak Avenue",
+                "city": "Villagetown",
+                "state": "TX",
+                "postal_code": "54321"
+            }
+        },
+        {
+            "order_id": "1004",
+            "customer_name": "Alice Brown",
+            "order_date": "2020-09-23",
+            "items": [
+                {
+                    "product_id": "B202",
+                    "product_name": "Product B",
+                    "quantity": 3,
+                    "unit_price": 8.99
+                }
+            ],
+            "total_price": null,
+            "shipping_address": {
+                "street": "101 Pine Street",
+                "city": "Groveville",
+                "state": "WA",
+                "postal_code": "98765"
+            }
+        },
+        {
+            "order_id": "1005",
+            "customer_name": "Eva Wilson",
+            "order_date": "2023-09-24",
+            "items": [
+                {
+                    "product_id": "D404",
+                    "product_name": "Product D",
+                    "quantity": 1,
+                    "unit_price": 15.99
+                }
+            ],
+            "total_price": "15.99",
+            "shipping_address": {
+                "street": "222 Cedar Lane",
+                "city": "Treetown",
+                "state": "FL",
+                "postal_code": "76543"
+            }
+        },
+        {
+            "order_id": "1006",
+            "customer_name": "Michael Clark",
+            "order_date": "2022-09-25",
+            "items": [
+                {
+                    "product_id": "C303",
+                    "product_name": "Product C",
+                    "quantity": 2,
+                    "unit_price": 12.99
+                }
+            ],
+            "total_price": "25.98",
+            "shipping_address": {
+                "street": "333 Elm Avenue",
+                "city": "Treeville",
+                "state": "CA",
+                "postal_code": "87654"
+            }
+        },
+        {
+            "order_id": "1007",
+            "customer_name": "Sarah Davis",
+            "order_date": "2023-09-26",
+            "items": [
+                {
+                    "product_id": "D404",
+                    "product_name": "Product D",
+                    "quantity": 4,
+                    "unit_price": 15.99
+                }
+            ],
+            "total_price": "63.96",
+            "shipping_address": {
+                "street": "444 Oak Lane",
+                "city": "Groveville",
+                "state": "WA",
+                "postal_code": "34567"
+            }
+        },
+        {
+            "order_id": "1008",
+            "customer_name": "Tom Johnson",
+            "order_date": "2023-09-27",
+            "items": [
+                {
+                    "product_id": "E505",
+                    "product_name": "Product E",
+                    "quantity": 3,
+                    "unit_price": 9.99
+                }
+            ],
+            "total_price":" 29.97",
+            "shipping_address": {
+                "street": "555 Maple Street",
+                "city": "Mapleville",
+                "state": "NY",
+                "postal_code": "23456"
+            }
+        },
+        {
+            "order_id": "1009",
+            "customer_name": "Lisa White",
+            "order_date": "2020-09-28",
+            "items": [
+                {
+                    "product_id": "A101",
+                    "product_name": "Product A",
+                    "quantity": 4,
+                    "unit_price": 10.99
+                }
+            ],
+            "total_price":" 43.96",
+            "shipping_address": {
+                "street": "777 Pine Avenue",
+                "city": "Pineville",
+                "state": "CA",
+                "postal_code": "43210"
+            }
+        },
+        {
+            "order_id": "1010",
+            "customer_name": "David Anderson",
+            "order_date": "2023-09-29",
+            "items": [
+                {
+                    "product_id": "A101",
+                    "product_name": "Product A",
+                    "quantity": 4,
+                    "unit_price": 11.99
+                }
+            ],
+            "total_price": "48.96",
+            "shipping_address": {
+                "street": "777 Pine Avenue",
+                "city": "Pineville",
+                "state": "CA",
+                "postal_code": "43210"
+            }
+        }
+    ]
+}
