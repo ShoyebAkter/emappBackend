@@ -31,34 +31,34 @@ connectToMongo()
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
-// app.post("/sendemail", (req,res)=>{
-//   const {emails,message,subject,imageUrl}=req.body;
-//   // console.log(req.body);
+app.post("/sendemail", (req,res)=>{
+  const {emails,message,subject,imageUrl}=req.body;
+  // console.log(req.body);
   
-//   try{
-//     const transporter=nodemailer.createTransport({
-//       service: "gmail",
-//       port: 587,
-//       secure: false, // upgrade later with STARTTLS
-//       auth: {
-//         user: "heroreal5385@gmail.com",
-//         pass: "aoizlhcmetfllfiv",
-//       },
-//     });
-//     const mailOptions={
-//       from:"heroreal5385@gmail.com",
-//       to:emails.join(','),
-//       subject:subject,
-//       html: `<div>${message} </div><img src="http://localhost:5000/tracking-pixel?user_token=userid1" width="1" height="1" alt="" style="display: none;"/>
-//       <img src=${imageUrl} alt="Image" />`
-//     }
-//     transporter.sendMail(mailOptions,(error)=>error && console.log("error",error))
-//     console.log("email send");
-//   }catch(error){
-// console.log(error);
-//   }
+  try{
+    const transporter=nodemailer.createTransport({
+      service: "gmail",
+      port: 587,
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+        user: "heroreal5385@gmail.com",
+        pass: "aoizlhcmetfllfiv",
+      },
+    });
+    const mailOptions={
+      from:"heroreal5385@gmail.com",
+      to:emails.join(','),
+      subject:subject,
+      html: `<div>${message} </div><img src="http://localhost:5000/tracking-pixel?user_token=userid1" width="1" height="1" alt="" style="display: none;"/>
+      <img src=${imageUrl} alt="Image" />`
+    }
+    transporter.sendMail(mailOptions,(error)=>error && console.log("error",error))
+    console.log("email send");
+  }catch(error){
+console.log(error);
+  }
   
-// })
+})
 
   //API
   app.get('/api/data', async (req, res) => {
@@ -124,7 +124,7 @@ app.get("/", (req, res) => {
   });
 
 
-    
+  
 
 
 
