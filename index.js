@@ -17,17 +17,17 @@ const dbName = 'emapp';
 const collectionName = 'orders';
 // mongoose.connect("mongodb+srv://heroreal5385:shoyebakter05@cluster0.h7vlxbw.mongodb.net/?retryWrites=true&w=majority")
 const client = new MongoClient("mongodb+srv://heroreal5385:wkS31RPP6IcBxWv1@cluster0.9zekpxe.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true });
-  
+client.connect();
+console.log('Connected to MongoDB');
 
-async function connectToMongo() {
-  try {
-    await client.connect();
-    console.log('Connected to MongoDB');
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
-  }
-}
-connectToMongo()
+// async function connectToMongo() {
+//   try {
+    
+//   } catch (error) {
+//     console.error('Error connecting to MongoDB:', error);
+//   }
+// }
+// connectToMongo()
 
 app.post("/sendemail", (req,res)=>{
   const {emails,message,subject,imageUrl}=req.body;
