@@ -28,7 +28,9 @@ console.log('Connected to MongoDB');
 //   }
 // }
 // connectToMongo()
-
+app.get("/", (req, res) => {
+  res.send("Express on Vercel");
+});
 app.post("/sendemail", (req,res)=>{
   const {emails,message,subject,imageUrl}=req.body;
   // console.log(req.body);
