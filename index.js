@@ -31,64 +31,35 @@ console.log('Connected to MongoDB');
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
-app.post("/sendemail", (req,res)=>{
-  const {emails,message,subject,imageUrl}=req.body;
-  // console.log(req.body);
+// app.post("/sendemail", (req,res)=>{
+//   const {emails,message,subject,imageUrl}=req.body;
+//   // console.log(req.body);
   
-  try{
-    const transporter=nodemailer.createTransport({
-      service: "gmail",
-      port: 587,
-      secure: false, // upgrade later with STARTTLS
-      auth: {
-        user: "heroreal5385@gmail.com",
-        pass: "aoizlhcmetfllfiv",
-      },
-    });
-    const mailOptions={
-      from:"heroreal5385@gmail.com",
-      to:emails.join(','),
-      subject:subject,
-      html: `<div>${message} </div><img src="http://localhost:5000/tracking-pixel?user_token=userid1" width="1" height="1" alt="" style="display: none;"/>
-      <img src=${imageUrl} alt="Image" />`
-    }
-    transporter.sendMail(mailOptions,(error)=>error && console.log("error",error))
-    console.log("email send");
-  }catch(error){
-console.log(error);
-  }
-  
-})
-// app.get('/tracking-pixel', (req, res) => {
-//   const userToken = req.query.user_token;
-
-//   // Log or store the open event and associate it with the user identified by userToken
-//   console.log(`Email opened by user with token: ${userToken}`);
-
-//   // Respond with the tracking pixel (a transparent 1x1 pixel)
-//   // res.sendFile('tracking-pixel.png', { root: __dirname });
-// });
-
-// async function insertData(myCollection,data) {
-//     try {
-       
-  
-//       // Select the database and collection
-//       const db = client.db(dbName);
-//       const collection = db.collection(myCollection);
-  
-//       // Insert the array of objects
-//       const result = await collection.insertMany(data);
-//       console.log(`${result.insertedCount} documents inserted`);
-  
-//       // Close the MongoDB connection
-//       client.close();
-//     } catch (error) {
-//       console.error('Error inserting data:', error);
+//   try{
+//     const transporter=nodemailer.createTransport({
+//       service: "gmail",
+//       port: 587,
+//       secure: false, // upgrade later with STARTTLS
+//       auth: {
+//         user: "heroreal5385@gmail.com",
+//         pass: "aoizlhcmetfllfiv",
+//       },
+//     });
+//     const mailOptions={
+//       from:"heroreal5385@gmail.com",
+//       to:emails.join(','),
+//       subject:subject,
+//       html: `<div>${message} </div><img src="http://localhost:5000/tracking-pixel?user_token=userid1" width="1" height="1" alt="" style="display: none;"/>
+//       <img src=${imageUrl} alt="Image" />`
 //     }
+//     transporter.sendMail(mailOptions,(error)=>error && console.log("error",error))
+//     console.log("email send");
+//   }catch(error){
+// console.log(error);
 //   }
-//   const usersCollection="users"
-// insertData(usersCollection,newUsersArrayWithCountry)
+  
+// })
+
   //API
   app.get('/api/data', async (req, res) => {
     try {
