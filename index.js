@@ -11,7 +11,10 @@ const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
 const User = require("./routeHandler/user")
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+  origin: 'https://emapp-backend.vercel.app',
+};
+app.use(cors(corsOptions));
 
 const dbName = 'emapp';
 const collectionName = 'orders';
@@ -31,7 +34,7 @@ connectToMongo()
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
-app.post("/sendemail", (req,res)=>{
+app.post("/sendemail", async(req,res)=>{
   const {emails,message,subject,imageUrl}=req.body;
   // console.log(req.body);
   
@@ -49,11 +52,11 @@ app.post("/sendemail", (req,res)=>{
       from:"heroreal5385@gmail.com",
       to:emails.join(','),
       subject:subject,
-      html: `<div>${message} </div><img src="http://localhost:5000/tracking-pixel?user_token=userid1" width="1" height="1" alt="" style="display: none;"/>
-      <img src=${imageUrl} alt="Image" />`
+      html: `<div>${message} </div><img src=${imageUrl} alt="Image" />`
     }
     transporter.sendMail(mailOptions,(error)=>error && console.log("error",error))
-    console.log("email send");
+    // console.log("email send");
+    
   }catch(error){
 console.log(error);
   }
