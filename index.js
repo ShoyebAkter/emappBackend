@@ -68,6 +68,22 @@ console.log(error);
   
 })
 
+//whatsapp campaign api
+app.post('/whatsapp',async(req,res)=>{
+  const {uid,campaignType,message,number}=req.body;
+  const whatsAppOptions={
+    uid:uid,
+    campaignType:campaignType,
+    message:message,
+    number:number
+  }
+  const db = client.db(dbName);
+  const collection = db.collection("whatsAppCampaign");
+  const result = await collection.insertOne(whatsAppOptions);
+
+  res.send(result);
+})
+
   //API
   app.get('/api/data', async (req, res) => {
     try {
