@@ -12,7 +12,7 @@ const { MongoClient } = require('mongodb');
 const User = require("./routeHandler/user")
 app.use(express.json());
 const corsOptions = {
-  origin: 'https://emapp-backend.vercel.app',
+  origin: 'http://localhost:5173',
 };
 app.use(cors(corsOptions));
 
