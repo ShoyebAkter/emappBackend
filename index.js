@@ -114,7 +114,16 @@ app.post('/whatsapp',async(req,res)=>{
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+  //campaign data api
+  app.get('/emailcampaign/:id',async(req,res)=>{
+    const id=req.params.id;
+    const db=client.db(dbName);
+    const collection=db.collection("emailCampaign");
+    const query={uid:id};
 
+    const data=await collection.findOne(query);
+    res.send(data)
+  })
   //sales data api
   app.get('/sales', async (req, res) => {
     try {
