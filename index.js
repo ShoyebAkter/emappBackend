@@ -121,8 +121,8 @@ app.post('/whatsapp',async(req,res)=>{
     const db=client.db(dbName);
     const collection=db.collection("emailCampaign");
     const query={uid:id};
-
-    const data=await collection.findOne(query);
+    const cursor = collection.find(query);
+    const data = await cursor.toArray();
     res.send(data)
   })
   //whatsapp campaign data api
@@ -131,8 +131,8 @@ app.post('/whatsapp',async(req,res)=>{
     const db=client.db(dbName);
     const collection=db.collection("whatsAppCampaign");
     const query={uid:id};
-
-    const data=await collection.findOne(query);
+    const cursor = collection.find(query);
+    const data = await cursor.toArray();
     res.send(data)
   })
   //sales data api
