@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
 app.post("/sendemail", async(req,res)=>{
-  const {emails,message,subject,imageUrl,campaignType,uid}=req.body;
+  const {emails,message,subject,imageUrl,campaignType,uid,date}=req.body;
   // console.log(req.body);
   
   try{
@@ -53,6 +53,7 @@ app.post("/sendemail", async(req,res)=>{
       uid:uid,
       from:"heroreal5385@gmail.com",
       to:emails.join(','),
+      date:date,
       subject:subject,
       campaignType:campaignType,
       html: `<div>${message} </div><img src=${imageUrl} alt="Image" />`
