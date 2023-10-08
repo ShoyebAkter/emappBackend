@@ -132,7 +132,7 @@ app.post('/whatsapp',async(req,res)=>{
     const collection=db.collection("whatsAppCampaign");
     const query={uid:id};
 
-    const data=await collection.find(query);
+    const data=await collection.findOne(query);
     res.send(data)
   })
   //sales data api
