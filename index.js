@@ -82,26 +82,25 @@ app.post("/sendemail", async (req, res) => {
       html: `<div>${message} </div>
       <img src=${imageUrl} alt="Image" />`
     }
-    const emailOptions = {
-      uid: uid,
-      from: "heroreal5385@gmail.com",
-      to: emails.join(','),
-      date: date,
-      subject: subject,
-      campaignType: campaignType,
-      html: `<div>${message} </div>
-      <img src=${imageUrl} alt="Image" />`
-    }
     transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
     
-    const db = client.db(dbName);
-    const collection = db.collection("emailCampaign");
-    const result = await collection.insertOne(mailOptions);
-    res.send(result);
   } catch (error) {
     console.log(error);
   }
-
+  const emailOptions = {
+    uid: uid,
+    from: "heroreal5385@gmail.com",
+    to: emails.join(','),
+    date: date,
+    subject: subject,
+    campaignType: campaignType,
+    html: `<div>${message} </div>
+    <img src=${imageUrl} alt="Image" />`
+  }
+  const db = client.db(dbName);
+  const collection = db.collection("emailCampaign");
+  const result = await collection.insertOne(emailOptions);
+  res.send(result);
 })
 
 //whatsapp campaign api
