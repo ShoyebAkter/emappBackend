@@ -95,10 +95,10 @@ app.post("/sendemail", async (req, res) => {
     // }
     transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
     
-    const db = client.db(dbName);
-    const collection = db.collection("emailCampaign");
-    const result = await collection.insertOne(mailOptions);
-    res.send(result);
+    // const db = client.db(dbName);
+    // const collection = db.collection("emailCampaign");
+    // const result = await collection.insertOne(mailOptions);
+    // res.send(result);
   } catch (error) {
     console.log(error);
   }
