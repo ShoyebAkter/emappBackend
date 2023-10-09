@@ -4,8 +4,10 @@ const app = express();
 const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
 app.use(express.json());
-
-app.use(cors());
+const corsOptions = {
+  origin: ['http://localhost:5173', 'https://your-website-url.com'],
+};
+app.use(cors(corsOptions));
 
 const dbName = 'emapp';
 const collectionName = 'orders';
