@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
 app.post("/sendemail", async (req, res) => {
-  const { emails, message, subject, imageUrl, campaignType, uid, date } = req.body;
+  const { emails, message, subject, imageUrl, campaignType } = req.body;
   // console.log(req.body);
   try {
     const transporter = nodemailer.createTransport({
@@ -57,21 +57,21 @@ app.post("/sendemail", async (req, res) => {
       html: `<div>${message} </div>
       <img src=${imageUrl} alt="Image" />`
     }
-    const emailOptions = {
-      uid: uid,
-      from: "heroreal5385@gmail.com",
-      to: emails.join(','),
-      date: date,
-      subject: subject,
-      campaignType: campaignType,
-      html: `<div>${message} </div>
-      <img src=${imageUrl} alt="Image" />`
-    }
+    // const emailOptions = {
+    //   uid: uid,
+    //   from: "heroreal5385@gmail.com",
+    //   to: emails.join(','),
+    //   date: date,
+    //   subject: subject,
+    //   campaignType: campaignType,
+    //   html: `<div>${message} </div>
+    //   <img src=${imageUrl} alt="Image" />`
+    // }
     transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
     
     const db = client.db(dbName);
     const collection = db.collection("emailCampaign");
-    const result = await collection.insertOne(emailOptions);
+    const result = await collection.insertOne(mailOptions);
     res.send(result);
   } catch (error) {
     console.log(error);
