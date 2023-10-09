@@ -63,7 +63,7 @@ app.get("/", (req, res) => {
   
 // })
 app.post("/sendemail", async (req, res) => {
-  const { emails, message, subject, imageUrl, campaignType } = req.body;
+  const { emails, message, subject, imageUrl } = req.body;
   // console.log(req.body);
   try {
     const transporter = nodemailer.createTransport({
