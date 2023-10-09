@@ -4,11 +4,11 @@ const app = express();
 const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
 app.use(express.json());
-const corsOptions = {
-  // origin: '*',
-  origin: 'http://localhost:5173',
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   // origin: '*',
+//   origin: 'http://localhost:5173',
+// };
+app.use(cors());
 
 const dbName = 'emapp';
 const collectionName = 'orders';
@@ -46,22 +46,25 @@ app.post("/sendemail", async (req, res) => {
       to: emails.join(','),
       subject: subject,
       html: `<div>${message} </div>
-      <img src=${imageUrl} alt="Image" />`
+      <img src=${imageUrl} alt="Image" />`,
+      uid:uid,
+      date:date,
+      campaignType:campaignType
     }
     transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
-    const emailOptions = {
-      uid: uid,
-      from: "heroreal5385@gmail.com",
-      to: emails.join(','),
-      date: date,
-      subject: subject,
-      campaignType: campaignType,
-      message:message
-    }
-    const db = client.db(dbName);
-    const collection = db.collection("emailCampaign");
-     collection.insertOne(emailOptions);
-     res.status(200).json({ message: 'Email sent successfully.' });
+    // const emailOptions = {
+    //   uid: uid,
+    //   from: "heroreal5385@gmail.com",
+    //   to: emails.join(','),
+    //   date: date,
+    //   subject: subject,
+    //   campaignType: campaignType,
+    //   message:message
+    // }
+    // const db = client.db(dbName);
+    // const collection = db.collection("emailCampaign");
+    //  collection.insertOne(emailOptions);
+    //  res.status(200).json({ message: 'Email sent successfully.' });
   } catch (error) {
     console.log(error);
   }
