@@ -11,12 +11,11 @@ const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
 const User = require("./routeHandler/user")
 app.use(express.json());
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
+const corsOptions = {
+  // origin: 'https://mp-app-eta.vercel.app',
+  origin: 'http://localhost:5173',
+};
+app.use(cors(corsOptions));
 
 const dbName = 'emapp';
 const collectionName = 'orders';
@@ -64,7 +63,7 @@ app.get("/", (req, res) => {
   
 // })
 app.post("/sendemail", async (req, res) => {
-  const { emails, message, subject, imageUrl } = req.body;
+  const { emails, message, subject, imageUrl,uid,campaignType,date } = req.body;
   // console.log(req.body);
   try {
     const transporter = nodemailer.createTransport({
@@ -84,22 +83,22 @@ app.post("/sendemail", async (req, res) => {
       html: `<div>${message} </div>
       <img src=${imageUrl} alt="Image" />`
     }
-    // const emailOptions = {
-    //   uid: uid,
-    //   from: "heroreal5385@gmail.com",
-    //   to: emails.join(','),
-    //   date: date,
-    //   subject: subject,
-    //   campaignType: campaignType,
-    //   html: `<div>${message} </div>
-    //   <img src=${imageUrl} alt="Image" />`
-    // }
+    const emailOptions = {
+      uid: uid,
+      from: "heroreal5385@gmail.com",
+      to: emails.join(','),
+      date: date,
+      subject: subject,
+      campaignType: campaignType,
+      html: `<div>${message} </div>
+      <img src=${imageUrl} alt="Image" />`
+    }
     transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
     
-    // const db = client.db(dbName);
-    // const collection = db.collection("emailCampaign");
-    // const result = await collection.insertOne(mailOptions);
-    // res.send(result);
+    const db = client.db(dbName);
+    const collection = db.collection("emailCampaign");
+    const result = await collection.insertOne(mailOptions);
+    res.send(result);
   } catch (error) {
     console.log(error);
   }
