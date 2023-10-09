@@ -11,11 +11,12 @@ const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
 const User = require("./routeHandler/user")
 app.use(express.json());
-const corsOptions = {
-  // origin: 'https://mp-app-eta.vercel.app',
-  origin: 'http://localhost:5173',
-};
-app.use(cors(corsOptions));
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 const dbName = 'emapp';
 const collectionName = 'orders';
