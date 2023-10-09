@@ -12,8 +12,8 @@ const { MongoClient } = require('mongodb');
 const User = require("./routeHandler/user")
 app.use(express.json());
 const corsOptions = {
-  // origin: 'https://mp-app-eta.vercel.app',
-  origin: 'http://localhost:5173',
+  origin: 'https://mp-app-eta.vercel.app',
+  // origin: 'http://localhost:5173',
 };
 app.use(cors(corsOptions));
 
@@ -35,38 +35,12 @@ connectToMongo()
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
-app.post("/sendemail", (req,res)=>{
-  const {emails,message,subject,imageUrl}=req.body;
-  // console.log(req.body);
-  
-  try{
-    const transporter=nodemailer.createTransport({
-      service: "gmail",
-      port: 587,
-      secure: false, // upgrade later with STARTTLS
-      auth: {
-        user: "heroreal5385@gmail.com",
-        pass: "aoizlhcmetfllfiv",
-      },
-    });
-    const mailOptions={
-      from:"heroreal5385@gmail.com",
-      to:emails.join(','),
-      subject:subject,
-      html: `<div>${message} </div><img src=${imageUrl} alt="Image" />`
-    }
-    transporter.sendMail(mailOptions,(error)=>error && console.log("error",error))
-    // console.log("email send");
-  }catch(error){
-console.log(error);
-  }
-  
-})
-// app.post("/sendemail", async (req, res) => {
-//   const { emails, message, subject, imageUrl, campaignType } = req.body;
+// app.post("/sendemail", (req,res)=>{
+//   const {emails,message,subject,imageUrl}=req.body;
 //   // console.log(req.body);
-//   try {
-//     const transporter = nodemailer.createTransport({
+  
+//   try{
+//     const transporter=nodemailer.createTransport({
 //       service: "gmail",
 //       port: 587,
 //       secure: false, // upgrade later with STARTTLS
@@ -75,35 +49,61 @@ console.log(error);
 //         pass: "aoizlhcmetfllfiv",
 //       },
 //     });
-//     const mailOptions = {
-      
-//       from: "heroreal5385@gmail.com",
-//       to: emails.join(','),
-//       subject: subject,
-//       html: `<div>${message} </div>
-//       <img src=${imageUrl} alt="Image" />`
+//     const mailOptions={
+//       from:"heroreal5385@gmail.com",
+//       to:emails.join(','),
+//       subject:subject,
+//       html: `<div>${message} </div><img src=${imageUrl} alt="Image" />`
 //     }
-//     // const emailOptions = {
-//     //   uid: uid,
-//     //   from: "heroreal5385@gmail.com",
-//     //   to: emails.join(','),
-//     //   date: date,
-//     //   subject: subject,
-//     //   campaignType: campaignType,
-//     //   html: `<div>${message} </div>
-//     //   <img src=${imageUrl} alt="Image" />`
-//     // }
-//     transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
-    
-//     const db = client.db(dbName);
-//     const collection = db.collection("emailCampaign");
-//     const result = await collection.insertOne(mailOptions);
-//     res.send(result);
-//   } catch (error) {
-//     console.log(error);
+//     transporter.sendMail(mailOptions,(error)=>error && console.log("error",error))
+//     // console.log("email send");
+//   }catch(error){
+// console.log(error);
 //   }
-
+  
 // })
+app.post("/sendemail", async (req, res) => {
+  const { emails, message, subject, imageUrl, campaignType } = req.body;
+  // console.log(req.body);
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      port: 587,
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+        user: "heroreal5385@gmail.com",
+        pass: "aoizlhcmetfllfiv",
+      },
+    });
+    const mailOptions = {
+      
+      from: "heroreal5385@gmail.com",
+      to: emails.join(','),
+      subject: subject,
+      html: `<div>${message} </div>
+      <img src=${imageUrl} alt="Image" />`
+    }
+    // const emailOptions = {
+    //   uid: uid,
+    //   from: "heroreal5385@gmail.com",
+    //   to: emails.join(','),
+    //   date: date,
+    //   subject: subject,
+    //   campaignType: campaignType,
+    //   html: `<div>${message} </div>
+    //   <img src=${imageUrl} alt="Image" />`
+    // }
+    transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
+    
+    const db = client.db(dbName);
+    const collection = db.collection("emailCampaign");
+    const result = await collection.insertOne(mailOptions);
+    res.send(result);
+  } catch (error) {
+    console.log(error);
+  }
+
+})
 
 //whatsapp campaign api
 app.post('/whatsapp', async (req, res) => {
