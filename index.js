@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
 app.use(express.json());
 const corsOptions = {
-  origin: 'https://mp-app-eta.vercel.app/',
+  origin: '*',
   // origin: 'http://localhost:5173',
 };
 app.use(cors(corsOptions));
@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 // app.post("/sendemail", (req,res)=>{
 //   const {emails,message,subject,imageUrl}=req.body;
 //   // console.log(req.body);
-  
+
 //   try{
 //     const transporter=nodemailer.createTransport({
 //       service: "gmail",
@@ -52,10 +52,10 @@ app.get("/", (req, res) => {
 //   }catch(error){
 // console.log(error);
 //   }
-  
+
 // })
 app.post("/sendemail", async (req, res) => {
-  const { emails, message, subject, imageUrl,uid,date,campaignType } = req.body;
+  const { emails, message, subject, imageUrl, uid, date, campaignType } = req.body;
   // console.log(req.body);
   try {
     const transporter = nodemailer.createTransport({
@@ -75,22 +75,22 @@ app.post("/sendemail", async (req, res) => {
       <img src=${imageUrl} alt="Image" />`
     }
     transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
-    
+    const emailOptions = {
+      uid: uid,
+      from: "heroreal5385@gmail.com",
+      to: emails.join(','),
+      date: date,
+      subject: subject,
+      campaignType: campaignType
+    }
+    const db = client.db(dbName);
+    const collection = db.collection("emailCampaign");
+    const result = await collection.insertOne(emailOptions);
+    res.send(result);
   } catch (error) {
     console.log(error);
   }
-  const emailOptions = {
-    uid: uid,
-    from: "heroreal5385@gmail.com",
-    to: emails.join(','),
-    date: date,
-    subject: subject,
-    campaignType: campaignType
-  }
-  const db = client.db(dbName);
-  const collection = db.collection("emailCampaign");
-  const result = await collection.insertOne(emailOptions);
-  res.send(result);
+
 })
 
 //whatsapp campaign api
