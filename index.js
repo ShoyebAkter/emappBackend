@@ -59,7 +59,7 @@ app.post("/sendemail", async (req, res) => {
       <img src=${imageUrl} alt="Image" />`
     }
     transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
-    // console.log("email send");
+    
     const db = client.db(dbName);
     const collection = db.collection("emailCampaign");
     const result = await collection.insertOne(mailOptions);
