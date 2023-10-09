@@ -47,6 +47,7 @@ app.post("/sendemail", async (req, res) => {
         user: "heroreal5385@gmail.com",
         pass: "aoizlhcmetfllfiv",
       },
+      secure: true,
     });
     const mailOptions = {
       uid: uid,
