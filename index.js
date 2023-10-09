@@ -12,14 +12,13 @@ const { MongoClient } = require('mongodb');
 const User = require("./routeHandler/user")
 app.use(express.json());
 const corsOptions = {
-  // origin: 'https://mp-app-eta.vercel.app',
-  origin: 'http://localhost:5173',
+  origin: 'https://mp-app-eta.vercel.app',
+  // origin: 'http://localhost:5173',
 };
 app.use(cors(corsOptions));
 
 const dbName = 'emapp';
 const collectionName = 'orders';
-// mongoose.connect("mongodb+srv://heroreal5385:shoyebakter05@cluster0.h7vlxbw.mongodb.net/?retryWrites=true&w=majority")
 const client = new MongoClient("mongodb+srv://heroreal5385:wkS31RPP6IcBxWv1@cluster0.9zekpxe.mongodb.net/?retryWrites=true&w=majority");
 
 
