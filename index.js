@@ -14,7 +14,7 @@ const User = require("./routeHandler/user")
 app.use(express.json());
 app.use(useragent.express());
 const corsOptions = {
-  origin: 'https://mp-app-eta.vercel.app',
+  origin: 'https://emapp-backend.vercel.app',
   // origin: 'http://localhost:5173',
 };
 app.use(cors(corsOptions));
