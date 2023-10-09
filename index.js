@@ -43,7 +43,7 @@ app.post("/sendemail", async (req, res) => {
   const random = Math.random().toString(36).substr(2, 5);
   const uniqueTrackingId = `${timestamp}-${random}`;
   // console.log(req.body);
-  const trackingUrl = `https://yourserver.com/tracking?uid=${uid}&trackingId=${uniqueTrackingId}`;
+  const trackingUrl = `https://mp-app-eta.vercel.app/tracking?uid=${uid}&trackingId=${uniqueTrackingId}`;
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
