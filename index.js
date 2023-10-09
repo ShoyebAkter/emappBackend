@@ -35,8 +35,8 @@ connectToMongo()
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
-app.post("/sendemail", async(req,res)=>{
-  const {emails,message,subject,imageUrl,campaignType,uid,date}=req.body;
+app.post("/sendemail", (req,res)=>{
+  const {emails,message,subject,imageUrl}=req.body;
   // console.log(req.body);
   
   try{
@@ -50,20 +50,13 @@ app.post("/sendemail", async(req,res)=>{
       },
     });
     const mailOptions={
-      uid:uid,
       from:"heroreal5385@gmail.com",
       to:emails.join(','),
-      date:date,
       subject:subject,
-      campaignType:campaignType,
       html: `<div>${message} </div><img src=${imageUrl} alt="Image" />`
     }
     transporter.sendMail(mailOptions,(error)=>error && console.log("error",error))
     // console.log("email send");
-    const db = client.db(dbName);
-      const collection = db.collection("emailCampaign");
-      const result = await collection.insertOne(mailOptions);
-      res.send(result);
   }catch(error){
 console.log(error);
   }
