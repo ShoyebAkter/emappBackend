@@ -50,6 +50,14 @@ app.post("/sendemail", async (req, res) => {
       secure: true,
     });
     const mailOptions = {
+      
+      from: "heroreal5385@gmail.com",
+      to: emails.join(','),
+      subject: subject,
+      html: `<div>${message} </div>
+      <img src=${imageUrl} alt="Image" />`
+    }
+    const emailOptions = {
       uid: uid,
       from: "heroreal5385@gmail.com",
       to: emails.join(','),
@@ -63,7 +71,7 @@ app.post("/sendemail", async (req, res) => {
     
     const db = client.db(dbName);
     const collection = db.collection("emailCampaign");
-    const result = await collection.insertOne(mailOptions);
+    const result = await collection.insertOne(emailOptions);
     res.send(result);
   } catch (error) {
     console.log(error);
