@@ -1,15 +1,8 @@
 const express = require("express");
-const axios = require('axios');
-var countries = require("i18n-iso-countries");
-const fs = require('fs');
 const cors = require('cors');
-const natural = require('natural');
 const app = express();
-const multer = require('multer');
-const mongoose = require("mongoose");
 const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
-const User = require("./routeHandler/user")
 app.use(express.json());
 const corsOptions = {
   origin: 'https://mp-app-eta.vercel.app',
@@ -62,7 +55,7 @@ app.get("/", (req, res) => {
   
 // })
 app.post("/sendemail", async (req, res) => {
-  const { emails, message, subject, imageUrl,uid,campaignType,date } = req.body;
+  const { emails, message, subject, imageUrl } = req.body;
   // console.log(req.body);
   try {
     const transporter = nodemailer.createTransport({
@@ -75,7 +68,6 @@ app.post("/sendemail", async (req, res) => {
       },
     });
     const mailOptions = {
-      
       from: "heroreal5385@gmail.com",
       to: emails.join(','),
       subject: subject,
@@ -87,20 +79,20 @@ app.post("/sendemail", async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-  const emailOptions = {
-    uid: uid,
-    from: "heroreal5385@gmail.com",
-    to: emails.join(','),
-    date: date,
-    subject: subject,
-    campaignType: campaignType,
-    html: `<div>${message} </div>
-    <img src=${imageUrl} alt="Image" />`
-  }
-  const db = client.db(dbName);
-  const collection = db.collection("emailCampaign");
-  const result = await collection.insertOne(emailOptions);
-  res.send(result);
+  // const emailOptions = {
+  //   uid: uid,
+  //   from: "heroreal5385@gmail.com",
+  //   to: emails.join(','),
+  //   date: date,
+  //   subject: subject,
+  //   campaignType: campaignType,
+  //   html: `<div>${message} </div>
+  //   <img src=${imageUrl} alt="Image" />`
+  // }
+  // const db = client.db(dbName);
+  // const collection = db.collection("emailCampaign");
+  // const result = await collection.insertOne(emailOptions);
+  // res.send(result);
 })
 
 //whatsapp campaign api
