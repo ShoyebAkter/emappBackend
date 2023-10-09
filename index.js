@@ -1,7 +1,6 @@
 const express = require("express");
 const axios = require('axios');
 var countries = require("i18n-iso-countries");
-var useragent = require('express-useragent');
 const fs = require('fs');
 const cors = require('cors');
 const natural = require('natural');
@@ -12,7 +11,6 @@ const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
 const User = require("./routeHandler/user")
 app.use(express.json());
-app.use(useragent.express());
 const corsOptions = {
   // origin: 'https://mp-app-eta.vercel.app',
   origin: 'http://localhost:5173',
@@ -39,11 +37,7 @@ app.get("/", (req, res) => {
 });
 app.post("/sendemail", async (req, res) => {
   const { emails, message, subject, imageUrl, campaignType, uid, date } = req.body;
-  const timestamp = Date.now().toString(36); // Convert current timestamp to base36
-  const random = Math.random().toString(36).substr(2, 5);
-  const uniqueTrackingId = `${timestamp}-${random}`;
   // console.log(req.body);
-  const trackingUrl = `https://mp-app-eta.vercel.app/tracking?uid=${uid}&trackingId=${uniqueTrackingId}`;
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -62,7 +56,6 @@ app.post("/sendemail", async (req, res) => {
       subject: subject,
       campaignType: campaignType,
       html: `<div>${message} </div>
-      <div><a href=${trackingUrl}/></div>
       <img src=${imageUrl} alt="Image" />`
     }
     transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
@@ -77,9 +70,6 @@ app.post("/sendemail", async (req, res) => {
 
 })
 
-app.get('/tracking', function (req, res) {
-  res.send(req.useragent);
-});
 //whatsapp campaign api
 app.post('/whatsapp', async (req, res) => {
   const { uid, campaignType, message, number } = req.body;
