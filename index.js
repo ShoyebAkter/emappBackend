@@ -55,7 +55,7 @@ app.get("/", (req, res) => {
 
 // })
 app.post("/sendemail", async (req, res) => {
-  const { emails, message, subject, imageUrl, uid, date, campaignType } = req.body;
+  const { emails, message, subject, imageUrl } = req.body;
   // console.log(req.body);
   try {
     const transporter = nodemailer.createTransport({
@@ -75,13 +75,24 @@ app.post("/sendemail", async (req, res) => {
       <img src=${imageUrl} alt="Image" />`
     }
     transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
+    
+  } catch (error) {
+    console.log(error);
+  }
+
+})
+app.post("/sendserveremail", async (req, res) => {
+  const { emails, message, subject,  uid, date, campaignType } = req.body;
+  // console.log(req.body);
+  try {
     const emailOptions = {
       uid: uid,
       from: "heroreal5385@gmail.com",
       to: emails.join(','),
       date: date,
       subject: subject,
-      campaignType: campaignType
+      campaignType: campaignType,
+      message:message
     }
     const db = client.db(dbName);
     const collection = db.collection("emailCampaign");
@@ -92,6 +103,7 @@ app.post("/sendemail", async (req, res) => {
   }
 
 })
+
 
 //whatsapp campaign api
 app.post('/whatsapp', async (req, res) => {
