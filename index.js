@@ -47,7 +47,7 @@ app.post("/sendemail", async (req, res) => {
       html: `<div>${message} </div>
       <img src=${imageUrl} alt="Image" />`
     }
-    
+    transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
      res.status(200).json({ message: 'Email sent successfully.' });
   } catch (error) {
     console.log(error);
@@ -58,7 +58,7 @@ app.post("/sendserveremail", async (req, res) => {
   const { emails, message, subject,  uid, date, campaignType } = req.body;
   // console.log(req.body);
   try {
-    transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
+    
     const emailOptions = {
       uid: uid,
       from: "heroreal5385@gmail.com",
