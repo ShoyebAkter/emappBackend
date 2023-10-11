@@ -4,10 +4,10 @@ const app = express();
 const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
 app.use(express.json());
-const corsOptions = {
-  origin: [ 'http://localhost:5173','https://mp-app-eta.vercel.app'],
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: [ 'http://localhost:5173','https://mp-app-eta.vercel.app'],
+// };
+app.use(cors());
 
 const dbName = 'emapp';
 const collectionName = 'orders';
