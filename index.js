@@ -48,19 +48,19 @@ app.post("/sendemail", async (req, res) => {
       <img src=${imageUrl} alt="Image" />`
     }
     transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
-    // const emailOptions = {
-    //   uid: uid,
-    //   from: "heroreal5385@gmail.com",
-    //   to: emails.join(','),
-    //   date: date,
-    //   subject: subject,
-    //   campaignType: campaignType,
-    //   message:message
-    // }
-    // const db = client.db(dbName);
-    // const collection = db.collection("emailCampaign");
-    //  collection.insertOne(emailOptions);
-    //  res.status(200).json({ message: 'Email sent successfully.' });
+    const emailOptions = {
+      uid: uid,
+      from: "heroreal5385@gmail.com",
+      to: emails.join(','),
+      date: date,
+      subject: subject,
+      campaignType: campaignType,
+      message:message
+    }
+    const db = client.db(dbName);
+    const collection = db.collection("emailCampaign");
+     collection.insertOne(emailOptions);
+     res.status(200).json({ message: 'Email sent successfully.' });
   } catch (error) {
     console.log(error);
   }
