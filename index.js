@@ -47,6 +47,17 @@ app.post("/sendemail", async (req, res) => {
       html: `<div>${message} </div>
       <img src=${imageUrl} alt="Image" />`
     }
+    
+     res.status(200).json({ message: 'Email sent successfully.' });
+  } catch (error) {
+    console.log(error);
+  }
+
+})
+app.post("/sendserveremail", async (req, res) => {
+  const { emails, message, subject,  uid, date, campaignType } = req.body;
+  // console.log(req.body);
+  try {
     transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
     const emailOptions = {
       uid: uid,
@@ -60,22 +71,11 @@ app.post("/sendemail", async (req, res) => {
     const db = client.db(dbName);
     const collection = db.collection("emailCampaign");
      collection.insertOne(emailOptions);
-     res.status(200).json({ message: 'Email sent successfully.' });
   } catch (error) {
     console.log(error);
   }
 
 })
-// app.post("/sendserveremail", async (req, res) => {
-//   const { emails, message, subject,  uid, date, campaignType } = req.body;
-//   // console.log(req.body);
-//   try {
-    
-//   } catch (error) {
-//     console.log(error);
-//   }
-
-// })
 
 
 //whatsapp campaign api
