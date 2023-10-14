@@ -77,7 +77,56 @@ app.post("/sendserveremail", async (req, res) => {
 
 })
 
+//subscription send mail
+app.post("/subscriptionemail", async (req, res) => {
+  const { email} = req.body;
+  // console.log(req.body);
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      port: 587,
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+        user: "heroreal5385@gmail.com",
+        pass: "aoizlhcmetfllfiv",
+      },
+    });
+    const mailOptions = {
+      from: "heroreal5385@gmail.com",
+      to: "shoyebmohammad660@gmail.com",
+      subject: "Subscription",
+      html: `<div>${email} want Subscription.</div>`
+    }
+    transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
+     res.status(200).json({ message: 'Email sent successfully.' });
+  } catch (error) {
+    console.log(error);
+  }
 
+})
+
+//subscription data api
+app.post("/subscription", async (req, res) => {
+  const { firstName,lastName,email,gender,title,address} = req.body;
+  // console.log(req.body);
+  try {
+    
+    const subscriptionData = {
+      firstName:firstName,
+      lastName:lastName,
+      email:email,
+      gender:gender,
+      title:title,
+      address:address
+    }
+    const db = client.db(dbName);
+    const collection = db.collection("subscription");
+     collection.insertOne(subscriptionData);
+  } catch (error) {
+    console.log(error);
+  }
+
+})
 //whatsapp campaign api
 app.post('/whatsapp', async (req, res) => {
   const { uid, campaignType, message, number } = req.body;
