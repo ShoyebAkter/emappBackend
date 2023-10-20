@@ -104,7 +104,7 @@ app.post("/subscriptionemail", async (req, res) => {
   }
 
 })
-
+//post facebook post data
 app.post("/fbpost",async(req,res)=>{
   const { id, imageUrl, message, date } = req.body;
   const fbInfo = {
@@ -139,6 +139,21 @@ app.get('/api/data', async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
+
+    // Retrieve data from MongoDB
+    const data = await collection.find().toArray();
+
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching data from MongoDB:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+//get facebook data
+app.get('/fbpost', async (req, res) => {
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("fbPostsData");
 
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
