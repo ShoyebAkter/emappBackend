@@ -105,28 +105,19 @@ app.post("/subscriptionemail", async (req, res) => {
 
 })
 
-//subscription data api
-app.post("/subscription", async (req, res) => {
-  const { firstName,lastName,email,gender,title,address} = req.body;
-  // console.log(req.body);
-  try {
-    
-    const subscriptionData = {
-      firstName:firstName,
-      lastName:lastName,
-      email:email,
-      gender:gender,
-      title:title,
-      address:address
-    }
-    const db = client.db(dbName);
-    const collection = db.collection("subscription");
-     collection.insertOne(subscriptionData);
-  } catch (error) {
-    console.log(error);
+app.post("/fbpost",async(req,res)=>{
+  const { id, imageUrl, message, date } = req.body;
+  const fbInfo = {
+    id: id,
+    url: imageUrl,
+    message: message,
+    date: date
   }
-
+  const db = client.db(dbName);
+  const collection = db.collection("fbPostsData");
+  const result = await collection.insertOne(fbInfo);
 })
+
 //whatsapp campaign api
 app.post('/whatsapp', async (req, res) => {
   const { uid, campaignType, message, number } = req.body;
