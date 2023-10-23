@@ -133,6 +133,14 @@ app.post('/whatsapp', async (req, res) => {
 
   res.send(result);
 })
+app.post('/images', async (req, res) => {
+  const { formData } = req.body;
+  const db = client.db(dbName);
+  const collection = db.collection("images");
+  const result = await collection.insertOne(formData);
+
+  res.send(result);
+})
 
 //API
 app.get('/api/data', async (req, res) => {
