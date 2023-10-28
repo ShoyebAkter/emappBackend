@@ -79,7 +79,7 @@ app.post("/sendserveremail", async (req, res) => {
 
 //subscription send mail
 app.post("/subscriptionemail", async (req, res) => {
-  const { email} = req.body;
+  const { email,firstName,lastName,gender,title,address,date} = req.body;
   // console.log(req.body);
   try {
     const transporter = nodemailer.createTransport({
@@ -95,7 +95,11 @@ app.post("/subscriptionemail", async (req, res) => {
       from: "heroreal5385@gmail.com",
       to: "shoyebmohammad660@gmail.com",
       subject: "Subscription",
-      html: `<div>${email} want Subscription.</div>`
+      html: `<div>
+      <div>${email} want Subscription.</div>
+      <p>FirstName:${firstName} LastName:${lastName}</p>
+      <p>Address:${address} Title:${title} Gender:${gender}</p>
+      </div>`
     }
     transporter.sendMail(mailOptions, (error) => error && console.log("error", error))
      res.status(200).json({ message: 'Email sent successfully.' });
