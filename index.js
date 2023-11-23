@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require('cors');
 const app = express();
+const axios = require('axios');
 const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
 app.use(express.json());
@@ -77,6 +78,21 @@ app.post("/sendserveremail", async (req, res) => {
 
 })
 
+//exchange tokens
+
+app.get("/exchangeToken/:tokenId",async(req,res)=>{
+  const shortLivedToken = req.params.tokenId;
+  const response = await axios.get('https://graph.facebook.com/v18.0/oauth/access_token', {
+      params: {
+        grant_type: 'fb_exchange_token',
+        client_id: 231991286544485,
+        client_secret: "12e2ba24cd779e8e1ed537556f4433cf",
+        fb_exchange_token: shortLivedToken,
+      },
+    });
+    const longLivedToken = response.data.access_token;
+    res.send(longLivedToken);
+})
 //subscription send mail
 app.post("/subscriptionemail", async (req, res) => {
   const { email,firstName,lastName,gender,title,address,date} = req.body;
