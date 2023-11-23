@@ -91,7 +91,7 @@ app.get("/exchangeToken/:tokenId",async(req,res)=>{
       },
     });
     // const longLivedToken = response.data.access_token;
-    res.send(response);
+    res.status(200).json({ longLivedToken });
 })
 //subscription send mail
 app.post("/subscriptionemail", async (req, res) => {
