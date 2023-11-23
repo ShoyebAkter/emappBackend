@@ -90,8 +90,8 @@ app.get("/exchangeToken/:tokenId",async(req,res)=>{
         fb_exchange_token: shortLivedToken,
       },
     });
-    const longLivedToken = response.data.access_token;
-    res.send(longLivedToken);
+    // const longLivedToken = response.data.access_token;
+    res.send(response);
 })
 //subscription send mail
 app.post("/subscriptionemail", async (req, res) => {
