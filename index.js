@@ -5,10 +5,10 @@ const axios = require('axios');
 const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
 app.use(express.json());
-// const corsOptions = {
-//   origin: [ 'http://localhost:5173','https://mp-app-eta.vercel.app'],
-// };
-app.use(cors());
+const corsOptions = {
+  origin: [ 'http://localhost:5173','https://mp-app-eta.vercel.app'],
+};
+app.use(cors(corsOptions));
 
 const dbName = 'emapp';
 const collectionName = 'orders';
