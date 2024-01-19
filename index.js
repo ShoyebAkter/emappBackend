@@ -6,7 +6,7 @@ const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
 app.use(express.json());
 const corsOptions = {
-  origin: ['https://mp-app-eta.vercel.app', 'http://localhost:5173'],
+  origin: ['https://www.eulermail.app/','https://mp-app-eta.vercel.app', 'http://localhost:5173'],
 };
 app.use(cors(corsOptions));
 
