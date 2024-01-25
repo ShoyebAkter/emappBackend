@@ -136,6 +136,20 @@ app.post("/eulermailUser",async(req,res)=>{
   const collection = db.collection("eulermailUser");
   const result = await collection.insertOne(userInfo);
 })
+app.get('/eulermailUser', async (req, res) => {
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("eulermailUser");
+
+    // Retrieve data from MongoDB
+    const data = await collection.find().toArray();
+
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching data from MongoDB:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 
 //post facebook post data
