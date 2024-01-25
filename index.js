@@ -124,6 +124,20 @@ app.post("/subscriptionemail", async (req, res) => {
   }
 
 })
+
+//post website user data
+app.post("/eulermailUser",async(req,res)=>{
+  const { uid,email } = req.body;
+  const userInfo = {
+    id: uid,
+    email:email
+  }
+  const db = client.db(dbName);
+  const collection = db.collection("eulermailUser");
+  const result = await collection.insertOne(userInfo);
+})
+
+
 //post facebook post data
 app.post("/fbpost",async(req,res)=>{
   const { id, imageUrl, message, date } = req.body;
