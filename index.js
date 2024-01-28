@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require('cors');
 const app = express();
+const bodyParser = require('body-parser');
 const axios = require('axios');
 const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
@@ -9,7 +10,7 @@ app.use(express.json());
 //   origin: ['https://www.eulermail.app/', 'http://localhost:5173'],
 // };
 app.use(cors());
-
+app.use(bodyParser.json());
 const dbName = 'emapp';
 const collectionName = 'orders';
 const client = new MongoClient("mongodb+srv://heroreal5385:wkS31RPP6IcBxWv1@cluster0.9zekpxe.mongodb.net/?retryWrites=true&w=majority");
@@ -124,6 +125,17 @@ app.post("/subscriptionemail", async (req, res) => {
   }
 
 })
+
+//post tracking data
+app.post('/collect', async(req, res) => {
+  const trackingData = req.body;
+  // Process and store trackingData as needed (e.g., save to a database)
+  console.log('Received tracking data:', trackingData);
+  const db = client.db(dbName);
+  const collection = db.collection("trackingData");
+  const result = await collection.insertOne(trackingData);
+  res.sendStatus(200);
+});
 
 //post website user data
 app.post("/eulermailUser",async(req,res)=>{
