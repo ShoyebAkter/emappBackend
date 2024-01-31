@@ -169,7 +169,7 @@ app.get('/salesAnalysis', async (req, res) => {
     const collection = db.collection("companyData");
 
     // Retrieve data from MongoDB
-    const data = await collection.find().toArray();
+    const data = await collection.find().limit(100).toArray();
 
     res.json(data);
   } catch (error) {
