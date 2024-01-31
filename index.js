@@ -167,9 +167,9 @@ app.get('/salesAnalysis', async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("companyData");
-
+    const projection = { Date_Billed: 1, Line_Item_Amount:1 };
     // Retrieve data from MongoDB
-    const data = await collection.find().limit(100).toArray();
+    const data = await collection.find().limit(1000).project(projection);
 
     res.json(data);
   } catch (error) {
