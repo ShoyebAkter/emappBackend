@@ -129,8 +129,7 @@ app.post("/subscriptionemail", async (req, res) => {
 //post tracking data
 app.post('/collect', async(req, res) => {
   const trackingData = req.body;
-  // Process and store trackingData as needed (e.g., save to a database)
-  console.log('Received tracking data:', trackingData);
+  
   const db = client.db(dbName);
   const collection = db.collection("trackingData");
   const result = await collection.insertOne(trackingData);
@@ -163,6 +162,21 @@ app.get('/eulermailUser', async (req, res) => {
   }
 });
 
+//get company data date and price only
+app.get('/salesAnalysis', async (req, res) => {
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("companyData");
+    const projection = { "Date Billed": 1,"Line Item Amount":1 };
+    // Retrieve data from MongoDB
+    const data = await collection.find().project(projection);
+
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching data from MongoDB:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 //post facebook post data
 app.post("/fbpost",async(req,res)=>{
