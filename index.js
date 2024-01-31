@@ -6,10 +6,10 @@ const axios = require('axios');
 const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
 app.use(express.json());
-const corsOptions = {
-  origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
+// };
+app.use(cors());
 app.use(bodyParser.json());
 const dbName = 'emapp';
 const collectionName = 'orders';
