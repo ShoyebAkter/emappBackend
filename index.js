@@ -163,13 +163,29 @@ app.get('/eulermailUser', async (req, res) => {
 });
 
 //get company data date and price only
-app.get('/salesAnalysis', async (req, res) => {
+// app.get('/salesAnalysis', async (req, res) => {
+//   try {
+//     const db = client.db(dbName);
+//     const collection = db.collection("companyData");
+
+//     // Retrieve data from MongoDB
+//     const data = await collection.find().limit(500).toArray();
+
+//     res.json(data);
+//   } catch (error) {
+//     console.error('Error fetching data from MongoDB:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
+//warehousepro sales api
+app.get('/warehousepro/sales', async (req, res) => {
   try {
     const db = client.db(dbName);
-    const collection = db.collection("companyData");
+    const collection = db.collection("warehouseproSales");
 
     // Retrieve data from MongoDB
-    const data = await collection.find().limit(500).toArray();
+    const data = await collection.find().toArray();
 
     res.json(data);
   } catch (error) {
