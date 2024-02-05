@@ -5,12 +5,12 @@ const bodyParser = require('body-parser');
 const axios = require('axios');
 const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
-const model = require('../clearData.csv');
+
 app.use(express.json());
-const corsOptions = {
-  origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
+// };
+app.use(cors());
 app.use(bodyParser.json());
 const dbName = 'emapp';
 const collectionName = 'orders';
@@ -187,8 +187,8 @@ app.get('/warehousepro/sales', async (req, res) => {
 
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-    const prediction = model.predict(data);
-    res.json({prediction});
+
+    res.json(data);
   } catch (error) {
     console.error('Error fetching data from MongoDB:', error);
     res.status(500).json({ error: 'Internal Server Error' });
