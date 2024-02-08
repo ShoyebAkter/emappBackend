@@ -226,6 +226,21 @@ app.get('/warehousepro/longevity', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+//warehousepro engaagement
+app.get('/warehousepro/engagement', async (req, res) => {
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("warehouseproEngagement");
+
+    // Retrieve data from MongoDB
+    const data = await collection.find().toArray();
+
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching data from MongoDB:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 //post facebook post data
 app.post("/fbpost",async(req,res)=>{
