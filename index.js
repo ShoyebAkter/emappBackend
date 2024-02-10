@@ -249,6 +249,22 @@ app.get("/warehousepro/engagement", async (req, res) => {
   }
 });
 
+//warehousepro product sales api
+app.get("/warehousepro/productSales", async (req, res) => {
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("warehouseproProductSales");
+
+    // Retrieve data from MongoDB
+    const data = await collection.find().toArray();
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching data from MongoDB:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 //post facebook post data
 app.post("/fbpost", async (req, res) => {
   const { id, uid, imageUrl, message, date } = req.body;
