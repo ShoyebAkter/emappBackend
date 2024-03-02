@@ -375,6 +375,21 @@ app.get("/warehousepro/cohort", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+//active cohort
+app.get("/warehousepro/activeCohort", async (req, res) => {
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("warehouseproActiveCohort");
+
+    // Retrieve data from MongoDB
+    const data = await collection.find().toArray();
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching data from MongoDB:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 //warehousepro main data
 app.get("/warehousepro/mainData", async (req, res) => {
   try {
