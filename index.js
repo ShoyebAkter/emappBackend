@@ -7,10 +7,10 @@ const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
 const generatePasswordResetLink = require('./generatePasswordResetLink');
 
-// const corsOptions = {
-//   origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
-// };
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:5173/'
+};
+app.use(cors(corsOptions));
 const dbName = "emapp";
 const collectionName = "orders";
 const client = new MongoClient(
