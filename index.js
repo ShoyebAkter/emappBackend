@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
-const generatePasswordResetLink = require('./generatePasswordResetLink');
 
 // const corsOptions = {
 //   origin: ['https://www.eulermail.app/','http://localhost:5173/', ],
