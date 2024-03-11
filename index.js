@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
-
+const generatePasswordResetLink = require('./generatePasswordResetLink');
 app.use(express.json());
 // const corsOptions = {
 //   origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
@@ -133,36 +133,15 @@ app.post("/subscriptionemail", async (req, res) => {
     console.log(error);
   }
 });
-app.post("/resetLink", async (req, res) => {
-  const { email, link } = req.body;
-  // console.log(req.body);
-  try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      port: 587,
-      secure: false, // upgrade later with STARTTLS
-      auth: {
-        user: "heroreal5385@gmail.com",
-        pass: "aoizlhcmetfllfiv",
-      },
+app.post('/generatePasswordResetLink', (req, res) => {
+  const { email } = req.body;
+  generatePasswordResetLink(email)
+    .then(resetLink => {
+      res.json({ resetLink });
+    })
+    .catch(error => {
+      res.status(500).json({ error: 'Error generating password reset link' });
     });
-    const mailOptions = {
-      from: "heroreal5385@gmail.com",
-      to: email,
-      subject: "Password Reset Link",
-      html: `<div>
-      <div>Here is your password reset link</div>
-      <p>${link}</p>
-      </div>`,
-    };
-    transporter.sendMail(
-      mailOptions,
-      (error) => error && console.log("error", error)
-    );
-    res.status(200).json({ message: "Email sent successfully." });
-  } catch (error) {
-    console.log(error);
-  }
 });
 
 //post tracking data
