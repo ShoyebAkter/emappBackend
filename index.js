@@ -140,7 +140,8 @@ app.post("/subscriptionemail", async (req, res) => {
 app.post('/generatePasswordResetLink', (req, res) => {
   const userEmail = req.body.email;// Optional
 
-  admin.auth().generatePasswordResetLink(userEmail); 
+  const link=admin.auth().generatePasswordResetLink(userEmail);
+  res.json({link:link}) 
 });
 
 
