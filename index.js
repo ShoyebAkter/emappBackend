@@ -140,35 +140,7 @@ app.post("/subscriptionemail", async (req, res) => {
 app.post('/generatePasswordResetLink', (req, res) => {
   const userEmail = req.body.email;// Optional
 
-  const actionCodeSettings = {
-    // URL you want to redirect back to. The domain (www.example.com) for
-    // this URL must be whitelisted in the Firebase Console.
-    url: 'https://www.eulermail.app/login',
-    // This must be true for email link sign-in.
-    handleCodeInApp: true,
-    iOS: {
-      bundleId: 'com.example.ios',
-    },
-    android: {
-      packageName: 'com.example.android',
-      installApp: true,
-      minimumVersion: '12',
-    },
-    // FDL custom domain.
-    dynamicLinkDomain: 'coolapp.page.link',
-  };
-
-  admin.auth().generatePasswordResetLink(userEmail, actionCodeSettings)
-    .then((link) => {
-      res.json({link})
-    })
-    .then(() => {
-      res.status(200).json({ message: 'Password reset email sent successfully' });
-    })
-    .catch((error) => {
-      console.error('Error generating or sending password reset email:', error);
-      res.status(500).json({ error: 'An error occurred while processing your request' });
-    });
+  admin.auth().generatePasswordResetLink(userEmail); 
 });
 
 
