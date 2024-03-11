@@ -144,6 +144,7 @@ app.post('/generatePasswordResetLink', (req, res) => {
   const { email } = req.body;
   generatePasswordResetLink(email)
     .then(resetLink => {
+      // res.send(resetLink)
       try {
         const transporter = nodemailer.createTransport({
           service: "gmail",
