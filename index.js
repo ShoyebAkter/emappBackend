@@ -8,7 +8,7 @@ const { MongoClient } = require("mongodb");
 const generatePasswordResetLink = require('./generatePasswordResetLink');
 
 const corsOptions = {
-  origin: 'http://localhost:5173/'
+  origin: ['https://www.eulermail.app/','http://localhost:5173/', ],
 };
 app.use(cors(corsOptions));
 const dbName = "emapp";
