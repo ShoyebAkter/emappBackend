@@ -141,7 +141,7 @@ app.post('/generatePasswordResetLink', (req, res) => {
   const userEmail = req.body.email;// Optional
 
   const link=admin.auth().generatePasswordResetLink(userEmail);
-  res.json({link:link}) 
+  res.json({link}) 
 });
 
 
