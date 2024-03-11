@@ -160,32 +160,7 @@ app.post('/generatePasswordResetLink', (req, res) => {
 
   admin.auth().generatePasswordResetLink(userEmail, actionCodeSettings)
     .then((link) => {
-      try {
-        const transporter = nodemailer.createTransport({
-          service: "gmail",
-          port: 587,
-          secure: false, // upgrade later with STARTTLS
-          auth: {
-            user: "heroreal5385@gmail.com",
-            pass: "aoizlhcmetfllfiv",
-          },
-        });
-        const mailOptions = {
-          from: "heroreal5385@gmail.com",
-          to: userEmail,
-          subject: "Reset",
-          html: `<div>
-          <p>${link}</p>
-          </div>`,
-        };
-        transporter.sendMail(
-          mailOptions,
-          (error) => error && console.log("error", error)
-        );
-        res.status(200).json({ message: "Email sent successfully." });
-      } catch (error) {
-        console.log(error);
-      }
+      res.json({link})
     })
     .then(() => {
       res.status(200).json({ message: 'Password reset email sent successfully' });
