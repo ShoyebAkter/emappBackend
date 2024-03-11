@@ -6,9 +6,10 @@ const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
 const admin = require('firebase-admin');
-
-// Initialize Firebase Admin SDK
-admin.initializeApp();
+var serviceAccount = require("./serviceAccountKey.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 
 // const corsOptions = {
@@ -20,10 +21,6 @@ const collectionName = "orders";
 const client = new MongoClient(
   "mongodb+srv://heroreal5385:wkS31RPP6IcBxWv1@cluster0.9zekpxe.mongodb.net/?retryWrites=true&w=majority"
 );
-// Function to generate password reset link
-function generatePasswordResetLink(userEmail) {
-  return admin.auth().generatePasswordResetLink(userEmail);
-}
 
 async function connectToMongo() {
   try {
@@ -141,10 +138,28 @@ app.post("/subscriptionemail", async (req, res) => {
   }
 });
 app.post('/generatePasswordResetLink', (req, res) => {
-  const { email } = req.body;
-  generatePasswordResetLink(email)
-    .then(resetLink => {
-      // res.send(resetLink)
+  const userEmail = req.body.email;// Optional
+
+  const actionCodeSettings = {
+    // URL you want to redirect back to. The domain (www.example.com) for
+    // this URL must be whitelisted in the Firebase Console.
+    url: 'https://www.eulermail.app/login',
+    // This must be true for email link sign-in.
+    handleCodeInApp: true,
+    iOS: {
+      bundleId: 'com.example.ios',
+    },
+    android: {
+      packageName: 'com.example.android',
+      installApp: true,
+      minimumVersion: '12',
+    },
+    // FDL custom domain.
+    dynamicLinkDomain: 'coolapp.page.link',
+  };
+
+  admin.auth().generatePasswordResetLink(userEmail, actionCodeSettings)
+    .then((link) => {
       try {
         const transporter = nodemailer.createTransport({
           service: "gmail",
@@ -157,11 +172,10 @@ app.post('/generatePasswordResetLink', (req, res) => {
         });
         const mailOptions = {
           from: "heroreal5385@gmail.com",
-          to: email,
-          subject: "Reset Link",
+          to: userEmail,
+          subject: "Reset",
           html: `<div>
-          <div>Your password reset link</div>
-          <p>${resetLink}</p>
+          <p>${link}</p>
           </div>`,
         };
         transporter.sendMail(
@@ -173,10 +187,15 @@ app.post('/generatePasswordResetLink', (req, res) => {
         console.log(error);
       }
     })
-    .catch(error => {
-      res.status(500).json({ error: 'Error generating password reset link' });
+    .then(() => {
+      res.status(200).json({ message: 'Password reset email sent successfully' });
+    })
+    .catch((error) => {
+      console.error('Error generating or sending password reset email:', error);
+      res.status(500).json({ error: 'An error occurred while processing your request' });
     });
 });
+
 
 //post tracking data
 app.post("/collect", async (req, res) => {
