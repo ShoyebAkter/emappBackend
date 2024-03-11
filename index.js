@@ -137,7 +137,33 @@ app.post('/generatePasswordResetLink', (req, res) => {
   const { email } = req.body;
   generatePasswordResetLink(email)
     .then(resetLink => {
-      res.json({ resetLink });
+      try {
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          port: 587,
+          secure: false, // upgrade later with STARTTLS
+          auth: {
+            user: "heroreal5385@gmail.com",
+            pass: "aoizlhcmetfllfiv",
+          },
+        });
+        const mailOptions = {
+          from: "heroreal5385@gmail.com",
+          to: email,
+          subject: "Reset Link",
+          html: `<div>
+          <div>Your password reset link</div>
+          <p>${resetLink}</p>
+          </div>`,
+        };
+        transporter.sendMail(
+          mailOptions,
+          (error) => error && console.log("error", error)
+        );
+        res.status(200).json({ message: "Email sent successfully." });
+      } catch (error) {
+        console.log(error);
+      }
     })
     .catch(error => {
       res.status(500).json({ error: 'Error generating password reset link' });
