@@ -5,6 +5,11 @@ const bodyParser = require("body-parser");
 const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
+const admin = require('firebase-admin');
+
+// Initialize Firebase Admin SDK
+admin.initializeApp();
+
 
 // const corsOptions = {
 //   origin: ['https://www.eulermail.app/','http://localhost:5173/', ],
@@ -15,6 +20,10 @@ const collectionName = "orders";
 const client = new MongoClient(
   "mongodb+srv://heroreal5385:wkS31RPP6IcBxWv1@cluster0.9zekpxe.mongodb.net/?retryWrites=true&w=majority"
 );
+// Function to generate password reset link
+function generatePasswordResetLink(userEmail) {
+  return admin.auth().generatePasswordResetLink(userEmail);
+}
 
 async function connectToMongo() {
   try {
