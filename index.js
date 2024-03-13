@@ -16,6 +16,7 @@ admin.initializeApp({
 //   origin: ['https://www.eulermail.app/','http://localhost:5173/', ],
 // };
 app.use(cors());
+app.use(express.json());
 const dbName = "emapp";
 const collectionName = "orders";
 const client = new MongoClient(
@@ -137,11 +138,11 @@ app.post("/subscriptionemail", async (req, res) => {
     console.log(error);
   }
 });
-app.post('/generatePasswordResetLink', (req, res) => {
-  const userEmail = req.body.email;// Optional
-
-  const link=admin.auth().generatePasswordResetLink(userEmail);
-  res.json({link}) 
+app.post("/passwordReset", async(req, res) => {
+  const {email}=req.body;
+  const link=await admin.auth().generatePasswordResetLink(email);
+  
+  res.json({link:link}) 
 });
 
 
