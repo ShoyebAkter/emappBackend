@@ -17,13 +17,6 @@ admin.initializeApp({
 //   origin: 'http://localhost:5173/',
 // };
 app.use(cors());
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-});
 app.use(express.json());
 const dbName = "emapp";
 const collectionName = "orders";
@@ -151,7 +144,7 @@ app.post("/passwordReset", async(req, res) => {
   const {email}=req.body;
   try{
     const link=await admin.auth().generatePasswordResetLink(email);
-  console.log(link)
+
     res.json({link:link}) 
   }catch(error){
     console.log(error)
