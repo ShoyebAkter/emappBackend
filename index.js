@@ -1,42 +1,21 @@
 const express = require("express");
 const cors = require("cors");
-const jwt = require('jsonwebtoken');
+const app = express();
 const bodyParser = require("body-parser");
 const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
-const admin = require('firebase-admin');
-var serviceAccount = require("./serviceAccountKey.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
-
-const app = express();
-const corsOptions = {
-  origin: ['https://www.eulermail.app/','http://localhost:5173/' ],
-};
-app.use(cors(corsOptions));
 app.use(express.json());
-app.use(bodyParser.json()); 
+// const corsOptions = {
+//   origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
+// };
+app.use(cors());
+app.use(bodyParser.json());
 const dbName = "emapp";
 const collectionName = "orders";
 const client = new MongoClient(
   "mongodb+srv://heroreal5385:wkS31RPP6IcBxWv1@cluster0.9zekpxe.mongodb.net/?retryWrites=true&w=majority"
 );
-function verifyJWT(req, res, next) {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) {
-    return res.status(401).send({ message: 'UnAuthorized access' });
-  }
-  const token = authHeader.split(' ')[1];
-  jwt.verify(token, process.env.ACCESS_TOKEN, function (err, decoded) {
-    if (err) {
-      return res.status(403).send({ message: 'Forbidden access' })
-    }
-    req.decoded = decoded;
-    next();
-  });
-}
 async function connectToMongo() {
   try {
     client.connect();
@@ -46,11 +25,9 @@ async function connectToMongo() {
   }
 }
 connectToMongo();
-
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
-
 app.post("/sendemail", async (req, res) => {
   const { emails, message, subject, imageUrl, uid, date, campaignType } =
     req.body;
@@ -101,9 +78,7 @@ app.post("/sendserveremail", async (req, res) => {
     console.log(error);
   }
 });
-
 //exchange tokens
-
 app.get("/exchangeToken/:tokenId", async (req, res) => {
   const shortLivedToken = req.params.tokenId;
   const response = await axios.get(
@@ -153,29 +128,14 @@ app.post("/subscriptionemail", async (req, res) => {
     console.log(error);
   }
 });
-app.post("/passwordReset", async(req, res) => {
-  const {email}=req.body;
-  try{
-    const link=await admin.auth().generatePasswordResetLink(email);
-
-    res.json({link:link}) 
-  }catch(error){
-    console.log(error)
-  }
-  
-});
-
-
 //post tracking data
 app.post("/collect", async (req, res) => {
   const trackingData = req.body;
-
   const db = client.db(dbName);
   const collection = db.collection("trackingData");
   const result = await collection.insertOne(trackingData);
   res.sendStatus(200);
 });
-
 //post website user data
 app.post("/eulermailUser", async (req, res) => {
   const { uid, email } = req.body;
@@ -186,91 +146,65 @@ app.post("/eulermailUser", async (req, res) => {
   const db = client.db(dbName);
   const collection = db.collection("eulermailUser");
   const result = await collection.insertOne(userInfo);
-  
-  
 });
 app.get("/eulermailUser", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("eulermailUser");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-    
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-app.get("/accessToken/:email", async (req, res) => {
-  try {
-    const email=req.params.email
-    const token = jwt.sign({ email: email },"GlKENSfqinxZHkbBYDxEWOLBRtdFmYOFCSNIEKlevZUxyHsuJEStpiYrlLHOcELHCIzxDEjoAaRWStVmnuoSTHsQdkzvgVeCDqgN", { expiresIn: '1h' })
-  res.send({  token });
-  } catch (error) {
-    console.error("Error fetching data from MongoDB:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 //get company data date and price only
 // app.get('/salesAnalysis', async (req, res) => {
 //   try {
 //     const db = client.db(dbName);
 //     const collection = db.collection("companyData");
-
 //     // Retrieve data from MongoDB
 //     const data = await collection.find().limit(500).toArray();
-
 //     res.json(data);
 //   } catch (error) {
 //     console.error('Error fetching data from MongoDB:', error);
 //     res.status(500).json({ error: 'Internal Server Error' });
 //   }
 // });
-
 //warehousepro sales api
 app.get("/warehousepro/sales", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproSales");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 //warehousepro order api
 app.get("/warehousepro/orders", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproOrder");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 //warehousepro longevity api
 app.get("/warehousepro/longevity", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproLongevity");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
@@ -282,122 +216,99 @@ app.get("/warehousepro/engagement", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproEngagement");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 //warehousepro product sales api
 app.get("/warehousepro/productSales", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproProductSales");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 //warehousepro above 75percent api
 app.get("/warehousepro/percentSales", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproPercentageSale");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 //warehousepro small clients api
 app.get("/warehousepro/smallClient", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproSmallClient");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 //warehousepro client category
 app.get("/warehousepro/clientCategory", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproClientCategory");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 //warehousepro client country
 app.get("/warehousepro/clientCountry", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproClientCountry");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 //warehousepro prediction
 app.get("/warehousepro/prediction", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproPredict");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 //warehousepro heatmap
 app.get("/warehousepro/heatmap", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproHeatMap");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
@@ -409,10 +320,8 @@ app.get("/warehousepro/cohort", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproCohortData");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
@@ -439,10 +348,8 @@ app.get("/warehousepro/activeCohort", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproActiveCohort");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
@@ -454,25 +361,8 @@ app.get("/warehousepro/mainData", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproMainData");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
-    res.json(data);
-  } catch (error) {
-    console.error("Error fetching data from MongoDB:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-//warehouse pro json data
-app.get("/warehousepro/jsonData", async (req, res) => {
-  try {
-    const db = client.db(dbName);
-    const collection = db.collection("warehouseproJsonData");
-
-    // Retrieve data from MongoDB
-    const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
@@ -484,10 +374,8 @@ app.get("/warehousepro/stateData", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("warehouseproStateData");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
@@ -508,7 +396,6 @@ app.post("/fbpost", async (req, res) => {
   const collection = db.collection("fbPostsData");
   const result = await collection.insertOne(fbInfo);
 });
-
 //whatsapp campaign api
 app.post("/whatsapp", async (req, res) => {
   const { uid, campaignType, message, number } = req.body;
@@ -521,7 +408,6 @@ app.post("/whatsapp", async (req, res) => {
   const db = client.db(dbName);
   const collection = db.collection("whatsAppCampaign");
   const result = await collection.insertOne(whatsAppOptions);
-
   res.send(result);
 });
 app.post("/images", async (req, res) => {
@@ -529,19 +415,15 @@ app.post("/images", async (req, res) => {
   const db = client.db(dbName);
   const collection = db.collection("images");
   const result = await collection.insertOne(formData);
-
   res.send(result);
 });
-
 //API
 app.get("/api/data", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
@@ -551,7 +433,6 @@ app.get("/api/data", async (req, res) => {
 //get facebook data
 app.get("/fbpost/:id", async (req, res) => {
   try {
-
     const id = req.params.id;
     const db = client.db(dbName);
     const collection = db.collection("fbPostsData");
@@ -565,14 +446,12 @@ app.get("/fbpost/:id", async (req, res) => {
   }
 });
 //customers data api
-app.get("/api/customerdata",verifyJWT, async (req, res) => {
+app.get("/api/customerdata", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("customer");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
@@ -604,33 +483,27 @@ app.get("/sales", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("sales");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 //users data api
 app.get("/users", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("users");
-
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-    
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 app.listen(5000, () => {
   console.log("app running at 5000");
   // console.log(newUsersArrayWithCountry);
