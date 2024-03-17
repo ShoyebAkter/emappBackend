@@ -12,11 +12,11 @@ admin.initializeApp({
 });
 
 
-const corsOptions = {
-  // origin: ['https://www.eulermail.app/','http://localhost:5173/', ],
-  origin: 'http://localhost:5173/',
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   // origin: ['https://www.eulermail.app/','http://localhost:5173/', ],
+//   origin: 'http://localhost:5173/',
+// };
+app.use(cors());
 app.use(express.json());
 const dbName = "emapp";
 const collectionName = "orders";
