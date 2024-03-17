@@ -17,6 +17,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(bodyParser.json()); 
 const dbName = "emapp";
 const collectionName = "orders";
 const client = new MongoClient(
