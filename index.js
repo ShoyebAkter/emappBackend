@@ -142,7 +142,7 @@ app.post("/passwordReset", async(req, res) => {
   const {email}=req.body;
   try{
     const link=await admin.auth().generatePasswordResetLink(email);
-  
+  console.log(link)
     res.json({link:link}) 
   }catch(error){
     console.log(error)
