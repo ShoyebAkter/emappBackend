@@ -13,7 +13,8 @@ admin.initializeApp({
 
 
 const corsOptions = {
-  origin: ['https://www.eulermail.app/','http://localhost:5173/', ],
+  // origin: ['https://www.eulermail.app/','http://localhost:5173/', ],
+  origin: 'http://localhost:5173/',
 };
 app.use(cors(corsOptions));
 app.use(express.json());
