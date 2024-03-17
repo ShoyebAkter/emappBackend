@@ -12,11 +12,10 @@ admin.initializeApp({
 });
 
 const app = express();
-// const corsOptions = {
-//   // origin: ['https://www.eulermail.app/','http://localhost:5173/', ],
-//   origin: 'http://localhost:5173/',
-// };
-app.use(cors());
+const corsOptions = {
+  origin: ['https://www.eulermail.app/','http://localhost:5173/' ],
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 const dbName = "emapp";
 const collectionName = "orders";
@@ -186,6 +185,8 @@ app.post("/eulermailUser", async (req, res) => {
   const db = client.db(dbName);
   const collection = db.collection("eulermailUser");
   const result = await collection.insertOne(userInfo);
+  
+  
 });
 app.get("/eulermailUser", async (req, res) => {
   try {
@@ -194,8 +195,18 @@ app.get("/eulermailUser", async (req, res) => {
 
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
+    
     res.json(data);
+  } catch (error) {
+    console.error("Error fetching data from MongoDB:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+app.get("/accessToken/:email", async (req, res) => {
+  try {
+    const email=req.params.email
+    const token = jwt.sign({ email: email },"GlKENSfqinxZHkbBYDxEWOLBRtdFmYOFCSNIEKlevZUxyHsuJEStpiYrlLHOcELHCIzxDEjoAaRWStVmnuoSTHsQdkzvgVeCDqgN", { expiresIn: '1h' })
+  res.send({  token });
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -611,7 +622,7 @@ app.get("/users", async (req, res) => {
 
     // Retrieve data from MongoDB
     const data = await collection.find().toArray();
-
+    
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
