@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const app = express();
+const jwt = require('jsonwebtoken');
 const bodyParser = require("body-parser");
 const axios = require("axios");
 const nodemailer = require("nodemailer");
@@ -11,7 +11,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-
+const app = express();
 // const corsOptions = {
 //   // origin: ['https://www.eulermail.app/','http://localhost:5173/', ],
 //   origin: 'http://localhost:5173/',
@@ -23,7 +23,20 @@ const collectionName = "orders";
 const client = new MongoClient(
   "mongodb+srv://heroreal5385:wkS31RPP6IcBxWv1@cluster0.9zekpxe.mongodb.net/?retryWrites=true&w=majority"
 );
-
+function verifyJWT(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).send({ message: 'UnAuthorized access' });
+  }
+  const token = authHeader.split(' ')[1];
+  jwt.verify(token, process.env.ACCESS_TOKEN, function (err, decoded) {
+    if (err) {
+      return res.status(403).send({ message: 'Forbidden access' })
+    }
+    req.decoded = decoded;
+    next();
+  });
+}
 async function connectToMongo() {
   try {
     client.connect();
@@ -540,7 +553,7 @@ app.get("/fbpost/:id", async (req, res) => {
   }
 });
 //customers data api
-app.get("/api/customerdata", async (req, res) => {
+app.get("/api/customerdata",verifyJWT, async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection("customer");
