@@ -1,5 +1,5 @@
 const express = require("express");
-const cors = require("cors");
+const cors = require("cors")({ origin: true });
 const app = express();
 const bodyParser = require("body-parser");
 const axios = require("axios");
@@ -23,6 +23,21 @@ const collectionName = "orders";
 const client = new MongoClient(
   "mongodb+srv://heroreal5385:wkS31RPP6IcBxWv1@cluster0.9zekpxe.mongodb.net/?retryWrites=true&w=majority"
 );
+
+function verifyJWT(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).send({ message: 'UnAuthorized access' });
+  }
+  const token = authHeader.split(' ')[1];
+  jwt.verify(token, "GlKENSfqinxZHkbBYDxEWOLBRtdFmYOFCSNIEKlevZUxyHsuJEStpiYrlLHOcELHCIzxDEjoAaRWStVmnuoSTHsQdkzvgVeCDqgN", function (err, decoded) {
+    if (err) {
+      return res.status(403).send({ message: 'Forbidden access' })
+    }
+    req.decoded = decoded;
+    next();
+  });
+}
 async function connectToMongo() {
   try {
     client.connect();
@@ -135,7 +150,7 @@ app.post("/subscriptionemail", async (req, res) => {
     console.log(error);
   }
 });
-app.post("/passwordReset", async(req, res) => {
+app.post("/passwordReset",verifyJWT, async(req, res) => {
   const {email}=req.body;
   try{
     const link=await admin.auth().generatePasswordResetLink(email);
