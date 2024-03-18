@@ -5,6 +5,13 @@ const bodyParser = require("body-parser");
 const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
+
+const admin = require('firebase-admin');
+var serviceAccount = require("./serviceAccountKey.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
 app.use(express.json());
 // const corsOptions = {
 //   origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
@@ -127,6 +134,17 @@ app.post("/subscriptionemail", async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+});
+app.post("/passwordReset", async(req, res) => {
+  const {email}=req.body;
+  try{
+    const link=await admin.auth().generatePasswordResetLink(email);
+
+    res.json({link:link}) 
+  }catch(error){
+    console.log(error)
+  }
+  
 });
 //post tracking data
 app.post("/collect", async (req, res) => {
