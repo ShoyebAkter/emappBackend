@@ -402,6 +402,20 @@ app.get("/warehousepro/mainData", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+app.get("/warehousepro/jsonData", async (req, res) => {
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("warehouseproJsonData");
+
+    // Retrieve data from MongoDB
+    const data = await collection.find().toArray();
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching data from MongoDB:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 //warehousepro state data
 app.get("/warehousepro/stateData", async (req, res) => {
   try {
