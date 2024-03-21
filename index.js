@@ -180,6 +180,20 @@ app.post("/eulermailUser", async (req, res) => {
   const collection = db.collection("eulermailUser");
   const result = await collection.insertOne(userInfo);
 });
+//post shopify data
+app.post("/shopify/info", async (req, res) => {
+  const { url,adminApi, apiKey,companyName,email } = req.body;
+  const shopifyInfo = {
+    url:url,
+    adminApi:adminApi,
+    apiKey:apiKey,
+    companyName:companyName,
+    email:email
+  };
+  const db = client.db(dbName);
+  const collection = db.collection("shopifyInfo");
+  await collection.insertOne(shopifyInfo);
+});
 app.get("/eulermailUser", async (req, res) => {
   try {
     const db = client.db(dbName);
