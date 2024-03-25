@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const request=require("request")
 const bodyParser = require("body-parser");
 const axios = require("axios");
 const nodemailer = require("nodemailer");
@@ -194,6 +195,40 @@ app.post("/shopify/info", async (req, res) => {
   const collection = db.collection("shopifyInfo");
   await collection.insertOne(shopifyInfo);
 });
+//get shopify data
+app.get("/shopify/data", async (req, res) => {
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("shopifyInfo");
+    // Retrieve data from MongoDB
+    const data = await collection.find().toArray();
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching data from MongoDB:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+//get shopify store data
+app.get("/shopify/storeData", async (req, res) => {
+  try {
+    const {adminApi, apikey,   storeUrl} = req.query; // Access query parameters using req.query
+    let option = {
+      method: "GET",
+      url: `https://${apikey}:${adminApi}@${storeUrl}admin/api/2022-10/products.json`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    request(option, function (error, response) {
+      if (error) throw new Error(error);
+      res.send(response.body);
+    });
+  } catch (error) {
+    console.error("Error fetching data from Shopify:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.get("/eulermailUser", async (req, res) => {
   try {
     const db = client.db(dbName);
