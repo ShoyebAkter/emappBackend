@@ -134,7 +134,7 @@ app.post("/signUpEmail", async (req, res) => {
     });
     const mailOptions = {
       from: "heroreal5385@gmail.com",
-      to: email,
+      to: `${email}`,
       subject: "Login Credential",
       html: `<div>
       <div>${email} This is your Login Email</div>
