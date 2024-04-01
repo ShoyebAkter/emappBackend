@@ -240,25 +240,25 @@ app.get("/shopify/data", async (req, res) => {
   }
 });
 //get shopify store data
-app.get("/shopify/storeData", async (req, res) => {
-  try {
-    const {adminApi, apikey,   storeUrl} = req.query; // Access query parameters using req.query
-    let option = {
-      method: "GET",
-      url: `https://${apikey}:${adminApi}@${storeUrl}admin/api/2022-10/products.json`,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    request(option, function (error, response) {
-      if (error) throw new Error(error);
-      res.send(response.body);
-    });
-  } catch (error) {
-    console.error("Error fetching data from Shopify:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+// app.get("/shopify/storeData", async (req, res) => {
+//   try {
+//     const {adminApi, apikey,   storeUrl} = req.query; // Access query parameters using req.query
+//     let option = {
+//       method: "GET",
+//       url: `https://${apikey}:${adminApi}@${storeUrl}admin/api/2022-10/products.json`,
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     };
+//     request(option, function (error, response) {
+//       if (error) throw new Error(error);
+//       res.send(response.body);
+//     });
+//   } catch (error) {
+//     console.error("Error fetching data from Shopify:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 app.get("/eulermailUser", async (req, res) => {
   try {
