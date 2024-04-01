@@ -14,10 +14,10 @@ admin.initializeApp({
 });
 
 app.use(express.json());
-const corsOptions = {
-  origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
+// };
+app.use(cors());
 app.use(bodyParser.json());
 const dbName = "emapp";
 const collectionName = "orders";
@@ -151,37 +151,37 @@ app.post("/subscriptionemail", async (req, res) => {
     console.log(error);
   }
 });
-app.post("/signUpEmail", async (req, res) => {
-  const { email, password } = req.body;
-  // console.log(req.body);
-  try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      port: 587,
-      secure: false, // upgrade later with STARTTLS
-      auth: {
-        user: "heroreal5385@gmail.com",
-        pass: "aoizlhcmetfllfiv",
-      },
-    });
-    const mailOptions = {
-      from: "heroreal5385@gmail.com",
-      to: email,
-      subject: "Login Credential",
-      html: `<div>
-      <p>This is your email : ${email}</p>
-      <p>This is your password for eulerMail: ${password}</p>
-      </div>`,
-    };
-    transporter.sendMail(
-      mailOptions,
-      (error) => error && console.log("error", error)
-    );
-    res.status(200).json({ message: "Email sent successfully." });
-  } catch (error) {
-    console.log(error);
-  }
-});
+// app.post("/signUpEmail", async (req, res) => {
+//   const { email, password } = req.body;
+//   // console.log(req.body);
+//   try {
+//     const transporter = nodemailer.createTransport({
+//       service: "gmail",
+//       port: 587,
+//       secure: false, // upgrade later with STARTTLS
+//       auth: {
+//         user: "heroreal5385@gmail.com",
+//         pass: "aoizlhcmetfllfiv",
+//       },
+//     });
+//     const mailOptions = {
+//       from: "heroreal5385@gmail.com",
+//       to: email,
+//       subject: "Login Credential",
+//       html: `<div>
+//       <p>This is your email : ${email}</p>
+//       <p>This is your password for eulerMail: ${password}</p>
+//       </div>`,
+//     };
+//     transporter.sendMail(
+//       mailOptions,
+//       (error) => error && console.log("error", error)
+//     );
+//     res.status(200).json({ message: "Email sent successfully." });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 app.post("/passwordReset", async(req, res) => {
   const {email}=req.body;
   try{
