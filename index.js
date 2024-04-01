@@ -14,10 +14,10 @@ admin.initializeApp({
 });
 
 app.use(express.json());
-// const corsOptions = {
-//   origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
-// };
-app.use(cors());
+const corsOptions = {
+  origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 const dbName = "emapp";
 const collectionName = "orders";
