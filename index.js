@@ -8,16 +8,16 @@ const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
 
 const admin = require('firebase-admin');
-// var serviceAccount = require("./serviceAccountKey.json");
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount)
-// });
+var serviceAccount = require("./serviceAccountKey.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 app.use(express.json());
-const corsOptions = {
-  origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
+// };
+app.use(cors());
 app.use(bodyParser.json());
 const dbName = "emapp";
 const collectionName = "orders";
@@ -151,37 +151,7 @@ app.post("/subscriptionemail", async (req, res) => {
     console.log(error);
   }
 });
-// app.post("/signUpEmail", async (req, res) => {
-//   const { email, password } = req.body;
-//   // console.log(req.body);
-//   try {
-//     const transporter = nodemailer.createTransport({
-//       service: "gmail",
-//       port: 587,
-//       secure: false, // upgrade later with STARTTLS
-//       auth: {
-//         user: "heroreal5385@gmail.com",
-//         pass: "aoizlhcmetfllfiv",
-//       },
-//     });
-//     const mailOptions = {
-//       from: "heroreal5385@gmail.com",
-//       to: email,
-//       subject: "Login Credential",
-//       html: `<div>
-//       <p>This is your email : ${email}</p>
-//       <p>This is your password for eulerMail: ${password}</p>
-//       </div>`,
-//     };
-//     transporter.sendMail(
-//       mailOptions,
-//       (error) => error && console.log("error", error)
-//     );
-//     res.status(200).json({ message: "Email sent successfully." });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+
 app.post("/passwordReset", async(req, res) => {
   const {email}=req.body;
   try{
@@ -240,25 +210,25 @@ app.get("/shopify/data", async (req, res) => {
   }
 });
 //get shopify store data
-// app.get("/shopify/storeData", async (req, res) => {
-//   try {
-//     const {adminApi, apikey,   storeUrl} = req.query; // Access query parameters using req.query
-//     let option = {
-//       method: "GET",
-//       url: `https://${apikey}:${adminApi}@${storeUrl}admin/api/2022-10/products.json`,
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     };
-//     request(option, function (error, response) {
-//       if (error) throw new Error(error);
-//       res.send(response.body);
-//     });
-//   } catch (error) {
-//     console.error("Error fetching data from Shopify:", error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
+app.get("/shopify/storeData", async (req, res) => {
+  try {
+    const {adminApi, apikey,   storeUrl} = req.query; // Access query parameters using req.query
+    let option = {
+      method: "GET",
+      url: `https://${apikey}:${adminApi}@${storeUrl}admin/api/2022-10/products.json`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    request(option, function (error, response) {
+      if (error) throw new Error(error);
+      res.send(response.body);
+    });
+  } catch (error) {
+    console.error("Error fetching data from Shopify:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 app.get("/eulermailUser", async (req, res) => {
   try {
