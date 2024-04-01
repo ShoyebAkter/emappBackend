@@ -8,10 +8,10 @@ const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
 
 const admin = require('firebase-admin');
-var serviceAccount = require("./serviceAccountKey.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+// var serviceAccount = require("./serviceAccountKey.json");
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount)
+// });
 
 app.use(express.json());
 const corsOptions = {
