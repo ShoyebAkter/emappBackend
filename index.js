@@ -118,6 +118,38 @@ app.get("/exchangeToken/:tokenId", async (req, res) => {
   // const longLivedToken = response.data.access_token;
   res.status(200).json({ longLivedToken });
 });
+//signup send mail
+app.post("/signUpEmail", async (req, res) => {
+  const { email,password } = req.body;
+  // console.log(req.body);
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      port: 587,
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+        user: "heroreal5385@gmail.com",
+        pass: "aoizlhcmetfllfiv",
+      },
+    });
+    const mailOptions = {
+      from: "heroreal5385@gmail.com",
+      to: email,
+      subject: "Login Credential",
+      html: `<div>
+      <div>${email} This is your Login Email</div>
+      <p>${password} This isyour password</p>
+      </div>`,
+    };
+    transporter.sendMail(
+      mailOptions,
+      (error) => error && console.log("error", error)
+    );
+    res.status(200).json({ message: "Email sent successfully." });
+  } catch (error) {
+    console.log(error);
+  }
+});
 //subscription send mail
 app.post("/subscriptionemail", async (req, res) => {
   const { email, firstName, lastName, gender, title, address, date } = req.body;
