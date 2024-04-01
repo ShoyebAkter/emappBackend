@@ -151,7 +151,6 @@ app.post("/subscriptionemail", async (req, res) => {
     console.log(error);
   }
 });
-
 app.post("/passwordReset", async(req, res) => {
   const {email}=req.body;
   try{
