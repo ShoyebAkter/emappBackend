@@ -121,7 +121,7 @@ app.get("/exchangeToken/:tokenId", async (req, res) => {
 
 //subscription send mail
 app.post("/subscriptionemail", async (req, res) => {
-  const { email, firstName, lastName, gender, title, address, date } = req.body;
+  const { email,password, firstName, lastName, gender, title, address, date } = req.body;
   // console.log(req.body);
   try {
     
@@ -138,11 +138,10 @@ app.post("/subscriptionemail", async (req, res) => {
 	  .sendMail({
       from: "heroreal5385@gmail.com",
       to: email,
-      subject: "Subscription",
+      subject: " Login Credential",
       html: `<div>
-      <div>${email} want Subscription.</div>
-      <p>FirstName:${firstName} LastName:${lastName}</p>
-      <p>Address:${address} Title:${title} Gender:${gender}</p>
+      <div>${email} This is your Login Email</div>
+      <p>${password} This is your password</p>
       </div>`,
     })
 	console.log('Email sent to ' + email)
