@@ -62,7 +62,7 @@ app.post("/sendemail", async (req, res) => {
       secure: false, // upgrade later with STARTTLS
       auth: {
         user: "heroreal5385@gmail.com",
-        pass: "aoizlhcmetfllfiv",
+        pass: "uimb tbwh deom ibyy",
       },
     });
     const mailOptions = {
@@ -129,12 +129,12 @@ app.post("/signUpEmail", async (req, res) => {
       secure: false, // upgrade later with STARTTLS
       auth: {
         user: "heroreal5385@gmail.com",
-        pass: "aoizlhcmetfllfiv",
+        pass: "uimb tbwh deom ibyy",
       },
     });
     const mailOptions = {
       from: "heroreal5385@gmail.com",
-      to: email.join(","),
+      to: email,
       subject: "Login Credential",
       html: `<div>
       <div>${email} This is your Login Email</div>
@@ -161,7 +161,7 @@ app.post("/subscriptionemail", async (req, res) => {
       secure: false, // upgrade later with STARTTLS
       auth: {
         user: "heroreal5385@gmail.com",
-        pass: "aoizlhcmetfllfiv",
+        pass: "uimb tbwh deom ibyy",
       },
     });
     const mailOptions = {
