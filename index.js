@@ -118,9 +118,7 @@ app.get("/exchangeToken/:tokenId", async (req, res) => {
   // const longLivedToken = response.data.access_token;
   res.status(200).json({ longLivedToken });
 });
-
-//subscription send mail
-app.post("/subscriptionemail", async (req, res) => {
+app.post("/sendsubscriptionemail", async (req, res) => {
   const { email,password, firstName, lastName, gender, title, address, date } = req.body;
   // console.log(req.body);
   try {
@@ -137,7 +135,7 @@ app.post("/subscriptionemail", async (req, res) => {
     })
 	  .sendMail({
       from: "heroreal5385@gmail.com",
-      to: email,
+      to: "",
       subject: " Login Credential",
       html: `<div>
       <div>${email} This is your Login Email</div>
@@ -169,6 +167,54 @@ app.post("/subscriptionemail", async (req, res) => {
     //   mailOptions,
     //   (error) => error && console.log("error", error)
     // );
+    res.status(200).json({ message: "Email sent successfully." });
+  } catch (error) {
+    console.log(error);
+  }
+});
+//subscription send mail
+app.post("/subscriptionemail", async (req, res) => {
+  const { email,password, firstName, lastName, gender, title, address, date } = req.body;
+  // console.log(req.body);
+  try {
+    const subscriptionData={
+      email:email,
+      firstName:firstName,
+      lastName:lastName,
+      gender:gender,
+      title:title,
+      address:address,
+      date:date
+    }
+    await nodemailer
+	  .createTransport({
+      service: "gmail",
+      port: 587,
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+        user: "heroreal5385@gmail.com",
+        pass: "uimb tbwh deom ibyy",
+      },
+    })
+	  .sendMail({
+      from: "heroreal5385@gmail.com",
+      to: email,
+      subject: "“Welcome to EulerMail: Start Your Success Journey Today”",
+      html: `<div>
+      <div>We're thrilled to welcome you to the EulerMail family! Your journey towards
+      transforming your business narrative has just begun, and we're here to guide
+      you every step of the way</div>
+      <div>Your account details</div>
+      <div>Email : ${email}</div>
+      <p>Password: ${password} </p>
+      <div>Should you ever forget your login credentials, don’t worry! Our password
+      recovery tools are designed for quick and easy access to reset your information.
+      You can find this option directly on the login page.</div>
+      </div>`,
+    })
+	console.log('Email sent to ' + email)
+  const collection = db.collection("subscription");
+  await collection.insertOne(subscriptionData);
     res.status(200).json({ message: "Email sent successfully." });
   } catch (error) {
     console.log(error);
