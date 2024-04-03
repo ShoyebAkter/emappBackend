@@ -177,15 +177,7 @@ app.post("/subscriptionemail", async (req, res) => {
   const { email,password, firstName, lastName, gender, title, address, date } = req.body;
   // console.log(req.body);
   try {
-    const subscriptionData={
-      email:email,
-      firstName:firstName,
-      lastName:lastName,
-      gender:gender,
-      title:title,
-      address:address,
-      date:date
-    }
+    
     await nodemailer
 	  .createTransport({
       service: "gmail",
@@ -212,13 +204,23 @@ app.post("/subscriptionemail", async (req, res) => {
       You can find this option directly on the login page.</div>
       </div>`,
     })
-	console.log('Email sent to ' + email)
-  const collection = db.collection("subscription");
-  await collection.insertOne(subscriptionData);
+    
+  
     res.status(200).json({ message: "Email sent successfully." });
   } catch (error) {
     console.log(error);
   }
+  // const subscriptionData={
+  //   email:email,
+  //   firstName:firstName,
+  //   lastName:lastName,
+  //   gender:gender,
+  //   title:title,
+  //   address:address,
+  //   date:date
+  // }
+  // const collection = db.collection("subscription");
+  // await collection.insertOne(subscriptionData);
 });
 // app.post("/passwordReset", async(req, res) => {
 //   const {email}=req.body;
