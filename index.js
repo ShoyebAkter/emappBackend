@@ -235,17 +235,17 @@ app.post("/subscriptionemail", async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-  const subscriptionData={
-    email:email,
-    firstName:firstName,
-    lastName:lastName,
-    gender:gender,
-    title:title,
-    address:address,
-    date:date
-  }
-  const collection = db.collection("subscription");
-  await collection.insertOne(subscriptionData);
+  // const subscriptionData={
+  //   email:email,
+  //   firstName:firstName,
+  //   lastName:lastName,
+  //   gender:gender,
+  //   title:title,
+  //   address:address,
+  //   date:date
+  // }
+  // const collection = db.collection("subscription");
+  // await collection.insertOne(subscriptionData);
 });
 
 
