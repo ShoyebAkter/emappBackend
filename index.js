@@ -193,15 +193,40 @@ app.post("/subscriptionemail", async (req, res) => {
       to: email,
       subject: "“Welcome to EulerMail: Start Your Success Journey Today”",
       html: `<div>
+      <div style={{"color":"#294F41"}}>Dear ${firstName}, </div>
       <div>We're thrilled to welcome you to the EulerMail family! Your journey towards
       transforming your business narrative has just begun, and we're here to guide
       you every step of the way</div>
-      <div>Your account details</div>
-      <div>Email : ${email}</div>
-      <p>Password: ${password} </p>
-      <div>Should you ever forget your login credentials, don’t worry! Our password
+      <div style={{"color":"#294F41"}}>Your account details</div>
+      <div style={{"color":"#294F41"}}>Email : ${email}</div>
+      <p style={{"color":"#294F41"}}>Password: ${password} </p>
+      <div>Should you ever forget your login credentials, dont worry! Our password
       recovery tools are designed for quick and easy access to reset your information.
       You can find this option directly on the login page.</div>
+      <div style={{"color":"#294F41"}}>Embark on Your Journey:</div>
+      <div>EulerMail is built on the belief that the future of your business is malleable, crafted by
+      understanding and engaging with your customers' behavior. Our platform offers a suite of
+      analytics tools designed to turn data into actionable insights, propelling your business to new
+      heights</div>
+      <div style={{"color":"#294F41"}}>Get Started:</div>
+      <div>
+      ● Log in to your EulerMail account with your new credentials.
+      ● Take a moment to explore the dashboard and familiarize yourself with the array of
+        features at your disposal.
+      ● Begin by setting up your first campaign or dive into our analytics to understand your
+        current standing
+      </div>
+      <div style={{"color":"#294F41"}}>Need Assistance?</div>
+      <div>Our dedicated support team is eager to assist you with any questions or guidance you may
+      need. Feel free to reach out at any time</div>
+      <div style={{"color":"#294F41"}}>Unleash the Full Potential:</div>
+      <div>We encourage you to explore EulerMail's full capabilities. Every tool and feature is designed to
+      empower you to make informed decisions, foster growth, and rewrite the story of your business
+      with chapters of unprecedented success.</div>
+      <div>Welcome to the EulerMail community, where your business's potential is limitless. Let's start
+      turning insights into action</div>
+      <div style={{"color":"#294F41"}}>Best Wishes,
+      EulerMail Team</div>
       </div>`,
     })
     
@@ -210,18 +235,20 @@ app.post("/subscriptionemail", async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-  // const subscriptionData={
-  //   email:email,
-  //   firstName:firstName,
-  //   lastName:lastName,
-  //   gender:gender,
-  //   title:title,
-  //   address:address,
-  //   date:date
-  // }
-  // const collection = db.collection("subscription");
-  // await collection.insertOne(subscriptionData);
+  const subscriptionData={
+    email:email,
+    firstName:firstName,
+    lastName:lastName,
+    gender:gender,
+    title:title,
+    address:address,
+    date:date
+  }
+  const collection = db.collection("subscription");
+  await collection.insertOne(subscriptionData);
 });
+
+
 // app.post("/passwordReset", async(req, res) => {
 //   const {email}=req.body;
 //   try{
@@ -280,12 +307,12 @@ app.get("/shopify/data", async (req, res) => {
   }
 });
 //get shopify store data
-app.get("/shopify/storeData", async (req, res) => {
+app.get("/shopify/customersData", async (req, res) => {
   try {
     const {adminApi, apikey,   storeUrl} = req.query; // Access query parameters using req.query
     let option = {
       method: "GET",
-      url: `https://${apikey}:${adminApi}@${storeUrl}admin/api/2022-10/products.json`,
+      url: `https://${apikey}:${adminApi}@${storeUrl}admin/api/2022-10/customers.json`,
       headers: {
         "Content-Type": "application/json",
       },
