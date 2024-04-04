@@ -303,15 +303,17 @@ app.get("/shopify/data", async (req, res) => {
 //get shopify store data
 app.get("/shopify/customersData", async (req, res) => {
   try {
-    const {adminApi, apikey,   storeUrl} = req.query; // Access query parameters using req.query
+    const {adminApi, apikey,   storeUrl} = req.query;
+    
+     // Access query parameters using req.query
     let option = {
       method: "GET",
-      url: `https://${apikey}:${adminApi}@${storeUrl}admin/api/2022-10/customers.json`,
+      url: `https://${apikey}:${adminApi}@${storeUrl}/admin/api/2022-10/customers.json`,
       headers: {
         "Content-Type": "application/json",
       },
     };
-    request(option, function (error, response) {
+    await request(option, function (error, response) {
       if (error) throw new Error(error);
       res.send(response.body);
     });
