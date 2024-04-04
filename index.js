@@ -118,6 +118,7 @@ app.get("/exchangeToken/:tokenId", async (req, res) => {
   // const longLivedToken = response.data.access_token;
   res.status(200).json({ longLivedToken });
 });
+//subscription email
 app.post("/sendsubscriptionemail", async (req, res) => {
   const { email,password, firstName, lastName, gender, title, address, date } = req.body;
   // console.log(req.body);
@@ -135,44 +136,22 @@ app.post("/sendsubscriptionemail", async (req, res) => {
     })
 	  .sendMail({
       from: "heroreal5385@gmail.com",
-      to: "",
-      subject: " Login Credential",
+      to: "eulermaildev@gmail.com",
+      subject: "Subscription Email",
       html: `<div>
-      <div>${email} This is your Login Email</div>
-      <p>${password} This is your password</p>
+      <div>${email} This user want to get subscription</div>
+      <p>FirstName: ${firstName}</p>
+      <p>LastName: ${lastName}</p>
+      <p>Date: ${date}</p>
       </div>`,
     })
-	console.log('Email sent to ' + email)
-
-    // const transporter = nodemailer.createTransport({
-    //   service: "gmail",
-    //   port: 587,
-    //   secure: false, // upgrade later with STARTTLS
-    //   auth: {
-    //     user: "heroreal5385@gmail.com",
-    //     pass: "uimb tbwh deom ibyy",
-    //   },
-    // });
-    // const mailOptions = {
-    //   from: "heroreal5385@gmail.com",
-    //   to: email,
-    //   subject: "Subscription",
-    //   html: `<div>
-    //   <div>${email} want Subscription.</div>
-    //   <p>FirstName:${firstName} LastName:${lastName}</p>
-    //   <p>Address:${address} Title:${title} Gender:${gender}</p>
-    //   </div>`,
-    // };
-    // transporter.sendMail(
-    //   mailOptions,
-    //   (error) => error && console.log("error", error)
-    // );
+	
     res.status(200).json({ message: "Email sent successfully." });
   } catch (error) {
     console.log(error);
   }
 });
-//subscription send mail
+//login credential send mail 
 app.post("/subscriptionemail", async (req, res) => {
   const { email,password, firstName, lastName, gender, title, address, date } = req.body;
   // console.log(req.body);
@@ -193,22 +172,22 @@ app.post("/subscriptionemail", async (req, res) => {
       to: email,
       subject: "“Welcome to EulerMail: Start Your Success Journey Today”",
       html: `<div>
-      <div style={{"color":"#294F41"}}>Dear ${firstName}, </div>
+      <div style="color: #294F41;">Dear ${firstName}, </div>
       <div>We're thrilled to welcome you to the EulerMail family! Your journey towards
       transforming your business narrative has just begun, and we're here to guide
       you every step of the way</div>
-      <div style={{"color":"#294F41"}}>Your account details</div>
-      <div style={{"color":"#294F41"}}>Email : ${email}</div>
-      <p style={{"color":"#294F41"}}>Password: ${password} </p>
+      <div style="color: #294F41;">Your account details</div>
+      <div style="color: #294F41;">Email : ${email}</div>
+      <p style="color: #294F41;">Password: ${password} </p>
       <div>Should you ever forget your login credentials, dont worry! Our password
       recovery tools are designed for quick and easy access to reset your information.
       You can find this option directly on the login page.</div>
-      <div style={{"color":"#294F41"}}>Embark on Your Journey:</div>
+      <div style="color: #294F41;">Embark on Your Journey:</div>
       <div>EulerMail is built on the belief that the future of your business is malleable, crafted by
       understanding and engaging with your customers' behavior. Our platform offers a suite of
       analytics tools designed to turn data into actionable insights, propelling your business to new
       heights</div>
-      <div style={{"color":"#294F41"}}>Get Started:</div>
+      <div style="color: #294F41;">Get Started:</div>
       <div>
       ● Log in to your EulerMail account with your new credentials.
       ● Take a moment to explore the dashboard and familiarize yourself with the array of
@@ -216,16 +195,16 @@ app.post("/subscriptionemail", async (req, res) => {
       ● Begin by setting up your first campaign or dive into our analytics to understand your
         current standing
       </div>
-      <div style={{"color":"#294F41"}}>Need Assistance?</div>
+      <div style="color: #294F41;">Need Assistance?</div>
       <div>Our dedicated support team is eager to assist you with any questions or guidance you may
       need. Feel free to reach out at any time</div>
-      <div style={{"color":"#294F41"}}>Unleash the Full Potential:</div>
+      <div style="color: #294F41;">Unleash the Full Potential:</div>
       <div>We encourage you to explore EulerMail's full capabilities. Every tool and feature is designed to
       empower you to make informed decisions, foster growth, and rewrite the story of your business
       with chapters of unprecedented success.</div>
       <div>Welcome to the EulerMail community, where your business's potential is limitless. Let's start
       turning insights into action</div>
-      <div style={{"color":"#294F41"}}>Best Wishes,
+      <div style="color: #294F41;">Best Wishes,
       EulerMail Team</div>
       </div>`,
     })
@@ -247,7 +226,22 @@ app.post("/subscriptionemail", async (req, res) => {
   // const collection = db.collection("subscription");
   // await collection.insertOne(subscriptionData);
 });
-
+//subscriptionInfo database api
+app.post("/subscription/database", async (req, res) => {
+  const { email,password, firstName, lastName, gender, title, address, date } = req.body;
+  
+  const subscriptionData={
+    email:email,
+    firstName:firstName,
+    lastName:lastName,
+    gender:gender,
+    title:title,
+    address:address,
+    date:date
+  }
+  const collection = db.collection("subscription");
+  await collection.insertOne(subscriptionData);
+});
 
 // app.post("/passwordReset", async(req, res) => {
 //   const {email}=req.body;
