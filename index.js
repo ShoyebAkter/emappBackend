@@ -87,7 +87,7 @@ app.post("/sendserveremail", async (req, res) => {
   try {
     const emailOptions = {
       uid: uid,
-      from: "heroreal5385@gmail.com",
+      from: "eulermaildev@gmail.com",
       to: emails.join(","),
       date: date,
       subject: subject,
@@ -168,7 +168,7 @@ app.post("/subscriptionemail", async (req, res) => {
       },
     })
 	  .sendMail({
-      from: "heroreal5385@gmail.com",
+      from: "eulermaildev@gmail.com",
       to: email,
       subject: "“Welcome to EulerMail: Start Your Success Journey Today”",
       html: `<div>
@@ -308,7 +308,7 @@ app.get("/shopify/customersData", async (req, res) => {
      // Access query parameters using req.query
     let option = {
       method: "GET",
-      url: `https://${apikey}:${adminApi}@${storeUrl}/admin/api/2022-10/customers.json`,
+      url: `https://${apikey}:${adminApi}@${storeUrl}/admin/api/2024-01/customers.json`,
       headers: {
         "Content-Type": "application/json",
       },
