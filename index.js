@@ -315,10 +315,24 @@ app.get("/shopify/customersData", async (req, res) => {
     };
     await request(option, function (error, response) {
       if (error) throw new Error(error);
+      // console.log(response.body)
       res.send(response.body);
     });
   } catch (error) {
     console.error("Error fetching data from Shopify:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+//get shopify clone store Data
+app.get("/customersData", async (req, res) => {
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("customers");
+    // Retrieve data from MongoDB
+    const data = await collection.find().toArray();
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
