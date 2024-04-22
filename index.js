@@ -171,20 +171,20 @@ app.post("/subscriptionemail", async (req, res) => {
       from: "eulermaildev@gmail.com",
       to: email,
       subject: "“Welcome to EulerMail: Start Your Success Journey Today”",
-      html: `<div style= "marginInline: 350px">
+      html: `<div style= "margin-inline: 350px">
       <div>Dear ${firstName},</div>
       <div>
-        Were thrilled to welcome you to the
+        We're thrilled to welcome you to the
         <span style=" color: #649445; font-weight: 700">
           EulerMail
         </span>
         family! Your journey towards transforming your business narrative has
-        just begun, and were here to guide you every step of the way.
+        just begun, and we're here to guide you every step of the way.
       </div>
       <br />
       <div
         style=
-          "background-color: #ebebeb;marginInline:auto;width:400px;padding: 10px"
+          "background-color: #ebebeb;margin-inline:auto;width:400px;padding: 10px"
       >
         <div style="color:#649445;font-weight: bold">
           Your account details
@@ -198,15 +198,13 @@ app.post("/subscriptionemail", async (req, res) => {
       </div>
       <br />
       <div>
-        Should you ever forget your login credentials, dont worry! Our password
+        Should you ever forget your login credentials, don't worry! Our password
         recovery tools are designed for quick and easy access to reset your
         information. You can find this option directly on the login page.
       </div>
       <br />
-      <div
-        style=
-          "background-color: white;width:600px;box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);padding:20px;border-radius: 30px;marginInline: auto">
-        <div style="color: #2a4e40;marginBottom: 10px;font-weight: 700;font-size: 30px">
+      <div style="background-color: white;width:600px;box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);padding:20px;border-radius: 30px;margin-inline: auto">
+        <div style="color: #2a4e40;margin-bottom: 10px;font-weight: 700;font-size: 30px">
           Embark on Your Journey:
         </div>
         <div>
@@ -222,13 +220,13 @@ app.post("/subscriptionemail", async (req, res) => {
         style=
           "background-color:#649445;
           height:2px;
-          marginBlock:10px"
+          margin-block:10px"
       ></div>
       <div
         style=
           "background-color: #f4f4f4;
           width: 600px;
-          marginInline:auto;
+          margin-inline:auto;
           padding: 10px"
       >
         <div
@@ -250,7 +248,7 @@ app.post("/subscriptionemail", async (req, res) => {
       </div>
       <br />
       <div
-        style="color: #649445;font-weight:700;width:200px;marginInline: auto"
+        style="color: #649445;font-weight:700;width:200px;margin-inline: auto"
       >
         Need Assistance?
       </div>
@@ -263,9 +261,9 @@ app.post("/subscriptionemail", async (req, res) => {
       </div>
       <br />
       <div 
-      style="background-color: white;width: 600px;box-shadow":  4px 4px 10px rgba(0, 0, 0, 0.5);padding: 20px;border-radius": 30px;marginInline: auto"
+      style="background-color: white;width: 600px;box-shadow:  4px 4px 10px rgba(0, 0, 0, 0.5);padding: 20px;border-radius: 30px;margin-inline: auto"
       >
-        <div style="color: #2a4e40; font-weight: 700; width: 300px; marginInline: auto">
+        <div style="color: #2a4e40; font-weight: 700; width: 300px; margin-inline: auto">
           Unleash the Full Potential:
         </div>
         <div>
