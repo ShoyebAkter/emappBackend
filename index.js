@@ -163,8 +163,8 @@ app.post("/subscriptionemail", async (req, res) => {
       port: 587,
       secure: false, // upgrade later with STARTTLS
       auth: {
-        user: "heroreal5385@gmail.com",
-        pass: "uimb tbwh deom ibyy",
+        user: "eulermaildev@gmail.com",
+        pass: "bnmx jncs ecmb afjm",
       },
     })
 	  .sendMail({
