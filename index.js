@@ -7,11 +7,11 @@ const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
 const { ObjectId } = require('mongodb');
-// const admin = require('firebase-admin');
-// var serviceAccount = require("./serviceAccountKey.json");
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount)
-// });
+const admin = require('firebase-admin');
+var serviceAccount = require("./serviceAccountKey.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 app.use(express.json());
 // const corsOptions = {
@@ -358,17 +358,17 @@ app.put("/subscription/database/:id", async (req, res) => {
   }
 });
 
-// app.post("/passwordReset", async(req, res) => {
-//   const {email}=req.body;
-//   try{
-//     const link=await admin.auth().generatePasswordResetLink(email);
+app.post("/passwordReset", async(req, res) => {
+  const {email}=req.body;
+  try{
+    const link=await admin.auth().generatePasswordResetLink(email);
 
-//     res.json({link:link}) 
-//   }catch(error){
-//     console.log(error)
-//   }
+    res.json({link:link}) 
+  }catch(error){
+    console.log(error)
+  }
   
-// });
+});
 //post tracking data
 app.post("/collect", async (req, res) => {
   const trackingData = req.body;
