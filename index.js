@@ -334,6 +334,30 @@ app.get("/subscription/database", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+app.put("/subscription/database/:id", async (req, res) => {
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("subscription");
+    const id = req.params.id;
+    const newData = req.body; // Assuming request body contains the new data to be updated
+
+    // Update the document in the collection based on the provided ID
+    const result = await collection.updateOne(
+      { _id: ObjectId(id) }, // Assuming _id is the unique identifier of the document
+      { $set: newData } // Set the new data
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: "Document not found" });
+    }
+
+    res.json({ message: "Data updated successfully" });
+  } catch (error) {
+    console.error("Error updating data in MongoDB:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // app.post("/passwordReset", async(req, res) => {
 //   const {email}=req.body;
 //   try{
