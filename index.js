@@ -305,7 +305,7 @@ app.post("/subscriptionemail", async (req, res) => {
 });
 //subscriptionInfo database api
 app.post("/subscription/database", async (req, res) => {
-  const { email,password, firstName, lastName, gender, title, address, date } = req.body;
+  const { email,password, firstName, lastName,connection, gender, title, address, date } = req.body;
   
   const subscriptionData={
     email:email,
@@ -313,13 +313,27 @@ app.post("/subscription/database", async (req, res) => {
     lastName:lastName,
     gender:gender,
     title:title,
+    connection:connection,
     address:address,
-    date:date
+    date:date,
+    password:password,
+    photoUrl:""
   }
   const collection = db.collection("subscription");
   await collection.insertOne(subscriptionData);
 });
-
+app.get("/subscription/database", async (req, res) => {
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("subscription");
+    // Retrieve data from MongoDB
+    const data = await collection.find().toArray();
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching data from MongoDB:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 // app.post("/passwordReset", async(req, res) => {
 //   const {email}=req.body;
 //   try{
