@@ -7,7 +7,7 @@ const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
 const { ObjectId } = require('mongodb');
-const admin = require('firebase-admin');
+const fetch = require('node-fetch');
 // var serviceAccount = require("./serviceAccountKey.json");
 // admin.initializeApp({
 //   credential: admin.credential.cert(serviceAccount)
@@ -359,15 +359,35 @@ app.put("/subscription/database/:id", async (req, res) => {
 });
 
 app.post("/passwordReset", async(req, res) => {
-  const {email}=req.body;
-  try{
-    const link=await admin.auth().generatePasswordResetLink(email);
+  const { email } = req.body;
+  try {
+    const apiKey = import.meta.env.VITE_REACT_APP_API_KEY; // Replace with your Firebase API key
+    const requestUrl = `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${apiKey}`;
 
-    res.json({link:link}) 
-  }catch(error){
-    console.log(error)
+    const requestBody = JSON.stringify({
+      email: email,
+      requestType: "PASSWORD_RESET"
+    });
+
+    const response = await fetch(requestUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: requestBody
+    });
+
+    const responseData = await response.json();
+
+    if (response.ok) {
+      res.json({ email: email, message: "Password reset email sent successfully" });
+    } else {
+      throw new Error(responseData.error.message);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to send password reset email" });
   }
-  
 });
 //post tracking data
 app.post("/collect", async (req, res) => {
