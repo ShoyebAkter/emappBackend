@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
-
+const { ObjectId } = require('mongodb');
 // const admin = require('firebase-admin');
 // var serviceAccount = require("./serviceAccountKey.json");
 // admin.initializeApp({
@@ -343,7 +343,7 @@ app.put("/subscription/database/:id", async (req, res) => {
 
     // Update the document in the collection based on the provided ID
     const result = await collection.updateOne(
-      { _id: ObjectId(id) }, // Assuming _id is the unique identifier of the document
+      { _id: new ObjectId(id) }, // Assuming _id is the unique identifier of the document
       { $set: newData } // Set the new data
     );
 
