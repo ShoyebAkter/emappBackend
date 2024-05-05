@@ -22,7 +22,6 @@
     "mongoose": "^7.5.2",
     "multer": "^1.4.5-lts.1",
     "natural": "^6.7.2",
-    "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.5",
     "pandas-js": "^0.2.4",
     "request": "^2.88.2"
