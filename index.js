@@ -364,10 +364,11 @@ app.post("/collect", async (req, res) => {
 });
 //post website user data
 app.post("/eulermailUser", async (req, res) => {
-  const { uid, email } = req.body;
+  const { uid, email,date } = req.body;
   const userInfo = {
     id: uid,
     email: email,
+    date:date
   };
   const db = client.db(dbName);
   const collection = db.collection("eulermailUser");
