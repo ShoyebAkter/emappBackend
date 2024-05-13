@@ -7,8 +7,7 @@ const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
 const { ObjectId } = require('mongodb');
-require('dotenv').config();
-const fetch = require('node-fetch');
+
 app.use(express.json());
 // const corsOptions = {
 //   origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
@@ -355,34 +354,7 @@ app.put("/subscription/database/:id", async (req, res) => {
 });
 
 //post linkedin api to get access token
-app.post('/linkedin/accessToken', async (req, res) => {
-  const clientId = process.env.REACT_APP_CLIENT_ID;
-  const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
-  const redirectUri = "https://www.eulermail.app/socialmedia";
-  const code = req.body.code;
 
-  const params = new URLSearchParams();
-  params.append("grant_type", "authorization_code");
-  params.append("code", code);
-  params.append("client_id", clientId);
-  params.append("client_secret", clientSecret);
-  params.append("redirect_uri", redirectUri);
-
-  try {
-    const response = await fetch("https://www.linkedin.com/oauth/v2/accessToken", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: params,
-    });
-    const data = await response.json();
-    res.json(data); // Send the access token back to the frontend
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: 'Failed to obtain access token' });
-  }
-});
 //post tracking data
 app.post("/collect", async (req, res) => {
   const trackingData = req.body;
