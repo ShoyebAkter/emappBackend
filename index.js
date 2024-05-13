@@ -8,7 +8,7 @@ const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
 const { ObjectId } = require('mongodb');
 require('dotenv').config();
-
+const fetch = require('node-fetch');
 app.use(express.json());
 // const corsOptions = {
 //   origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
