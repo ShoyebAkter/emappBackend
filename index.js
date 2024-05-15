@@ -354,6 +354,33 @@ app.put("/subscription/database/:id", async (req, res) => {
 });
 
 //post linkedin api to get access token
+app.post('/getAccessToken', async (req, res) => {
+  const tokenUrl = 'https://www.linkedin.com/oauth/v2/accessToken';
+  const { authorization_code } = req.body; // Assuming you're passing authorization code in the request body
+  const client_id = '86tgdxx45yfn1b';
+  const client_secret = 'n7Q6SzzLc9GurKre';
+  const redirect_uri = 'https://www.eulermail.app/socialmedia';
+
+  try {
+      const response = await axios.post(tokenUrl, {
+          grant_type: 'authorization_code',
+          code: authorization_code,
+          client_id,
+          client_secret,
+          redirect_uri
+      }, {
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+          }
+      });
+
+      const { access_token } = response.data;
+      res.send(access_token);
+  } catch (error) {
+      console.error('Error while fetching access token:', error);
+      res.status(500).send('Error while fetching access token');
+  }
+});
 
 //post tracking data
 app.post("/collect", async (req, res) => {
