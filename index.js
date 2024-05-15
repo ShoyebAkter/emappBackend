@@ -359,7 +359,7 @@ app.post('/getAccessToken', async (req, res) => {
   const { authorization_code } = req.body; // Assuming you're passing authorization code in the request body
   const client_id = '86tgdxx45yfn1b';
   const client_secret = 'n7Q6SzzLc9GurKre';
-  const redirect_uri = 'https://www.eulermail.app/socialmedia';
+  const redirect_uri = 'http://localhost:5173/socialmedia';
 
   try {
       const response = await axios.post(tokenUrl, {
