@@ -396,7 +396,20 @@ app.post("/getAccessToken", async (req, res) => {
     res.status(500).send("Error while fetching access token");
   }
 });
-
+//get linnkedin data
+app.get("/linkedinData",async (req,res)=>{
+  const dataResponse = await axios.get(
+    "https://api.linkedin.com/v2/me",
+   
+    {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    }
+  );
+    const data=dataResponse.json()
+ 
+})
 //post tracking data
 app.post("/collect", async (req, res) => {
   const trackingData = req.body;
