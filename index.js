@@ -397,19 +397,23 @@ app.post("/getAccessToken", async (req, res) => {
   }
 });
 //get linnkedin data
-app.get("/linkedinData",async (req,res)=>{
-  const dataResponse = await axios.get(
-    "https://api.linkedin.com/v2/me",
-   
-    {
+app.get('/getLinkedinData', async (req, res) => {
+  const access_token = req.query.access_token;
+
+  try {
+    const response = await axios.get('https://api.linkedin.com/v2/me', {
       headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    }
-  );
-    const data=dataResponse.json()
- 
-})
+        'Authorization': `Bearer ${access_token}`
+      }
+    });
+
+    const userProfile = response.data;
+    res.send(userProfile);
+  } catch (error) {
+    console.error('Error while fetching user profile:', error);
+    res.status(500).send('Error while fetching user profile');
+  }
+});
 //post tracking data
 app.post("/collect", async (req, res) => {
   const trackingData = req.body;
