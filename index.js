@@ -1,12 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const request=require("request")
+const request = require("request");
 const bodyParser = require("body-parser");
 const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
-const { ObjectId } = require('mongodb');
+const { ObjectId } = require("mongodb");
 
 app.use(express.json());
 // const corsOptions = {
@@ -115,58 +115,58 @@ app.get("/exchangeToken/:tokenId", async (req, res) => {
 });
 //subscription email
 app.post("/sendsubscriptionemail", async (req, res) => {
-  const { email,password, firstName, lastName, gender, title, address, date } = req.body;
+  const { email, password, firstName, lastName, gender, title, address, date } =
+    req.body;
   // console.log(req.body);
   try {
-    
     await nodemailer
-	  .createTransport({
-      service: "gmail",
-      port: 587,
-      secure: false, // upgrade later with STARTTLS
-      auth: {
-        user: "heroreal5385@gmail.com",
-        pass: "uimb tbwh deom ibyy",
-      },
-    })
-	  .sendMail({
-      from: "heroreal5385@gmail.com",
-      to: "eulermaildev@gmail.com",
-      subject: "Subscription Email",
-      html: `<div>
+      .createTransport({
+        service: "gmail",
+        port: 587,
+        secure: false, // upgrade later with STARTTLS
+        auth: {
+          user: "heroreal5385@gmail.com",
+          pass: "uimb tbwh deom ibyy",
+        },
+      })
+      .sendMail({
+        from: "heroreal5385@gmail.com",
+        to: "eulermaildev@gmail.com",
+        subject: "Subscription Email",
+        html: `<div>
       <div>${email} This user want to get subscription</div>
       <p>FirstName: ${firstName}</p>
       <p>LastName: ${lastName}</p>
       <p>Date: ${date}</p>
       </div>`,
-    })
-	
+      });
+
     res.status(200).json({ message: "Email sent successfully." });
   } catch (error) {
     console.log(error);
   }
 });
-//login credential send mail 
+//login credential send mail
 app.post("/subscriptionemail", async (req, res) => {
-  const { email,password, firstName, lastName, gender, title, address, date } = req.body;
+  const { email, password, firstName, lastName, gender, title, address, date } =
+    req.body;
   // console.log(req.body);
   try {
-    
     await nodemailer
-	  .createTransport({
-      service: "gmail",
-      port: 587,
-      secure: false, // upgrade later with STARTTLS
-      auth: {
-        user: "eulermaildev@gmail.com",
-        pass: "bnmx jncs ecmb afjm",
-      },
-    })
-	  .sendMail({
-      from: "eulermaildev@gmail.com",
-      to: email,
-      subject: "“Welcome to EulerMail: Start Your Success Journey Today”",
-      html: `<div style= "margin-inline: 350px">
+      .createTransport({
+        service: "gmail",
+        port: 587,
+        secure: false, // upgrade later with STARTTLS
+        auth: {
+          user: "eulermaildev@gmail.com",
+          pass: "bnmx jncs ecmb afjm",
+        },
+      })
+      .sendMail({
+        from: "eulermaildev@gmail.com",
+        to: email,
+        subject: "“Welcome to EulerMail: Start Your Success Journey Today”",
+        html: `<div style= "margin-inline: 350px">
       <div>Dear ${firstName},</div>
       <div>
         We're thrilled to welcome you to the
@@ -279,9 +279,8 @@ app.post("/subscriptionemail", async (req, res) => {
       </div>
       <div>EulerMail Team</div>
     </div>`,
-    })
-    
-  
+      });
+
     res.status(200).json({ message: "Email sent successfully." });
   } catch (error) {
     console.log(error);
@@ -300,20 +299,30 @@ app.post("/subscriptionemail", async (req, res) => {
 });
 //subscriptionInfo database api
 app.post("/subscription/database", async (req, res) => {
-  const { email,password, firstName, lastName,connection, gender, title, address, date } = req.body;
-  
-  const subscriptionData={
-    email:email,
-    firstName:firstName,
-    lastName:lastName,
-    gender:gender,
-    title:title,
-    connection:connection,
-    address:address,
-    date:date,
-    password:password,
-    photoUrl:""
-  }
+  const {
+    email,
+    password,
+    firstName,
+    lastName,
+    connection,
+    gender,
+    title,
+    address,
+    date,
+  } = req.body;
+
+  const subscriptionData = {
+    email: email,
+    firstName: firstName,
+    lastName: lastName,
+    gender: gender,
+    title: title,
+    connection: connection,
+    address: address,
+    date: date,
+    password: password,
+    photoUrl: "",
+  };
   const collection = db.collection("subscription");
   await collection.insertOne(subscriptionData);
 });
@@ -354,31 +363,47 @@ app.put("/subscription/database/:id", async (req, res) => {
 });
 
 //post linkedin api to get access token
-app.post('/getAccessToken', async (req, res) => {
-  const tokenUrl = 'https://www.linkedin.com/oauth/v2/accessToken';
+app.post("/getAccessToken", async (req, res) => {
+  const tokenUrl = "https://www.linkedin.com/oauth/v2/accessToken";
   const { authorization_code } = req.body; // Assuming you're passing authorization code in the request body
-  const client_id = '86tgdxx45yfn1b';
-  const client_secret = 'n7Q6SzzLc9GurKre';
-  const redirect_uri = 'http://localhost:5173/socialmedia';
+  const client_id = "86tgdxx45yfn1b";
+  const client_secret = "n7Q6SzzLc9GurKre";
+  const redirect_uri = "http://localhost:5173/socialmedia";
 
   try {
-      const response = await axios.post(tokenUrl, {
-          grant_type: 'authorization_code',
-          code: authorization_code,
-          client_id,
-          client_secret,
-          redirect_uri
-      }, {
-          headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-          }
-      });
+    const response = await axios.post(
+      tokenUrl,
+      {
+        grant_type: "authorization_code",
+        code: authorization_code,
+        client_id,
+        client_secret,
+        redirect_uri,
+      },
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
 
-      const { access_token } = response.data;
-      res.send(access_token);
+    const { access_token } = response.data;
+
+    const dataResponse = await axios.get(
+      "https://api.linkedin.com/v2/me",
+     
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+      const data=dataResponse.json()
+   
+    res.send(dataResponse);
   } catch (error) {
-      console.error('Error while fetching access token:', error);
-      res.status(500).send('Error while fetching access token');
+    console.error("Error while fetching access token:", error);
+    res.status(500).send("Error while fetching access token");
   }
 });
 
@@ -392,11 +417,11 @@ app.post("/collect", async (req, res) => {
 });
 //post website user data
 app.post("/eulermailUser", async (req, res) => {
-  const { uid, email,date } = req.body;
+  const { uid, email, date } = req.body;
   const userInfo = {
     id: uid,
     email: email,
-    date:date
+    date: date,
   };
   const db = client.db(dbName);
   const collection = db.collection("eulermailUser");
@@ -404,13 +429,13 @@ app.post("/eulermailUser", async (req, res) => {
 });
 //post shopify data
 app.post("/shopify/info", async (req, res) => {
-  const { url,adminApi, apiKey,companyName,email } = req.body;
+  const { url, adminApi, apiKey, companyName, email } = req.body;
   const shopifyInfo = {
-    url:url,
-    adminApi:adminApi,
-    apiKey:apiKey,
-    companyName:companyName,
-    email:email
+    url: url,
+    adminApi: adminApi,
+    apiKey: apiKey,
+    companyName: companyName,
+    email: email,
   };
   const db = client.db(dbName);
   const collection = db.collection("shopifyInfo");
@@ -432,9 +457,9 @@ app.get("/shopify/data", async (req, res) => {
 //get shopify store data
 app.get("/shopify/customersData", async (req, res) => {
   try {
-    const {adminApi, apikey,   storeUrl} = req.query;
-    
-     // Access query parameters using req.query
+    const { adminApi, apikey, storeUrl } = req.query;
+
+    // Access query parameters using req.query
     let option = {
       method: "GET",
       url: `https://${apikey}:${adminApi}@${storeUrl}/admin/api/2024-01/customers.json`,
