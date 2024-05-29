@@ -437,22 +437,22 @@ app.post('/getLinkedInProfile', async (req, res) => {
 
 
 //tiktok data access login
-app.get('/oauth', (req, res) => {
-  const csrfState = Math.random().toString(36).substring(2);
-  res.cookie('csrfState', csrfState, { maxAge: 60000 });
+// app.get('/oauth', (req, res) => {
+//   const csrfState = Math.random().toString(36).substring(2);
+//   res.cookie('csrfState', csrfState, { maxAge: 60000 });
 
-  const clientKey = process.env.clientKey; // Ensure this is set correctly
-  const redirectUri = encodeURIComponent("https://www.eulermail.app/settings"); // Ensure this matches the registered redirect URI exactly
+//   const clientKey = process.env.clientKey; // Ensure this is set correctly
+//   const redirectUri = encodeURIComponent("https://www.eulermail.app/settings"); // Ensure this matches the registered redirect URI exactly
 
-  let url = 'https://www.tiktok.com/v2/auth/authorize/';
-  url += `?client_key=${clientKey}`;
-  url += '&scope=user.info.basic';
-  url += '&response_type=code';
-  url += `&redirect_uri=${redirectUri}`;
-  url += `&state=${encodeURIComponent(csrfState)}`;
+//   let url = 'https://www.tiktok.com/v2/auth/authorize/';
+//   url += `?client_key=${clientKey}`;
+//   url += '&scope=user.info.basic';
+//   url += '&response_type=code';
+//   url += `&redirect_uri=${redirectUri}`;
+//   url += `&state=${encodeURIComponent(csrfState)}`;
 
-  res.json({ url: url });
-});
+//   res.json({ url: url });
+// });
 
 // google access token api
 app.get('/auth', (req, res) => {
