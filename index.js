@@ -1,13 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const cookieParser = require('cookie-parser');
 const request = require("request");
 const bodyParser = require("body-parser");
+const {google} = require('googleapis');
 const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
 const { ObjectId } = require("mongodb");
-
+app.use(cookieParser());
 app.use(express.json());
 // const corsOptions = {
 //   origin: ['http://localhost:5173/','https://www.eulermail.app/' ],
@@ -16,6 +18,26 @@ app.use(cors());
 app.use(bodyParser.json());
 const dbName = "emapp";
 const collectionName = "orders";
+const oauth2Client = new google.auth.OAuth2(
+  '535762139600-md4roh1eu4pe5de6u2pjfruvji1rpiqt.apps.googleusercontent.com',
+  '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',
+  'http://localhost:5173/settings'
+);
+const scopes = [
+  'https://www.googleapis.com/auth/youtube',
+  'https://www.googleapis.com/auth/youtube.readonly',
+  'https://www.googleapis.com/auth/youtube.force-ssl',
+  'https://www.googleapis.com/auth/youtubepartner',
+  'https://www.googleapis.com/auth/youtubepartner-channel-audit',
+  'https://www.googleapis.com/auth/youtube.upload',
+];
+const url = oauth2Client.generateAuthUrl({
+  // 'online' (default) or 'offline' (gets refresh_token)
+  access_type: 'offline',
+
+  // If you only need one scope you can pass it as a string
+  scope: scopes
+});
 const client = new MongoClient(
   "mongodb+srv://heroreal5385:wkS31RPP6IcBxWv1@cluster0.9zekpxe.mongodb.net/?retryWrites=true&w=majority"
 );
@@ -367,53 +389,96 @@ app.post("/getAccessToken", async (req, res) => {
   const tokenUrl = "https://www.linkedin.com/oauth/v2/accessToken";
   const { authorization_code } = req.body; // Assuming you're passing authorization code in the request body
   const client_id = "86tgdxx45yfn1b";
-  const client_secret = "n7Q6SzzLc9GurKre";
-  const redirect_uri = "http://localhost:5173/socialmedia";
+  const client_secret = "WPL_AP0.9quUg9oOD2TmrNu7.MjMxNTY0MTkzOQ==";
+  const redirect_uri = "http://localhost:5173/settings";
 
   try {
-    const response = await axios.post(
-      tokenUrl,
-      {
-        grant_type: "authorization_code",
-        code: authorization_code,
-        client_id,
-        client_secret,
-        redirect_uri,
-      },
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
+    const params = new URLSearchParams();
+    params.append('grant_type', 'authorization_code');
+    params.append('code', authorization_code);
+    params.append('client_id', client_id);
+    params.append('client_secret', client_secret);
+    params.append('redirect_uri', redirect_uri);
 
-    const { access_token } = response.data;
-
-    
-    res.send(access_token);
-  } catch (error) {
-    console.error("Error while fetching access token:", error);
-    res.status(500).send("Error while fetching access token");
-  }
-});
-//get linnkedin data
-app.get('/getLinkedinData', async (req, res) => {
-  const access_token = req.query.access_token;
-
-  try {
-    const response = await axios.get('https://api.linkedin.com/v2/me', {
+    const response = await axios.post(tokenUrl, params, {
       headers: {
-        'Authorization': `Bearer ${access_token}`
-      }
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
     });
 
-    const userProfile = response.data;
-    res.send(userProfile);
+    const { access_token} = response.data;
+    // console.log("Access token retrieved:",access_token);
+    
+    res.json(access_token);
   } catch (error) {
-    console.error('Error while fetching user profile:', error);
-    res.status(500).send('Error while fetching user profile');
+    console.error("Error while fetching access token:", error.response ? error.response.data : error.message);
+    // res.status(500).send("Error while fetching access token");
   }
 });
+
+//get linnkedin data
+app.post('/getLinkedInProfile', async (req, res) => {
+  const {  accessToken } = req.body;
+  console.log("Access token retrieved:",accessToken)
+  try {
+    const response = await axios.get('https://api.linkedin.com/v2/userinfo', {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+    console.log(response.data)
+    // res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching profile:', error.response ? error.response.data : error.message);
+    res.status(500).send('Error fetching profile');
+  }
+});
+
+
+//tiktok data access login
+app.get('/oauth', (req, res) => {
+  const csrfState = Math.random().toString(36).substring(2);
+  res.cookie('csrfState', csrfState, { maxAge: 60000 });
+
+  const clientKey = "awrgjtda8ybpo5d2"; // Ensure this is set correctly
+  const redirectUri = encodeURIComponent("https://www.eulermail.app/settings"); // Ensure this matches the registered redirect URI exactly
+
+  let url = 'https://www.tiktok.com/v2/auth/authorize/';
+  url += `?client_key=${clientKey}`;
+  url += '&scope=user.info.basic';
+  url += '&response_type=code';
+  url += `&redirect_uri=${redirectUri}`;
+  url += `&state=${encodeURIComponent(csrfState)}`;
+
+  res.json({ url: url });
+});
+
+// google access token api
+app.get('/auth', (req, res) => {
+  res.redirect(url);
+});
+app.post('/oauthcallback', async (req, res) => {
+  const code = req.body.code;
+  // console.log(code)
+  try {
+    // Exchange the authorization code for an access token
+    const { tokens } = await  oauth2Client.getToken(code);
+    oauth2Client.setCredentials(tokens);
+
+    // console.log('Access tokens:', tokens);
+
+    // Respond to the client
+    // res.send('Authentication successful! You can now close this window.');
+    res.json(tokens);
+    // Now you can use oauth2Client to make authorized API calls
+    // Example: const blogger = google.blogger({ version: 'v3', auth: oauth2Client });
+  } catch (error) {
+    console.error('Error retrieving access token', error);
+    res.status(500).send('Authentication failed');
+  }
+});
+
+
 //post tracking data
 app.post("/collect", async (req, res) => {
   const trackingData = req.body;
