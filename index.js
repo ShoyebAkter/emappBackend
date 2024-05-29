@@ -9,6 +9,7 @@ const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
 const { ObjectId } = require("mongodb");
+require('dotenv').config()
 app.use(cookieParser());
 app.use(express.json());
 // const corsOptions = {
@@ -19,9 +20,9 @@ app.use(bodyParser.json());
 const dbName = "emapp";
 const collectionName = "orders";
 const oauth2Client = new google.auth.OAuth2(
-  '535762139600-md4roh1eu4pe5de6u2pjfruvji1rpiqt.apps.googleusercontent.com',
-  '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',
-  'http://localhost:5173/settings'
+  process.env.OAUTH_CLIENT_ID,
+  process.env.OAUTH_CLIENT_SECRET,
+  process.env.OAUTH_REDIRECT_URL
 );
 const scopes = [
   'https://www.googleapis.com/auth/youtube',
