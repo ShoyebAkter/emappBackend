@@ -120,22 +120,22 @@ app.post("/sendserveremail", async (req, res) => {
   }
 });
 //exchange tokens
-app.get("/exchangeToken/:tokenId", async (req, res) => {
-  const shortLivedToken = req.params.tokenId;
-  const response = await axios.get(
-    "https://graph.facebook.com/v18.0/oauth/access_token",
-    {
-      params: {
-        grant_type: "fb_exchange_token",
-        client_id: 231991286544485,
-        client_secret: "12e2ba24cd779e8e1ed537556f4433cf",
-        fb_exchange_token: shortLivedToken,
-      },
-    }
-  );
-  // const longLivedToken = response.data.access_token;
-  res.status(200).json({ longLivedToken });
-});
+// app.get("/exchangeToken/:tokenId", async (req, res) => {
+//   const shortLivedToken = req.params.tokenId;
+//   const response = await axios.get(
+//     "https://graph.facebook.com/v18.0/oauth/access_token",
+//     {
+//       params: {
+//         grant_type: "fb_exchange_token",
+//         client_id: 231991286544485,
+//         client_secret: "12e2ba24cd779e8e1ed537556f4433cf",
+//         fb_exchange_token: shortLivedToken,
+//       },
+//     }
+//   );
+//   // const longLivedToken = response.data.access_token;
+//   res.status(200).json({ longLivedToken });
+// });
 //subscription email
 app.post("/sendsubscriptionemail", async (req, res) => {
   const { email, password, firstName, lastName, gender, title, address, date } =
@@ -389,8 +389,8 @@ app.put("/subscription/database/:id", async (req, res) => {
 app.post("/getAccessToken", async (req, res) => {
   const tokenUrl = "https://www.linkedin.com/oauth/v2/accessToken";
   const { authorization_code } = req.body; // Assuming you're passing authorization code in the request body
-  const client_id = "86tgdxx45yfn1b";
-  const client_secret = "WPL_AP0.9quUg9oOD2TmrNu7.MjMxNTY0MTkzOQ==";
+  const client_id = process.env.client_id;
+  const client_secret = process.env.client_secret;
   const redirect_uri = "http://localhost:5173/settings";
 
   try {
@@ -441,7 +441,7 @@ app.get('/oauth', (req, res) => {
   const csrfState = Math.random().toString(36).substring(2);
   res.cookie('csrfState', csrfState, { maxAge: 60000 });
 
-  const clientKey = "awrgjtda8ybpo5d2"; // Ensure this is set correctly
+  const clientKey = process.env.clientKey; // Ensure this is set correctly
   const redirectUri = encodeURIComponent("https://www.eulermail.app/settings"); // Ensure this matches the registered redirect URI exactly
 
   let url = 'https://www.tiktok.com/v2/auth/authorize/';
