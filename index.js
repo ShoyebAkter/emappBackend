@@ -440,9 +440,11 @@ app.post('/getLinkedInProfile', async (req, res) => {
 
 // google access token api
 app.get('/auth', (req, res) => {
+  const clientId=process.env.OAUTH_CLIENT_ID;
+  const secret=process.env.OAUTH_CLIENT_SECRET
   const oauth2Client = new google.auth.OAuth2(
-    process.env.OAUTH_CLIENT_ID,
-    process.env.OAUTH_CLIENT_SECRET,
+    clientId,
+    secret,
     'https://www.eulermail.app/settings'
   );
   const scopes = [
@@ -464,9 +466,11 @@ app.get('/auth', (req, res) => {
 });
 app.post('/oauthcallback', async (req, res) => {
   const code = req.body.code;
+  const clientId=process.env.OAUTH_CLIENT_ID;
+  const secret=process.env.OAUTH_CLIENT_SECRET
   const oauth2Client = new google.auth.OAuth2(
-    process.env.OAUTH_CLIENT_ID,
-    process.env.OAUTH_CLIENT_SECRET,
+    clientId,
+    secret,
     'https://www.eulermail.app/settings'
   );
   // console.log(code)
