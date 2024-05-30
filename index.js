@@ -23,8 +23,8 @@ const dbName = "emapp";
 const collectionName = "orders";
 
 const oauth2Client = new google.auth.OAuth2(
-  process.env.OAUTH_CLIENT_ID,
-  process.env.OAUTH_CLIENT_SECRET,
+  '535762139600-md4roh1eu4pe5de6u2pjfruvji1rpiqt.apps.googleusercontent.com',
+  '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',
   'http://localhost:5173/settings'
 );
 const scopes = [
