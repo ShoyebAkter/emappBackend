@@ -447,6 +447,7 @@ app.get('/auth', (req, res) => {
     secret,
     'https://www.eulermail.app/settings'
   );
+  console.log(client,secret)
   const scopes = [
     'https://www.googleapis.com/auth/youtube',
     'https://www.googleapis.com/auth/youtube.readonly',
