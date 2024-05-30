@@ -439,15 +439,14 @@ app.post('/getLinkedInProfile', async (req, res) => {
 // });
 
 // google access token api
-app.get('/auth', (req, res) => {
-  const clientId=process.env.OAUTH_CLIENT_ID;
-  const secret=process.env.OAUTH_CLIENT_SECRET
+app.post('/auth', (req, res) => {
+  const { client_id, secret } = req.body;
   const oauth2Client = new google.auth.OAuth2(
-    clientId,
+    client_id,
     secret,
     'https://www.eulermail.app/settings'
   );
-  console.log(client,secret)
+  // console.log(client_id,secret)
   const scopes = [
     'https://www.googleapis.com/auth/youtube',
     'https://www.googleapis.com/auth/youtube.readonly',
@@ -466,9 +465,7 @@ app.get('/auth', (req, res) => {
   res.redirect(url);
 });
 app.post('/oauthcallback', async (req, res) => {
-  const code = req.body.code;
-  const clientId=process.env.OAUTH_CLIENT_ID;
-  const secret=process.env.OAUTH_CLIENT_SECRET
+  const {code,clientId,secret} = req.body.code;
   const oauth2Client = new google.auth.OAuth2(
     clientId,
     secret,
