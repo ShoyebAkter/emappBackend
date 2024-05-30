@@ -21,8 +21,26 @@ app.use(cors());
 app.use(bodyParser.json());
 const dbName = "emapp";
 const collectionName = "orders";
+const oauth2Client = new google.auth.OAuth2(
+  '535762139600-md4roh1eu4pe5de6u2pjfruvji1rpiqt.apps.googleusercontent.com',
+  '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',
+  'http://localhost:5173/settings'
+);
+const scopes = [
+  'https://www.googleapis.com/auth/youtube',
+  'https://www.googleapis.com/auth/youtube.readonly',
+  'https://www.googleapis.com/auth/youtube.force-ssl',
+  'https://www.googleapis.com/auth/youtubepartner',
+  'https://www.googleapis.com/auth/youtubepartner-channel-audit',
+  'https://www.googleapis.com/auth/youtube.upload',
+];
+const url = oauth2Client.generateAuthUrl({
+  // 'online' (default) or 'offline' (gets refresh_token)
+  access_type: 'offline',
 
-
+  // If you only need one scope you can pass it as a string
+  scope: scopes
+});
 const client = new MongoClient(
   "mongodb+srv://heroreal5385:wkS31RPP6IcBxWv1@cluster0.9zekpxe.mongodb.net/?retryWrites=true&w=majority"
 );
@@ -439,38 +457,11 @@ app.post('/getLinkedInProfile', async (req, res) => {
 // });
 
 // google access token api
-app.post('/auth', (req, res) => {
-  const { client_id, secret } = req.body;
-  const oauth2Client = new google.auth.OAuth2(
-    client_id,
-    secret,
-    'https://www.eulermail.app/settings'
-  );
-  // console.log(client_id,secret)
-  const scopes = [
-    'https://www.googleapis.com/auth/youtube',
-    'https://www.googleapis.com/auth/youtube.readonly',
-    'https://www.googleapis.com/auth/youtube.force-ssl',
-    'https://www.googleapis.com/auth/youtubepartner',
-    'https://www.googleapis.com/auth/youtubepartner-channel-audit',
-    'https://www.googleapis.com/auth/youtube.upload',
-  ];
-  const url = oauth2Client.generateAuthUrl({
-    // 'online' (default) or 'offline' (gets refresh_token)
-    access_type: 'offline',
-  
-    // If you only need one scope you can pass it as a string
-    scope: scopes
-  });
+app.get('/auth', (req, res) => {
   res.redirect(url);
 });
 app.post('/oauthcallback', async (req, res) => {
-  const {code,clientId,secret} = req.body.code;
-  const oauth2Client = new google.auth.OAuth2(
-    clientId,
-    secret,
-    'https://www.eulermail.app/settings'
-  );
+  const code = req.body.code;
   // console.log(code)
   try {
     // Exchange the authorization code for an access token
@@ -948,6 +939,5 @@ app.get("/users", async (req, res) => {
 });
 app.listen(5000, () => {
   console.log("app running at 5000");
-  // console.log(process.env.OAUTH_CLIENT_ID)
   // console.log(newUsersArrayWithCountry);
 });
