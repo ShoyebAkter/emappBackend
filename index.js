@@ -1,3 +1,5 @@
+const dotenv = require('dotenv');
+dotenv.config()
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -9,7 +11,7 @@ const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
 const { ObjectId } = require("mongodb");
-require('dotenv').config()
+
 app.use(cookieParser());
 app.use(express.json());
 // const corsOptions = {
@@ -19,10 +21,11 @@ app.use(cors());
 app.use(bodyParser.json());
 const dbName = "emapp";
 const collectionName = "orders";
+
 const oauth2Client = new google.auth.OAuth2(
   process.env.OAUTH_CLIENT_ID,
   process.env.OAUTH_CLIENT_SECRET,
-  process.env.OAUTH_REDIRECT_URL
+  'http://localhost:5173/settings'
 );
 const scopes = [
   'https://www.googleapis.com/auth/youtube',
@@ -937,5 +940,6 @@ app.get("/users", async (req, res) => {
 });
 app.listen(5000, () => {
   console.log("app running at 5000");
+  // console.log(process.env.OAUTH_CLIENT_ID)
   // console.log(newUsersArrayWithCountry);
 });
