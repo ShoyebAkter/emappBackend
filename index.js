@@ -72,7 +72,7 @@ app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
 app.post("/sendemail", async (req, res) => {
-  const { emails, message, subject, imageUrl, uid, date, campaignType } =
+  const { emails, subject, html } =
     req.body;
   // console.log(req.body);
   try {
@@ -87,10 +87,9 @@ app.post("/sendemail", async (req, res) => {
     });
     const mailOptions = {
       from: "heroreal5385@gmail.com",
-      to: emails.join(","),
+      to: emails,
       subject: subject,
-      html: `<div>${message} </div>
-      <img src=${imageUrl} alt="Image" />`,
+      html: `<div>${html} </div>`,
     };
     transporter.sendMail(
       mailOptions,
