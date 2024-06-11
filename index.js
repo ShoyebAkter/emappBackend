@@ -87,7 +87,7 @@ app.post("/sendemail", async (req, res) => {
     });
     const mailOptions = {
       from: "heroreal5385@gmail.com",
-      to: emails,
+      to: emails.join(","),
       subject: subject,
       html: `<div>${html} </div>`,
     };
@@ -107,7 +107,7 @@ app.post("/sendserveremail", async (req, res) => {
     const emailOptions = {
       uid: uid,
       from: "eulermaildev@gmail.com",
-      to: emails.join(","),
+      to: emails,
       date: date,
       subject: subject,
       campaignType: campaignType,
