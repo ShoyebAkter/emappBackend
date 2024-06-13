@@ -77,16 +77,18 @@ app.post("/sendemail", async (req, res) => {
   // console.log(req.body);
   try {
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      service:"gmail",
       port: 587,
       secure: false, // upgrade later with STARTTLS
       auth: {
-        user: "heroreal5385@gmail.com",
-        pass: "uimb tbwh deom ibyy",
+        user: "eulermaildev@gmail.com",
+          pass: "bnmx jncs ecmb afjm",
+        // user: "support@eulermail.app",
+        // pass: "gVHwVQ1TFHNf",
       },
     });
     const mailOptions = {
-      from: "heroreal5385@gmail.com",
+      from: "eulermaildev@gmail.com",
       to: emails.join(","),
       subject: subject,
       html: `<div>${html} </div>`,
@@ -145,16 +147,17 @@ app.post("/sendsubscriptionemail", async (req, res) => {
   try {
     await nodemailer
       .createTransport({
-        service: "gmail",
+        host: "smtp.zoho.com",
         port: 587,
         secure: false, // upgrade later with STARTTLS
         auth: {
-          user: "heroreal5385@gmail.com",
-          pass: "uimb tbwh deom ibyy",
+          user: "support@eulermail.app",
+        pass: "gVHwVQ1TFHNf",
+         
         },
       })
       .sendMail({
-        from: "heroreal5385@gmail.com",
+        from: "support@eulermail.app",
         to: "eulermaildev@gmail.com",
         subject: "Subscription Email",
         html: `<div>
@@ -178,16 +181,16 @@ app.post("/subscriptionemail", async (req, res) => {
   try {
     await nodemailer
       .createTransport({
-        service: "gmail",
+        host: "smtp.zoho.com",
         port: 587,
         secure: false, // upgrade later with STARTTLS
         auth: {
-          user: "eulermaildev@gmail.com",
-          pass: "bnmx jncs ecmb afjm",
+          user: "support@eulermail.app",
+        pass: "gVHwVQ1TFHNf",
         },
       })
       .sendMail({
-        from: "eulermaildev@gmail.com",
+        from: "support@eulermail.app",
         to: email,
         subject: "“Welcome to EulerMail: Start Your Success Journey Today”",
         html: `<div style= "margin-inline: 350px">
