@@ -11,6 +11,7 @@ const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { MongoClient } = require("mongodb");
 const { ObjectId } = require("mongodb");
+const mjml2html = require('mjml');
 
 app.use(cookieParser());
 app.use(express.json());
@@ -44,6 +45,103 @@ const url = oauth2Client.generateAuthUrl({
 const client = new MongoClient(
   "mongodb+srv://heroreal5385:wkS31RPP6IcBxWv1@cluster0.9zekpxe.mongodb.net/?retryWrites=true&w=majority"
 );
+
+// mjml functions 
+const jsonToMjml = (json) => {
+  const { content } = json;
+
+  const processAttributes = (attributes) => {
+    if (!attributes) return '';
+    return Object.entries(attributes)
+      .filter(([key, value]) => {
+        // Filter out illegal attributes
+        const illegalAttributes = [
+          'border-radius', 'inner-padding', 'target', 'border', 'text-align', 'href',
+          'font-size', 'line-height', 'headAttributes', 'fonts', 'responsive',
+          'font-family', 'text-color', 'content-background-color', 'breakpoint', 'headStyles'
+        ];
+        return !illegalAttributes.includes(key);
+      })
+      .map(([key, value]) => `${key}="${value}"`)
+      .join(' ');
+  };
+
+  const processChildren = (children) => {
+    if (!children || !Array.isArray(children)) return '';
+    return children.map(processElement).join('\n');
+  };
+
+  const processElement = (element) => {
+    if (!element) {
+      console.warn('Encountered undefined element');
+      return '';
+    }
+
+    const { type, attributes = {}, data = {}, children = [] } = element;
+    const content = data.value?.content || '';
+    const attributeString = processAttributes(attributes);
+
+    switch (type) {
+      case 'wrapper':
+        return `<mj-wrapper ${attributeString}>${processChildren(children)}</mj-wrapper>`;
+      case 'section':
+        return `<mj-section ${attributeString}>${processChildren(children)}</mj-section>`;
+      case 'column':
+        return `<mj-column ${attributeString}>${processChildren(children)}</mj-column>`;
+      case 'text':
+        // Ensure font-size has a valid px value
+        if (attributes['font-size'] && !attributes['font-size'].endsWith('px')) {
+          attributes['font-size'] = '15px';  // default value if not provided or incorrect
+        }
+        return `<mj-text ${processAttributes(attributes)}>${content}</mj-text>`;
+      case 'divider':
+        return `<mj-divider ${attributeString} />`;
+      case 'navbar':
+        const links = data.value.links
+          .map(
+            (link) =>
+              `<mj-navbar-link href="${link.href}" color="${link.color}" font-size="${link['font-size']}" padding="${link.padding}" target="${link.target}">${link.content}</mj-navbar-link>`
+          )
+          .join('\n');
+        return `<mj-navbar ${attributeString}>${links}</mj-navbar>`;
+      case 'hero':
+        return `<mj-hero ${attributeString}>${processChildren(children)}</mj-hero>`;
+      case 'button':
+        return `<mj-button ${attributeString}>${content}</mj-button>`;
+      case 'image':
+        return `<mj-image ${attributeString} />`;
+      case 'group':
+        return `<mj-group ${attributeString}>${processChildren(children)}</mj-group>`;
+      default:
+        console.warn('Unknown element type:', type);
+        return '';
+    }
+  };
+
+  if (!content || !content.data || !content.attributes) {
+    console.error('Invalid content structure:', content);
+    throw new Error('Invalid content structure');
+  }
+
+  const mjmlTemplate = `
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-text font-size="15px" line-height="1.8" font-family="'Lato', sans-serif" color="#000000"/>
+      <mj-section background-color="#efeeea"/>
+      <mj-wrapper padding="20px 0px 20px 0px" border="none" text-align="center" direction="ltr"/>
+      <mj-column padding="0px 0px 0px 0px" border="none" vertical-align="top"/>
+      <mj-hero background-color="#ffffff" background-position="center center" mode="fluid-height" padding="100px 0px 100px 0px" vertical-align="top" background-url="https://assets.maocanhua.cn/92a8e4ce-499a-4b7e-a0c6-38265f9589f2-image.png"/>
+      <mj-button background-color="#feb062" color="#ffffff" font-size="13px" font-weight="normal" padding="10px 25px 10px 25px" line-height="120%" text-align="center" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body>
+    ${processChildren(content.children)}
+  </mj-body>
+</mjml>`;
+
+  return mjmlTemplate;
+};
 
 // function verifyJWT(req, res, next) {
 //   const authHeader = req.headers.authorization;
@@ -717,7 +815,28 @@ app.post('/getLinkedInProfile', async (req, res) => {
     res.status(500).send('Error fetching profile');
   }
 });
+app.post('/convertToMjml',async(req,res)=>{
+  const { templateData } = req.body;
+  const mjmlOutput = jsonToMjml(templateData);
+  res.send(mjmlOutput);
+})
+//convert mjml to html
+app.post('/convertHtml', async (req, res) => {
+  const { template } = req.body;
 
+  try {
+    // Convert MJML to HTML
+    const { html, errors } = mjml2html(template);
+
+    if (errors && errors.length > 0) {
+      throw new Error(`MJML Conversion Errors: ${JSON.stringify(errors)}`);
+    }
+    res.send(html);
+  } catch (error) {
+    console.error('Error converting MJML to HTML:', error);
+    res.status(500).send('Error converting MJML to HTML');
+  }
+});
 
 //tiktok data access login
 // app.get('/oauth', (req, res) => {
