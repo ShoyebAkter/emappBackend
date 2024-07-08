@@ -273,7 +273,7 @@ app.post("/sendsubscriptionemail", async (req, res) => {
 });
 //login credential send mail
 app.post("/subscriptionemail", async (req, res) => {
-  const { email, password, firstName, lastName, gender, title, address, date } =
+  const { email, password } =
     req.body;
   // console.log(req.body);
   try {
@@ -892,15 +892,42 @@ app.post("/collect", async (req, res) => {
 });
 //post website user data
 app.post("/eulermailUser", async (req, res) => {
-  const { uid, email, date } = req.body;
+  const { uid, email, date,password } = req.body;
   const userInfo = {
     id: uid,
     email: email,
     date: date,
+    password:password
   };
   const db = client.db(dbName);
   const collection = db.collection("eulermailUser");
   const result = await collection.insertOne(userInfo);
+});
+app.put("/eulermailUser/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { password,date } = req.body;
+    const db = client.db(dbName);
+    const collection = db.collection("eulermailUser");
+    
+    const updateDoc = {
+      $set: {
+        password: password,
+        date: date,
+      },
+    };
+
+    const result = await collection.updateOne({ id: id }, updateDoc);
+
+    if (result.matchedCount === 0) {
+      res.status(404).send('User not found');
+    } else {
+      res.send(result);
+    }
+  } catch (error) {
+    console.error('Error updating document:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 //post shopify data
 app.post("/shopify/info", async (req, res) => {
