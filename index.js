@@ -881,6 +881,31 @@ app.post('/oauthcallback', async (req, res) => {
   }
 });
 
+//post template data
+app.post("/templateData", async (req, res) => {
+  const { imageUrl,template} = req.body;
+  const templateData = {
+    image:imageUrl,
+    template:template
+  };
+  const db = client.db(dbName);
+  const collection = db.collection("templateData");
+  const result = await collection.insertOne(templateData);
+});
+
+//get template data
+app.get("/templateData", async (req, res) => {
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("templateData");
+    // Retrieve data from MongoDB
+    const data = await collection.find().toArray();
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching data from MongoDB:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 //post tracking data
 app.post("/collect", async (req, res) => {
