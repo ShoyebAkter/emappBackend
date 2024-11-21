@@ -898,16 +898,21 @@ app.post("/templateData", async (req, res) => {
 //get template data
 app.get("/templateData", async (req, res) => {
   try {
+    const { userId } = req.query; // Extract userId from query parameters
     const db = client.db(dbName);
     const collection = db.collection("templateData");
-    // Retrieve data from MongoDB
-    const data = await collection.find().toArray();
+
+    // Retrieve data from MongoDB based on userId
+    const query = userId ? { userId: userId } : {}; // If userId is provided, filter by it
+    const data = await collection.find(query).toArray();
+
     res.json(data);
   } catch (error) {
     console.error("Error fetching data from MongoDB:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 //post tracking data
 app.post("/collect", async (req, res) => {
