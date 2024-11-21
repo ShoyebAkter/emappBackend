@@ -883,11 +883,12 @@ app.post('/oauthcallback', async (req, res) => {
 
 //post template data
 app.post("/templateData", async (req, res) => {
-  const { imageUrl,template,userId} = req.body;
+  const { imageUrl,template,userId,date} = req.body;
   const templateData = {
     userId:userId,
     image:imageUrl,
-    template:template
+    template:template,
+    date:date,
   };
   const db = client.db(dbName);
   const collection = db.collection("templateData");
