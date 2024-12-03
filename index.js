@@ -1,18 +1,19 @@
-const dotenv = require('dotenv');
-dotenv.config()
+const dotenv = require("dotenv");
+dotenv.config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 const request = require("request");
 const bodyParser = require("body-parser");
-const {google} = require('googleapis');
+const { google } = require("googleapis");
 const axios = require("axios");
 const nodemailer = require("nodemailer");
-const { MongoClient } = require("mongodb");
+const multer = require("multer");
+const { MongoClient,GridFSBucket } = require("mongodb");
 const { ObjectId } = require("mongodb");
-const mjml2html = require('mjml');
-
+const mjml2html = require("mjml");
+const { Readable } = require('stream');
 app.use(cookieParser());
 app.use(express.json());
 // const corsOptions = {
@@ -22,105 +23,132 @@ app.use(cors());
 app.use(bodyParser.json());
 const dbName = "emapp";
 const collectionName = "orders";
+let bucket;
 const oauth2Client = new google.auth.OAuth2(
-  '535762139600-md4roh1eu4pe5de6u2pjfruvji1rpiqt.apps.googleusercontent.com',
-  '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',
-  'https://www.eulermail.app/settings'
+  "535762139600-md4roh1eu4pe5de6u2pjfruvji1rpiqt.apps.googleusercontent.com",
+  "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",
+  "https://www.eulermail.app/settings"
 );
 const scopes = [
-  'https://www.googleapis.com/auth/youtube',
-  'https://www.googleapis.com/auth/youtube.readonly',
-  'https://www.googleapis.com/auth/youtube.force-ssl',
-  'https://www.googleapis.com/auth/youtubepartner',
-  'https://www.googleapis.com/auth/youtubepartner-channel-audit',
-  'https://www.googleapis.com/auth/youtube.upload',
+  "https://www.googleapis.com/auth/youtube",
+  "https://www.googleapis.com/auth/youtube.readonly",
+  "https://www.googleapis.com/auth/youtube.force-ssl",
+  "https://www.googleapis.com/auth/youtubepartner",
+  "https://www.googleapis.com/auth/youtubepartner-channel-audit",
+  "https://www.googleapis.com/auth/youtube.upload",
 ];
 const url = oauth2Client.generateAuthUrl({
   // 'online' (default) or 'offline' (gets refresh_token)
-  access_type: 'offline',
+  access_type: "offline",
 
   // If you only need one scope you can pass it as a string
-  scope: scopes
+  scope: scopes,
 });
 const client = new MongoClient(
   "mongodb+srv://heroreal5385:wkS31RPP6IcBxWv1@cluster0.9zekpxe.mongodb.net/?retryWrites=true&w=majority"
 );
 
-// mjml functions 
+// mjml functions
 const jsonToMjml = (json) => {
   const { content } = json;
 
   const processAttributes = (attributes) => {
-    if (!attributes) return '';
+    if (!attributes) return "";
     return Object.entries(attributes)
       .filter(([key, value]) => {
         // Filter out illegal attributes
         const illegalAttributes = [
-          'border-radius', 'inner-padding', 'target', 'border', 'text-align', 'href',
-          'font-size', 'line-height', 'headAttributes', 'fonts', 'responsive',
-          'font-family', 'text-color', 'content-background-color', 'breakpoint', 'headStyles'
+          "border-radius",
+          "inner-padding",
+          "target",
+          "border",
+          "text-align",
+          "href",
+          "font-size",
+          "line-height",
+          "headAttributes",
+          "fonts",
+          "responsive",
+          "font-family",
+          "text-color",
+          "content-background-color",
+          "breakpoint",
+          "headStyles",
         ];
         return !illegalAttributes.includes(key);
       })
       .map(([key, value]) => `${key}="${value}"`)
-      .join(' ');
+      .join(" ");
   };
 
   const processChildren = (children) => {
-    if (!children || !Array.isArray(children)) return '';
-    return children.map(processElement).join('\n');
+    if (!children || !Array.isArray(children)) return "";
+    return children.map(processElement).join("\n");
   };
 
   const processElement = (element) => {
     if (!element) {
-      console.warn('Encountered undefined element');
-      return '';
+      console.warn("Encountered undefined element");
+      return "";
     }
 
     const { type, attributes = {}, data = {}, children = [] } = element;
-    const content = data.value?.content || '';
+    const content = data.value?.content || "";
     const attributeString = processAttributes(attributes);
 
     switch (type) {
-      case 'wrapper':
-        return `<mj-wrapper ${attributeString}>${processChildren(children)}</mj-wrapper>`;
-      case 'section':
-        return `<mj-section ${attributeString}>${processChildren(children)}</mj-section>`;
-      case 'column':
-        return `<mj-column ${attributeString}>${processChildren(children)}</mj-column>`;
-      case 'text':
+      case "wrapper":
+        return `<mj-wrapper ${attributeString}>${processChildren(
+          children
+        )}</mj-wrapper>`;
+      case "section":
+        return `<mj-section ${attributeString}>${processChildren(
+          children
+        )}</mj-section>`;
+      case "column":
+        return `<mj-column ${attributeString}>${processChildren(
+          children
+        )}</mj-column>`;
+      case "text":
         // Ensure font-size has a valid px value
-        if (attributes['font-size'] && !attributes['font-size'].endsWith('px')) {
-          attributes['font-size'] = '15px';  // default value if not provided or incorrect
+        if (
+          attributes["font-size"] &&
+          !attributes["font-size"].endsWith("px")
+        ) {
+          attributes["font-size"] = "15px"; // default value if not provided or incorrect
         }
         return `<mj-text ${processAttributes(attributes)}>${content}</mj-text>`;
-      case 'divider':
+      case "divider":
         return `<mj-divider ${attributeString} />`;
-      case 'navbar':
+      case "navbar":
         const links = data.value.links
           .map(
             (link) =>
-              `<mj-navbar-link href="${link.href}" color="${link.color}" font-size="${link['font-size']}" padding="${link.padding}" target="${link.target}">${link.content}</mj-navbar-link>`
+              `<mj-navbar-link href="${link.href}" color="${link.color}" font-size="${link["font-size"]}" padding="${link.padding}" target="${link.target}">${link.content}</mj-navbar-link>`
           )
-          .join('\n');
+          .join("\n");
         return `<mj-navbar ${attributeString}>${links}</mj-navbar>`;
-      case 'hero':
-        return `<mj-hero ${attributeString}>${processChildren(children)}</mj-hero>`;
-      case 'button':
+      case "hero":
+        return `<mj-hero ${attributeString}>${processChildren(
+          children
+        )}</mj-hero>`;
+      case "button":
         return `<mj-button ${attributeString}>${content}</mj-button>`;
-      case 'image':
+      case "image":
         return `<mj-image ${attributeString} />`;
-      case 'group':
-        return `<mj-group ${attributeString}>${processChildren(children)}</mj-group>`;
+      case "group":
+        return `<mj-group ${attributeString}>${processChildren(
+          children
+        )}</mj-group>`;
       default:
-        console.warn('Unknown element type:', type);
-        return '';
+        console.warn("Unknown element type:", type);
+        return "";
     }
   };
 
   if (!content || !content.data || !content.attributes) {
-    console.error('Invalid content structure:', content);
-    throw new Error('Invalid content structure');
+    console.error("Invalid content structure:", content);
+    throw new Error("Invalid content structure");
   }
 
   const mjmlTemplate = `
@@ -159,28 +187,35 @@ const jsonToMjml = (json) => {
 // }
 async function connectToMongo() {
   try {
-    client.connect();
-    console.log("Connected to MongoDB");
+    await client.connect();
+    console.log('Connected to MongoDB');
+    const db = client.db(dbName);
+
+    // Initialize GridFS Bucket
+    bucket = new GridFSBucket(db, { bucketName: 'uploads' });
+    
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
   }
 }
 connectToMongo();
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
 app.post("/sendemail", async (req, res) => {
-  const { emails, subject, html } =
-    req.body;
+  const { emails, subject, html } = req.body;
   // console.log(req.body);
   try {
     const transporter = nodemailer.createTransport({
-      service:"gmail",
+      service: "gmail",
       port: 587,
       secure: false, // upgrade later with STARTTLS
       auth: {
         user: "eulermaildev@gmail.com",
-          pass: "bnmx jncs ecmb afjm",
+        pass: "bnmx jncs ecmb afjm",
         // user: "support@eulermail.app",
         // pass: "gVHwVQ1TFHNf",
       },
@@ -220,6 +255,76 @@ app.post("/sendserveremail", async (req, res) => {
     console.log(error);
   }
 });
+
+//image upload
+
+app.post('/upload', upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send('No file uploaded');
+    }
+
+    const { originalname, mimetype, buffer } = req.file;
+
+    // Convert buffer into a readable stream
+    const readableStream = new Readable();
+    readableStream.push(buffer);
+    readableStream.push(null);
+
+    // Upload to GridFS
+    const uploadStream = bucket.openUploadStream(originalname, {
+      contentType: mimetype,
+    });
+
+    readableStream.pipe(uploadStream);
+
+    uploadStream.on('finish', (file) => {
+      res.status(200).json({
+        message: 'File uploaded successfully',
+        fileId: file._id,
+        imageUrl: `${req.protocol}://${req.get('host')}/files/${file._id}`,
+        success:true
+      });
+    });
+
+    uploadStream.on('error', (err) => {
+      console.error('Upload error:', err);
+      res.status(500).send('Error uploading file');
+    });
+  } catch (error) {
+    console.error('Error in upload:', error);
+    res.status(500).send('Server error');
+  }
+});
+
+
+// Route to serve the image from GridFS
+app.get('/files/:fileId', async (req, res) => {
+  try {
+    const fileId = req.params.fileId;
+
+    const file = await bucket.find({ _id: new ObjectId(fileId) }).toArray();
+
+    if (!file || file.length === 0) {
+      return res.status(404).send('File not found');
+    }
+
+    // Set content type and pipe the file stream to the response
+    res.set('Content-Type', file[0].contentType);
+
+    const downloadStream = bucket.openDownloadStream(new ObjectId(fileId));
+    downloadStream.pipe(res);
+
+    downloadStream.on('error', (err) => {
+      console.error('Download error:', err);
+      res.status(500).send('Error retrieving file');
+    });
+  } catch (error) {
+    console.error('Error retrieving file:', error);
+    res.status(500).send('Server error');
+  }
+});
+
 //exchange tokens
 // app.get("/exchangeToken/:tokenId", async (req, res) => {
 //   const shortLivedToken = req.params.tokenId;
@@ -250,8 +355,7 @@ app.post("/sendsubscriptionemail", async (req, res) => {
         secure: false, // upgrade later with STARTTLS
         auth: {
           user: "support@eulermail.app",
-        pass: "gVHwVQ1TFHNf",
-         
+          pass: "gVHwVQ1TFHNf",
         },
       })
       .sendMail({
@@ -273,8 +377,7 @@ app.post("/sendsubscriptionemail", async (req, res) => {
 });
 //login credential send mail
 app.post("/subscriptionemail", async (req, res) => {
-  const { email, password } =
-    req.body;
+  const { email, password } = req.body;
   // console.log(req.body);
   try {
     await nodemailer
@@ -284,7 +387,7 @@ app.post("/subscriptionemail", async (req, res) => {
         secure: false, // upgrade later with STARTTLS
         auth: {
           user: "support@eulermail.app",
-        pass: "gVHwVQ1TFHNf",
+          pass: "gVHwVQ1TFHNf",
         },
       })
       .sendMail({
@@ -776,52 +879,58 @@ app.post("/getAccessToken", async (req, res) => {
 
   try {
     const params = new URLSearchParams();
-    params.append('grant_type', 'authorization_code');
-    params.append('code', authorization_code);
-    params.append('client_id', client_id);
-    params.append('client_secret', client_secret);
-    params.append('redirect_uri', redirect_uri);
+    params.append("grant_type", "authorization_code");
+    params.append("code", authorization_code);
+    params.append("client_id", client_id);
+    params.append("client_secret", client_secret);
+    params.append("redirect_uri", redirect_uri);
 
     const response = await axios.post(tokenUrl, params, {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        "Content-Type": "application/x-www-form-urlencoded",
       },
     });
 
-    const { access_token} = response.data;
+    const { access_token } = response.data;
     // console.log("Access token retrieved:",access_token);
-    
+
     res.json(access_token);
   } catch (error) {
-    console.error("Error while fetching access token:", error.response ? error.response.data : error.message);
+    console.error(
+      "Error while fetching access token:",
+      error.response ? error.response.data : error.message
+    );
     // res.status(500).send("Error while fetching access token");
   }
 });
 
 //get linnkedin data
-app.post('/getLinkedInProfile', async (req, res) => {
-  const {  accessToken } = req.body;
-  console.log("Access token retrieved:",accessToken)
+app.post("/getLinkedInProfile", async (req, res) => {
+  const { accessToken } = req.body;
+  console.log("Access token retrieved:", accessToken);
   try {
-    const response = await axios.get('https://api.linkedin.com/v2/userinfo', {
+    const response = await axios.get("https://api.linkedin.com/v2/userinfo", {
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(response.data)
+    console.log(response.data);
     // res.json(response.data);
   } catch (error) {
-    console.error('Error fetching profile:', error.response ? error.response.data : error.message);
-    res.status(500).send('Error fetching profile');
+    console.error(
+      "Error fetching profile:",
+      error.response ? error.response.data : error.message
+    );
+    res.status(500).send("Error fetching profile");
   }
 });
-app.post('/convertToMjml',async(req,res)=>{
+app.post("/convertToMjml", async (req, res) => {
   const { templateData } = req.body;
   const mjmlOutput = jsonToMjml(templateData);
   res.send(mjmlOutput);
-})
+});
 //convert mjml to html
-app.post('/convertHtml', async (req, res) => {
+app.post("/convertHtml", async (req, res) => {
   const { template } = req.body;
 
   try {
@@ -833,8 +942,8 @@ app.post('/convertHtml', async (req, res) => {
     }
     res.send(html);
   } catch (error) {
-    console.error('Error converting MJML to HTML:', error);
-    res.status(500).send('Error converting MJML to HTML');
+    console.error("Error converting MJML to HTML:", error);
+    res.status(500).send("Error converting MJML to HTML");
   }
 });
 
@@ -857,15 +966,15 @@ app.post('/convertHtml', async (req, res) => {
 // });
 
 // google access token api
-app.get('/auth', (req, res) => {
+app.get("/auth", (req, res) => {
   res.redirect(url);
 });
-app.post('/oauthcallback', async (req, res) => {
+app.post("/oauthcallback", async (req, res) => {
   const code = req.body.code;
   // console.log(code)
   try {
     // Exchange the authorization code for an access token
-    const { tokens } = await  oauth2Client.getToken(code);
+    const { tokens } = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);
 
     // console.log('Access tokens:', tokens);
@@ -876,19 +985,19 @@ app.post('/oauthcallback', async (req, res) => {
     // Now you can use oauth2Client to make authorized API calls
     // Example: const blogger = google.blogger({ version: 'v3', auth: oauth2Client });
   } catch (error) {
-    console.error('Error retrieving access token', error);
-    res.status(500).send('Authentication failed');
+    console.error("Error retrieving access token", error);
+    res.status(500).send("Authentication failed");
   }
 });
 
 //post template data
 app.post("/templateData", async (req, res) => {
-  const { imageUrl,template,userId,date} = req.body;
+  const { imageUrl, template, userId, date } = req.body;
   const templateData = {
-    userId:userId,
-    image:imageUrl,
-    template:template,
-    date:date,
+    userId: userId,
+    image: imageUrl,
+    template: template,
+    date: date,
   };
   const db = client.db(dbName);
   const collection = db.collection("templateData");
@@ -913,7 +1022,6 @@ app.get("/templateData", async (req, res) => {
   }
 });
 
-
 //post tracking data
 app.post("/collect", async (req, res) => {
   const trackingData = req.body;
@@ -924,12 +1032,12 @@ app.post("/collect", async (req, res) => {
 });
 //post website user data
 app.post("/eulermailUser", async (req, res) => {
-  const { uid, email, date,password } = req.body;
+  const { uid, email, date, password } = req.body;
   const userInfo = {
     id: uid,
     email: email,
     date: date,
-    password:password
+    password: password,
   };
   const db = client.db(dbName);
   const collection = db.collection("eulermailUser");
@@ -938,10 +1046,10 @@ app.post("/eulermailUser", async (req, res) => {
 app.put("/eulermailUser/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { password,date } = req.body;
+    const { password, date } = req.body;
     const db = client.db(dbName);
     const collection = db.collection("eulermailUser");
-    
+
     const updateDoc = {
       $set: {
         password: password,
@@ -952,13 +1060,13 @@ app.put("/eulermailUser/:id", async (req, res) => {
     const result = await collection.updateOne({ id: id }, updateDoc);
 
     if (result.matchedCount === 0) {
-      res.status(404).send('User not found');
+      res.status(404).send("User not found");
     } else {
       res.send(result);
     }
   } catch (error) {
-    console.error('Error updating document:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Error updating document:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 //post shopify data
