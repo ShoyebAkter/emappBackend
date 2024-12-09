@@ -105,6 +105,11 @@ const jsonToMjml = (json) => {
         return `<mj-section ${attributeString}>${processChildren(
           children
         )}</mj-section>`;
+      case "group":
+        // console.log(data)
+        return `<mj-group ${attributeString}>${processChildren(
+          children
+        )}</mj-group>`;
       case "column":
         return `<mj-column ${attributeString}>${processChildren(
           children
@@ -117,7 +122,9 @@ const jsonToMjml = (json) => {
         ) {
           attributes["font-size"] = "15px"; // default value if not provided or incorrect
         }
-        return `<mj-text ${processAttributes(attributes)}>${content}</mj-text>`;
+        return `<mj-text ${processAttributes(attributes)}>${processChildren(
+          children
+        )}</mj-text>`;
       case "divider":
         return `<mj-divider ${attributeString} />`;
       case "navbar":
@@ -136,10 +143,31 @@ const jsonToMjml = (json) => {
         return `<mj-button ${attributeString}>${content}</mj-button>`;
       case "image":
         return `<mj-image ${attributeString} />`;
-      case "group":
-        return `<mj-group ${attributeString}>${processChildren(
-          children
-        )}</mj-group>`;
+      case "advanced_social":
+        // console.log(data.value)
+        const socialLinks = data.value.elements
+        .map(
+          (link) =>
+          `<mj-social-element 
+          href="${link.href || '#'}" 
+          target="${link.target || '_self'}" 
+          padding="${link.padding || '0px'}" 
+          src="${link.src}">
+          ${link.content || ''}
+        </mj-social-element>`
+        )
+        .join('\n');
+        return `<mjml>
+        <mj-body>
+          <mj-section>
+            <mj-column>
+              <mj-social>
+                ${socialLinks}
+              </mj-social>
+            </mj-column>
+          </mj-section>
+        </mj-body>
+      </mjml>`;
       default:
         console.warn("Unknown element type:", type);
         return "";
@@ -1012,7 +1040,7 @@ app.get("/templateData", async (req, res) => {
     const collection = db.collection("templateData");
 
     // Retrieve data from MongoDB based on userId
-    const query = userId ? { userId: userId } : {}; // If userId is provided, filter by it
+    const query = userId ? { userId: userId } : { userId: { $exists: false } }; // If userId is provided, filter by it
     const data = await collection.find(query).toArray();
 
     res.json(data);
