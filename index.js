@@ -1032,6 +1032,34 @@ app.post("/templateData", async (req, res) => {
   const result = await collection.insertOne(templateData);
 });
 
+//update template
+app.post("/updateTemplateData", async (req, res) => {
+  try {
+    // Extract the update fields and filter criteria from the request body
+    const { id, template } = req.body;
+    // Connect to the database
+    const db = client.db(dbName);
+    const collection = db.collection("templateData");
+
+    // Define the filter criteria and the update operation
+    const filter = { _id: new ObjectId(id) };
+    const update = { $set: { template } };
+
+    // Perform the update operation
+    const result = await collection.updateOne(filter, update);
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: "No matching document found." });
+    }
+
+    res.status(200).json({ message: "Document updated successfully.", result });
+  } catch (error) {
+    console.error("Error updating template data:", error);
+    res.status(500).json({ error: "An error occurred while updating the document." });
+  }
+});
+
+
 //get template data
 app.get("/templateData", async (req, res) => {
   try {
