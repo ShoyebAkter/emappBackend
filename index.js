@@ -1036,14 +1036,19 @@ app.post("/templateData", async (req, res) => {
 app.post("/updateTemplateData", async (req, res) => {
   try {
     // Extract the update fields and filter criteria from the request body
-    const { id, template } = req.body;
+    const { id, template,image } = req.body;
     // Connect to the database
     const db = client.db(dbName);
     const collection = db.collection("templateData");
 
     // Define the filter criteria and the update operation
     const filter = { _id: new ObjectId(id) };
-    const update = { $set: { template } };
+    const update = {
+      $set: {
+        ...(template && { template }),
+        ...(image && { image }),
+      },
+    };
 
     // Perform the update operation
     const result = await collection.updateOne(filter, update);
