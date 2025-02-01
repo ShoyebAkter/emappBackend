@@ -897,6 +897,39 @@ app.put("/subscription/database/:id", async (req, res) => {
   }
 });
 
+app.post("/sendcontactemail", async (req, res) => {
+  const { email, message, firstName, lastName, phone } =
+    req.body;
+  // console.log(req.body);
+  try {
+    await nodemailer
+      .createTransport({
+        host: "smtp.zoho.com",
+        port: 587,
+        secure: false, // upgrade later with STARTTLS
+        auth: {
+          user: "support@eulermail.app",
+          pass: "gVHwVQ1TFHNf",
+        },
+      })
+      .sendMail({
+        from: "support@eulermail.app",
+        to: "eulermaildev@gmail.com",
+        subject: "Contact Email",
+        html: `<div>
+      <div>${email} This user submit an email</div>
+      <p>FirstName: ${firstName}</p>
+      <p>LastName: ${lastName}</p>
+      <p>Phone: ${phone}</p>
+      <p>Message: ${message}</p>
+      </div>`,
+      });
+
+    res.status(200).json({ message: "Email sent successfully." });
+  } catch (error) {
+    console.log(error);
+  }
+});
 //post linkedin api to get access token
 app.post("/getAccessToken", async (req, res) => {
   const tokenUrl = "https://www.linkedin.com/oauth/v2/accessToken";
